@@ -1,4 +1,4 @@
-mode: auto
+mode: chatops
 defaultBranch: develop
 branchName: short
 autoCloseIssue: true
