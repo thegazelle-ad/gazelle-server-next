@@ -1,11 +1,11 @@
 name: Issue Branch Actions
 
 on:
-  #issues:
-  #  types: [assigned]
+  issues:
+    types: [assigned]
   # Use chatops only /cib
-  issue_comment:
-    types: [created]
+  #issue_comment:
+  #  types: [created]
   pull_request:
     types: [closed]
 
