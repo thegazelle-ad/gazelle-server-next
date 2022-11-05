@@ -5,6 +5,11 @@ type Data = {
   name: string
 }
 
+function helloWorld(name: number) {
+  console.log(`Hello ${name}`);
+
+}
+
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
