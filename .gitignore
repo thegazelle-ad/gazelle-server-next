@@ -35,4 +35,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# compiled javascript in scripts
 **/profiles.csv
+scripts/**/*.js
