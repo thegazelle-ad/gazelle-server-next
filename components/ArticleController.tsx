@@ -1,86 +1,103 @@
-import React from 'react';
-import Helmet from 'react-helmet'; // Add <head> data
+import React, { useEffect } from 'react';
+import Helmet from 'react-helmet';
 import { viewArticle, isArticleViewed } from 'lib/utilities';
 import _ from 'lodash';
 
 // Components
 import Article from 'components/main/Article';
-import FalcorController from 'lib/falcor/FalcorController';
 import NotFound from 'components/main/NotFound';
 
-export default class ArticleController extends FalcorController {
-  static getFalcorPathSets(params) {
+type ArticleControllerProps = {
+params: {
+articleSlug: string
+}
+}
+
+const ArticleController: React.FC<ArticleControllerProps> = (props) => {
+const { articleSlug } = props.params;export default class ArticleController extends FalcorController {
+useEffect(() => {
+    // Falcor logic here
+    // We don't want beta views to count towards the total view count
+    if (!isArticleViewed(slug)) {
+        viewArticle(slug);
+    }
+}, [slug]);
+
+static getFalcorPathSets(params: ArticleControllerProps["params"]) {
     // URL Format: thegazelle.org/issue/:issueNumber/:articleCategory/:articleSlug
 
     // Multilevel request requires Falcor Path for each level of data requested
     return [
-      // Fetch article data
-      [
-        'articles',
-        'bySlug',
-        params.articleSlug,
+        // Fetch article data
         [
-          'title',
-          'teaser',
-          'html',
-          'published_at',
-          'issueNumber',
-          'slug',
-          'image_url',
+            'articles',
+            'bySlug',
+            params.articleSlug,
+            [
+                'title',
+                'teaser',
+                'html',
+                'published_at',
+                'issueNumber',
+                'slug',
+                'image_url',
+            ],
         ],
-      ],
-      ['articles', 'bySlug', params.articleSlug, 'category', 'slug'],
-      [
-        'articles',
-        'bySlug',
-        params.articleSlug,
-        'authors',
-        { length: 10 },
-        ['name', 'slug'],
-      ],
+        ['articles', 'bySlug', params.articleSlug, 'category', 'slug'],
+        [
+            'articles',
+            'bySlug',
+            params.articleSlug,
+            'authors',
+            { length: 10 },
+            ['name', 'slug'],
+        ],
 
-      // Fetch two related articles
-      // TODO: convert fetching by category to fetching by tag
-      [
-        'articles',
-        'bySlug',
-        params.articleSlug,
-        'related',
-        { length: 2 },
-        ['title', 'teaser', 'image_url', 'issueNumber', 'category', 'slug'],
-      ],
-      [
-        'articles',
-        'bySlug',
-        params.articleSlug,
-        'related',
-        { length: 2 },
-        'category',
-        'slug',
-      ],
-      [
-        'articles',
-        'bySlug',
-        params.articleSlug,
-        'related',
-        { length: 2 },
-        'authors',
-        { length: 10 },
-        ['name', 'slug'],
-      ],
+        // Fetch two related articles
+        // TODO: convert fetching by category to fetching by tag
+        [
+            'articles',
+            'bySlug',
+            params.articleSlug,
+            'related',
+            { length: 2 },
+            ['title', 'teaser', 'image_url', 'issueNumber', 'category', 'slug'],
+        ],
+        [
+            'articles',
+            'bySlug',
+            params.articleSlug,
+            'related',
+            { length: 2 },
+            'category',
+            'slug',
+        ],
+        [
+            'articles',
+            'bySlug',
+            params.articleSlug,
+            'related',
+            { length: 2 },
+            'authors',
+            { length: 10 },
+            ['name', 'slug'],
+        ],
 
-      // Fetch first five Trending articles
-      [
-        'trending',
-        { length: 6 },
-        ['title', 'issueNumber', 'slug', 'image_url'],
-      ],
-      ['trending', { length: 6 }, 'category', 'slug'],
-      ['trending', { length: 6 }, 'authors', { length: 10 }, ['name', 'slug']],
+        // Fetch first six Trending articles
+        [
+            'trending',
+            { length: 6 },
+            ['title', 'issueNumber', 'slug', 'image_url'],
+        ],
+        ['trending', { length: 6 }, 'category', 'slug'],
+        ['trending', { length: 6 }, 'authors', { length: 10 }, ['name', 'slug']],
     ];
-  }
+}
 
-  static getOpenGraphInformation(urlParams, falcorData) {
+static getOpenGraphInformation(urlParams: ArticleControllerProps["params"], falcorData) {
+    // Access data fetched via Falcor
+    const articleData = falcorData.
+
     const { articleSlug } = urlParams;
     // Access data fetched via Falcor
     const articleData = falcorData.articles.bySlug[articleSlug];

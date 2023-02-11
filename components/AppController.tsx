@@ -10,7 +10,7 @@ import Navigation from './Navigation';
 import Footer from './Footer';
 import Loader from './Loader';
 
-export default class AppController extends FalcorController {
+export default class AppController {
   // Data for rendering the navigation bar dynamically
   // static getFalcorPathSets(params) {
   //   if (params.issueNumber) {
