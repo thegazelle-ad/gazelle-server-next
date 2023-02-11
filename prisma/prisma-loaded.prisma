@@ -117,6 +117,13 @@ model knex_migrations {
   migration_time DateTime @default(now()) @db.Timestamp(0)
 }
 
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model knex_migrations_lock {
+  is_locked Int?
+
+  @@ignore
+}
+
 model semesters {
   id          Int           @id @default(autoincrement()) @db.UnsignedInt
   name        String        @unique(map: "semesters_name_unique") @db.VarChar(255)

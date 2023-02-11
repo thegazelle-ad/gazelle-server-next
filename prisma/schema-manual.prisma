@@ -1,0 +1,187 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// ======================
+// Database Configuration
+// ======================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ======================
+// Articles
+// ======================
+
+model Article {
+  id            Int      @id @default(autoincrement())
+  slug          String   @unique @db.VarChar(255)
+  title         String   @db.VarChar(255)
+  markdown      String   @db.LongText
+  html          String   @db.LongText
+  imageUrl      String   @map("image_url") @db.VarChar(255)
+  teasier       String   @db.VarChar(255)
+  views         Int      @default(0) @db.Int
+  createdAt     DateTime @default(now()) @map("created_at")
+  publishedAt   DateTime @map("published_at")
+  isInteractive Int      @default(0) @map("is_interactive") @db.TinyInt
+  categoryId    Int      @map("category_id") @db.Int
+
+  // relation
+  authors Staff[]
+  tags    Tag[]
+
+  // TODO - full text
+  // TODO - delete cascade
+  ArticleTags         ArticleTags[]
+  AuthorsArticles     AuthorsArticles[]
+  IssuesArticlesOrder IssuesArticlesOrder[]
+
+  @@map("articles")
+}
+
+model ArticleTags {
+  id        Int @id @default(autoincrement())
+  articleId Int @map("article_id") @db.Int
+  tagId     Int @map("tag_id") @db.Int
+
+  article Article @relation(fields: [articleId], references: [id], onDelete: NoAction)
+  tag     Tag     @relation(fields: [tagId], references: [id], onDelete: NoAction)
+
+  @@map("articles_tags")
+}
+
+model AuthorsArticles {
+  id        Int @id @default(autoincrement())
+  articleId Int @map("article_id") @db.Int
+  staffId   Int @map("author_id") @db.Int
+
+  article Article @relation(fields: [articleId], references: [id])
+  staff   Staff   @relation(fields: [staffId], references: [id])
+
+  @@map("authors_articles")
+}
+
+// ======================
+// Issues
+// ======================
+
+model Issues {
+  id                    Int                     @id @default(autoincrement())
+  name                  String                  @unique @db.VarChar(255)
+  issueNumber           Int                     @unique @map("issue_number") @db.Int
+  publishedAt           DateTime                @default(now()) @map("published_at")
+  IssuesArticlesOrder   IssuesArticlesOrder[]
+  IssuesCategoriesOrder IssuesCategoriesOrder[]
+
+  @@map("issues")
+}
+
+model IssuesArticlesOrder {
+  id            Int @id @default(autoincrement())
+  issue_id      Int @db.Int
+  type          Int @db.Int
+  article_id    Int @db.Int
+  article_order Int @default(0) @db.Int
+
+  issue   Issues  @relation(fields: [issue_id], references: [id], onDelete: Cascade)
+  article Article @relation(fields: [article_id], references: [id], onDelete: Cascade)
+
+  @@map("issues_articles_order")
+}
+
+model IssuesCategoriesOrder {
+  id            Int @id @default(autoincrement())
+  issueId       Int @map("issue_id") @db.Int
+  categoryId    Int @map("category_id") @db.Int
+  categoryOrder Int @default(0) @map("category_order") @db.Int
+
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  issue    Issues   @relation(fields: [issueId], references: [id], onDelete: Cascade)
+
+  @@map("issues_categories_order")
+}
+
+model Category {
+  id                    Int                     @id @default(autoincrement())
+  name                  String                  @unique @db.VarChar(255)
+  slug                  String                  @unique @db.VarChar(255)
+  IssuesCategoriesOrder IssuesCategoriesOrder[]
+
+  @@map("categories")
+}
+
+model InfoPages {
+  id    Int    @id @default(autoincrement())
+  slug  String @unique @db.VarChar(255)
+  title String @unique @db.VarChar(255)
+  html  String @db.LongText
+  // TODO - add an all markdown column to schema
+}
+
+// TODO - identify if capitals matter
+
+model Semesters {
+  id   Int      @id @default(autoincrement())
+  name String   @unique @db.VarChar(255)
+  date DateTime @unique
+  // TODO - delete cascade
+
+  @@map("semesters")
+}
+
+model Staff {
+  id        Int    @id @default(autoincrement())
+  name      String @db.VarChar(255)
+  slug      String @unique @db.VarChar(255)
+  job_title String @db.VarChar(255)
+  biography String @db.VarChar(1000)
+  image_url String @db.VarChar(255)
+
+  TeamsStaff      TeamsStaff[]
+  AuthorsArticles AuthorsArticles[]
+  Article         Article?          @relation(fields: [articleId], references: [id])
+  articleId       Int?
+
+  @@map("staff")
+}
+
+model Teams {
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.VarChar(255)
+  slug String @unique @db.VarChar(255)
+
+  TeamsStaff TeamsStaff[]
+
+  @@map("teams")
+}
+
+model TeamsStaff {
+  id          Int @id @default(autoincrement())
+  team_id     Int
+  staff_id    Int
+  team_order  Int @default(0)
+  staff_order Int @default(0)
+  semester_id Int
+  // TODO - relations
+
+  staff Staff @relation(fields: [staff_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  team  Teams @relation(fields: [team_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("teams_staff")
+}
+
+model Tag {
+  id          Int           @id @default(autoincrement())
+  name        String        @db.VarChar(255)
+  slug        String        @unique @db.VarChar(255)
+  articles    Article[]
+  ArticleTags ArticleTags[]
+
+  @@map("tags")
+}
