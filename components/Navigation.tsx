@@ -2,88 +2,51 @@ import _ from 'lodash';
 import Link from 'next/link';
 import moment from 'moment';
 
-interface NavigationInterface {
-  navigationData: NavigationData; 
-}
-
 interface NavigationData {
   published_at: number;
   issueNumber: number;
-  categories: object;
 }
 
-const Navigation = (props: NavigationInterface) => {
-  const categories = [
-    {
-      name: 'news',
-      slug: 'news',
-    },
-    {
-      name: 'features',
-      slug: 'features',
-    },
-    {
-      name: 'opinion',
-      slug: 'opinion',
-    },
-    {
-      name: 'multimedia',
-      slug: 'media',
-    },
-    {
-      name: 'team',
-      slug: 'team',
-    },
-  ];
-  // TODO - fix this, won't happen w server side rendering
-  if (props.navigationData != null) {
-    // Wait for navigation data to come in asynchronously
-    const data = props.navigationData;
+const categories = [
+  { name: 'news', slug: 'news' },
+  { name: 'features', slug: 'features' },
+  { name: 'opinion', slug: 'opinion' },
+  { name: 'multimedia', slug: 'media' },
+  { name: 'team', slug: 'team' },
+];
 
-    const renderCategories = _.map(categories || [], category => {
-      if (category.slug === 'team') {
-        return (
-          <li key={category.slug} className="navigation__categories__item">
-            <Link
-              href="/team"
-              className="navigation__categories__item--active"
-            >
-              {category.name}
-            </Link>
-          </li>
-        );
-      }
-      // TODO - fix active / nonactive links
-      return (
-        <li key={category.slug} className="navigation__categories__item">
-          <Link
-            href={`/category/${category.slug}`}
-            className="navigation__categories__item--active"
-          >
-            {category.name}
-          </Link>
-        </li>
-      );
-    });
-
+const Navigation = ({ navigationData }: { navigationData: NavigationData }) => {
+  const { published_at, issueNumber } = navigationData;
+  const renderCategories = categories.map(category => {
+    const { name, slug } = category;
     return (
-      <div>
-        <div className="navigation">
-          <p className="navigation__publication-date">
-            {moment(data.published_at).format('MMM DD, YYYY')}
-          </p>
-          <nav>
-            <ul className="navigation__categories">{renderCategories}</ul>
-          </nav>
-          {/* TODO: change link to archives list */}
-          <Link href="/archives" className="navigation__issueNumber">
-            {`Issue ${data.issueNumber}`}
-          </Link>
-        </div>
-      </div>
+      <li key={slug} className="px-1">
+        <Link
+          href={slug === 'team' ? '/team' : `/category/${slug}`}
+          className=""
+        >
+          {name}
+        </Link>
+      </li>
     );
-  }
-  return <div/>;
-}
+  });
+
+  return (
+    <div className="mt-2 font-roboto px-4 md:px-2 h-10">
+      <div className="border-b border-gray-300">
+
+      </div>
+      <div className="flex flex-row flex justify-between items-center font-light text-sm uppercase px-4">
+        <p className="">
+          {moment(published_at).format('MMM DD, YYYY')}
+        </p>
+        <ul className="flex justify-center items-center m-4">{renderCategories}</ul>
+        <Link href="/archives" className="">
+          {`Issue ${issueNumber}`}
+        </Link>
+      </div>
+    </div>
+  );
+};
 
 export default Navigation;

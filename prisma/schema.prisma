@@ -27,7 +27,7 @@ model articles {
   issues_articles_order issues_articles_order[]
 
   @@index([category_id], map: "articles_category_id_foreign")
-  @@index([markdown], map: "markdown")
+  // @@index([markdown], map: "markdown", length: 1000)
   @@index([title], map: "title")
 }
 
