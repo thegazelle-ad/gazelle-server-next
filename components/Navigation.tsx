@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import Link from 'next/link';
 import moment from 'moment';
+import Image from 'next/image';
+
 
 interface NavigationData {
   published_at: number;
@@ -33,9 +35,9 @@ const Navigation = ({ navigationData }: { navigationData: NavigationData }) => {
 
   return (
     <div className="mt-2 font-roboto px-4 md:px-2 h-10">
-      <div className="border-b border-gray-300">
+      <div className="border-b border-gray-300"/>
+      <Image src="/logo.png" alt="logo"/>
 
-      </div>
       <div className="flex flex-row flex justify-between items-center font-light text-sm uppercase px-4">
         <p className="">
           {moment(published_at).format('MMM DD, YYYY')}
