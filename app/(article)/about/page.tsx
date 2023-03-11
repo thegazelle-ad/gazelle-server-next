@@ -19,7 +19,7 @@ export default async function Page() {
     return (
         <div>
          <header className='flex flex-col m-w-4xl mx-auto'>
-          <h1 className='text-center font-bold'>
+          <h1 className='text-center font-bold font-roboto uppercase'>
             {title}
           </h1>
             <Image
