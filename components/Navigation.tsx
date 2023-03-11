@@ -36,7 +36,7 @@ const Navigation = ({ navigationData }: { navigationData: NavigationData }) => {
   return (
     <div className="mt-2 font-roboto px-4 md:px-2 h-10">
       <div className="border-b border-gray-300"/>
-      <Image src="/logo.png" alt="logo"/>
+      <Image src="/logo.png" alt="logo" width="20" height="20"/>
 
       <div className="flex flex-row flex justify-between items-center font-light text-sm uppercase px-4">
         <p className="">
