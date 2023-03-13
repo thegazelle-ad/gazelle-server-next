@@ -10,7 +10,7 @@ async function getData() {
         </p>
     ));
 
-    return { title: 'About', body: text };
+    return { title: 'Archives', body: text };
 }
 
 export default async function Page() {    
