@@ -13,7 +13,7 @@ import Instagram from '../public/icons/instagram.svg';
 import MagnifyingGlass from '../public/icons/magnifying-glass-solid.svg';
 
 
-interface NavigationData {
+type NavigationData = {
   published_at: number;
   issueNumber: number;
 }
