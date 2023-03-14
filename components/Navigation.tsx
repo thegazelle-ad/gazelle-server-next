@@ -58,7 +58,7 @@ const Navigation = ({ navigationData }: { navigationData: NavigationData }) => {
           {showSearch && (
             <input
               type="text"
-              className="min-w-[6rem] w-[20vw] max-w-[20rem] py-1 pl-5 pr-3 rounded-md bg-gray-100 border-2 border-gray-200 focus:outline-none focus:bg-white focus:border-purple-500"
+              className="min-w-[6rem] w-[20vw] max-w-[20rem] py-1 pl-5 pr-3 rounded-md bg-gray-100 border-2 border-gray-300 focus:outline-none focus:bg-white focus:border-gray-700"
               placeholder="Search..."
             />
           )}
