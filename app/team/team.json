@@ -1,0 +1,478 @@
+{
+    "management": [
+        {
+            "name": "Githmi Rabel",
+            "position": "Editor-in-Chief",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/githmi-rabel.jpg"
+        },
+        {
+            "name": "Huma Umar",
+            "position": "Editor-in-Chief",
+            "image": "https://cdn.thegazelle.org/gazelle/2023/staff/Please+upload+a+portrait+photo+of+yourself+for+the+website.+(File+responses)/Huma+Umar.jpeg"
+        },
+        {
+            "name": "Sidra Dahhan",
+            "position": "Managing Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2021/Fall+2021+Staff+Photos/021210C6-10E2-44C2-B317-8B636DABBB94+-+Sidra+Dahhan.jpeg"
+        },
+        {
+            "name": "Stefan Mitikj",
+            "position": "Managing Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Spring_Staff_Bios/Stefan+Mitikj+-+Stefan+Mitikj.jpeg"
+        }
+    ],
+    "features": [
+        {
+            "name": "Shanzae Ashar Siddiqui",
+            "position": "Senior Features Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2023/staff/Please+upload+a+portrait+photo+of+yourself+for+the+website.+(File+responses)/Siddiqui+TG+-+Shanzae+Ashar+Siddiqui.jpg"
+        },
+        {
+            "name": "Liyan Mustafa",
+            "position": "Features Editor ",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/liyan-mustafa.jpg"
+        },
+        {
+            "name": "Tiesta Dangwal",
+            "position": "Deputy Features Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2023/staff/Please+upload+a+portrait+photo+of+yourself+for+the+website.+(File+responses)/8FADAC3E-D640-4003-9E4A-7E72DBDB822B+-+Tiesta+Dangwal.JPG"
+        },
+        {
+            "name": "Shahram Chaudhry",
+            "position": "Deputy Features Editor",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Malavika Rajesh",
+            "position": "Deputy Features Editor",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        }
+    ],
+    "opinion": [
+        {
+            "name": "Ibad Hasan",
+            "position": "Senior Opinion Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2023/staff/Please+upload+a+portrait+photo+of+yourself+for+the+website.+(File+responses)/ibad.jpg"
+        },
+        {
+            "name": "Corban Villa",
+            "position": "Senior Web Chief and Opinion Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/corban-villa.jpg"
+        },
+        {
+            "name": "Simon Zhang",
+            "position": "Deputy Opinion Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/simon-zhang.jpg"
+        },
+        {
+            "name": "Rabeya Zahan Mily",
+            "position": "Deputy Opinion Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2023/staff/Please+upload+a+portrait+photo+of+yourself+for+the+website.+(File+responses)/dp+-+Rabeya+Zahan+Mily.JPG"
+        },
+        {
+            "name": "Manahil Faisal",
+            "position": "Deputy Opinion Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2023/staff/Please+upload+a+portrait+photo+of+yourself+for+the+website.+(File+responses)/IMG-20230129-WA0017+-+Manahil+Faisal.jpg"
+        },
+        {
+            "name": "Malika Singh",
+            "position": "Deputy Opinion Editor",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        }
+    ],
+    "news": [
+        {
+            "name": "Zhiyu Lindy Luo",
+            "position": "Senior News Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Spring_Staff_Bios/Tunis+-+Zhiyu+(Lindy)+Luo.jpg"
+        },
+        {
+            "name": "Barry Lin",
+            "position": "News Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/barry-lin.jpeg"
+        },
+        {
+            "name": "Scarlette Jim\u00e9nez",
+            "position": "Deputy News Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/scarlette-jimenez.jpg"
+        },
+        {
+            "name": "Amrita Anand",
+            "position": "Deputy Copy Chief",
+            "image": "https://cdn.thegazelle.org/gazelle/2023/staff/Please+upload+a+portrait+photo+of+yourself+for+the+website.+(File+responses)/AA_PHOTO+-+Amrita+Anand.png"
+        },
+        {
+            "name": "Mehraneh Anaraki",
+            "position": "Deputy News Editor",
+            "image": "https:/cdn.thegazelle.org/gazelle/2023/staff/Please+upload+a+portrait+photo+of+yourself+for+the+website.+(File+responses)/photo_2023-02-04_22-16-57+-+Mehraneh+Saffari+Anaraki.jpg"
+        },
+        {
+            "name": "Arwa Alabbasi",
+            "position": "Deputy News Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2023/staff/Please+upload+a+portrait+photo+of+yourself+for+the+website.+(File+responses)/Awra+Alabbasi.png"
+        }
+    ],
+    "columns-desk": [
+        {
+            "name": "Yana Peeva",
+            "position": "Senior Columns Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/yana-peeva.jpg"
+        },
+        {
+            "name": "Iman Lalani",
+            "position": "Columns Editor",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Mariam Al Shamsi",
+            "position": "Deputy Columns Editor",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Sachinta Pilapitiya",
+            "position": "Deputy Column Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2023/staff/Please+upload+a+portrait+photo+of+yourself+for+the+website.+(File+responses)/Sachi+-+Sachintha+Pilapitiya.jpg"
+        },
+        {
+            "name": "Paing Paing",
+            "position": "Deputy Column Editor",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Dana Mash'Al",
+            "position": "Deputy Columns Editor",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        }
+    ],
+    "communications": [
+        {
+            "name": "Daun Kim",
+            "position": "Senior Communications Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Spring_Staff_Bios/IMG_5926+-+Daun+Kim.JPG"
+        },
+        {
+            "name": "Howard Lai",
+            "position": "Communications Editor and Staff Writer",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Salma Al-Imam",
+            "position": "Communications Editor",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Nirvik Bista",
+            "position": "Deputy Communications Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2021/Fall+2021+Staff+Photos/me+(1)+-+Nirvik+Bista.jpg"
+        }
+    ],
+    "multimedia": [
+        {
+            "name": "Timothy Chiu",
+            "position": "Senior Multimedia Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2023/staff/Please+upload+a+portrait+photo+of+yourself+for+the+website.+(File+responses)/4041437C-DCE7-47DD-AB8B-6D9FE486BF68+-+Timothy+Chiu.jpeg"
+        },
+        {
+            "name": "Clara Juong",
+            "position": "Senior Multimedia Editor",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Sevinch Rakhmon-Zoda",
+            "position": "Staff Illustrator and Staff Photographer",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/sevinch-rakhmon-zoda.JPG"
+        },
+        {
+            "name": "Maheen Eatazaz",
+            "position": "Deputy Web Chief and Staff Illustrator",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Rohan Joseph Sabu",
+            "position": "Multimedia Editor and Deputy Web Chief",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Batool Al Tameemi ",
+            "position": "Staff Illustrator and Staff Photographer",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Prakrati Mamtani",
+            "position": "Multimedia Editor",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Shahd Nigim",
+            "position": "Multimedia Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Spring_Staff_Bios/IMG_20210311_192209%5B2907%5D+-+Shahd+Nigim.jpg"
+        },
+        {
+            "name": "Maryam al Darmaki ",
+            "position": "Multimedia Editor",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        }
+    ],
+    "video": [
+        {
+            "name": "Vimal Minsariya",
+            "position": "Senior Video Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2021/Fall+2021+Staff+Photos/116011516_1231931767150648_5915955688317891638_n+-+Vimal+Karimbhai+Minsariya.jpg"
+        },
+        {
+            "name": "Revathi Angajan",
+            "position": "Senior Video Editor",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Mahlet Atrsaw Andargei",
+            "position": "Video Editor ",
+            "image": "https://cdn.thegazelle.org/gazelle/2023/staff/Please+upload+a+portrait+photo+of+yourself+for+the+website.+(File+responses)/photo_5918235793544035827_y+-+Mahlet+Atrsaw+Andargei.jpeg"
+        },
+        {
+            "name": "Naya Alafifi",
+            "position": "Deputy Video Editor and Staff Writer",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/naya-alafifi.jpeg"
+        },
+        {
+            "name": "Ayshah Jaljuli ",
+            "position": "Deputy Video Editor",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Gulsim Azirakhmet ",
+            "position": "Deputy Video Editor & Staff Writer",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        }
+    ],
+    "copy editing": [
+        {
+            "name": "Amrita Anand",
+            "position": "Deputy Copy Chief",
+            "image": "https://cdn.thegazelle.org/gazelle/2023/staff/Please+upload+a+portrait+photo+of+yourself+for+the+website.+(File+responses)/AA_PHOTO+-+Amrita+Anand.png"
+        },
+        {
+            "name": "Avaneesh Devkota",
+            "position": "Deputy Copy Chief",
+            "image": "https://cdn.thegazelle.org/gazelle/2021/Fall+2021+Staff+Photos/AVANEESH+(1)+-+Avaneesh+Devkota.jpg"
+        },
+        {
+            "name": "Nisa Shahid",
+            "position": "Deputy Copy Chief",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Shamma Alzaabi",
+            "position": "Deputy Copy Chief and Staff Writer",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Abbas Raza",
+            "position": "Deputy Copy Chief",
+            "image": "https://cdn.thegazelle.org/gazelle/2023/staff/Please+upload+a+portrait+photo+of+yourself+for+the+website.+(File+responses)/IMG_20220819_224233_766+-+Abbas+Raza.jpg"
+        },
+        {
+            "name": "Rhiane Kall",
+            "position": "Deputy Copy Chief",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Maheen Eatazaz",
+            "position": "Deputy Web Chief and Staff Illustrator",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        }
+    ],
+    "columnists": [
+        {
+            "name": "Miriam Delgado",
+            "position": "Columnist",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/miriam-delgado.jpg"
+        },
+        {
+            "name": "Jay Gupta",
+            "position": "Columnist",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Malavika Rajesh",
+            "position": "Deputy Features Editor",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Huda Al-Ali",
+            "position": "Columnist",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Ryunosuke Hashimoto",
+            "position": "Columnist",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Iman Lalani",
+            "position": "Columns Editor",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Ethan Fulton",
+            "position": "Senior Opinion Editor and Satire Columnist",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/ethan-fulton.jpeg"
+        },
+        {
+            "name": "Insiya Motiwala",
+            "position": "Staff Illustrator and Columnist",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Alya Al Zaabi",
+            "position": "Columnist",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Wajd Ashira",
+            "position": "Columnist",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Arwa Alabbasi",
+            "position": "Deputy News Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2023/staff/Please+upload+a+portrait+photo+of+yourself+for+the+website.+(File+responses)/Awra+Alabbasi.png"
+        },
+        {
+            "name": "Banin Amini",
+            "position": "Contributing Writer",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        }
+    ],
+    "staff writers": [
+        {
+            "name": "Shyalina Muthumudalige",
+            "position": "Staff Writer",
+            "image": "https://cdn.thegazelle.org/gazelle/2023/staff/Please+upload+a+portrait+photo+of+yourself+for+the+website.+(File+responses)/field+picture+-+Shyalina+Muthumudalige.jpg"
+        },
+        {
+            "name": "Roudha Almarzouqi ",
+            "position": "Staff Writer",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/roudha-almarzouqi.jpg"
+        },
+        {
+            "name": "Shamma Alzaabi",
+            "position": "Deputy Copy Chief and Staff Writer",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Miriam Delgado",
+            "position": "Columnist",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/miriam-delgado.jpg"
+        },
+        {
+            "name": "Howard Lai",
+            "position": "Communications Editor and Staff Writer",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Victor Alves Gomes Nadu",
+            "position": "Staff Writer",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/victor-alves-gomes-nadu.jpg"
+        },
+        {
+            "name": "Zlata Hlukhouskaya",
+            "position": "Staff Writer",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/zlata-hlukhouskaya.jpg"
+        },
+        {
+            "name": "Naya Alafifi",
+            "position": "Deputy Video Editor and Staff Writer",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/naya-alafifi.jpeg"
+        },
+        {
+            "name": "Chengadu Ayush Irvan",
+            "position": "Staff Writer",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Sevinch Rakhmon-Zoda",
+            "position": "Staff Illustrator and Staff Photographer",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/sevinch-rakhmon-zoda.JPG"
+        },
+        {
+            "name": "Linh Hoang",
+            "position": "Staff Writer",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Amal Surmawala",
+            "position": "Staff Writer",
+            "image": "https://cdn.thegazelle.org/gazelle/2023/staff/Please+upload+a+portrait+photo+of+yourself+for+the+website.+(File+responses)/IMG_5003+-+Amal+Surmawala.JPG"
+        },
+        {
+            "name": "Andy Xu",
+            "position": "Staff Writer",
+            "image": "https://cdn.thegazelle.org/gazelle/2023/staff/Please+upload+a+portrait+photo+of+yourself+for+the+website.+(File+responses)/%E5%A4%B4%E5%83%8F+-+Andy+Xu.jpg"
+        },
+        {
+            "name": "Muhammad Ali",
+            "position": "Contributor",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Rania Kettani",
+            "position": "Staff Writer",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Spring_Staff_Bios/GazellePortrait+-+Rania+Kettani.jpg"
+        },
+        {
+            "name": "Xander Christou",
+            "position": "Contributor",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Andreja Zivkovic",
+            "position": "Contributor",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Gulsim Azirakhmet ",
+            "position": "Deputy Video Editor & Staff Writer",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        }
+    ],
+    "web": [
+        {
+            "name": "Corban Villa",
+            "position": "Senior Web Chief and Opinion Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/corban-villa.jpg"
+        },
+        {
+            "name": "Ahmad Savaiz Nazir",
+            "position": "Deputy Web Chief",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/savaiz-nazir.jpeg"
+        },
+        {
+            "name": "Rohan Joseph Sabu",
+            "position": "Multimedia Editor and Deputy Web Chief",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        },
+        {
+            "name": "Sarthak Prasad Malla ",
+            "position": "Deputy Web Chief",
+            "image": "https://cdn.thegazelle.org/gazelle/2023/staff/Please+upload+a+portrait+photo+of+yourself+for+the+website.+(File+responses)/IMGL5515-min%2B-%2BSarthak%2BMalla.JPG"
+        }
+    ],
+    "data": [
+        {
+            "name": "Cameron Wehr",
+            "position": "Data Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2021/Fall+2021+Staff+Photos/Cameron+Wehr+-+Cameron+John+Wehr.jpg"
+        },
+        {
+            "name": "Reem Hazim",
+            "position": "Data Editor",
+            "image": "https://cdn.thegazelle.org/gazelle/2022/Spring_Staff_Bios/DFAD8EA9-9AA8-42C4-B89C-9321B004DDF4+-+Reem+Hazim.jpeg"
+        },
+        {
+            "name": "Abbad Shazly",
+            "position": "Data Editor",
+            "image": "http://0.gravatar.com/avatar/c63ec0271e2c8a10b2e343bbd1dec547?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G"
+        }
+    ]
+}

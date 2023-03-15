@@ -8,6 +8,26 @@ const nextConfig = {
       { loader: 'next/font/google', options: { subsets: ['latin'] } },
     ],
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.thegazelle.org',
+        port: '',
+        pathname: '/gazelle/2023/**',
+      },
+      {
+        protocol: 'http',
+        hostname: '0.gravatar.com',
+        port: '',
+        pathname: '/avatar/**',
+      },
+    ],
+    domains: [
+      'cdn.thegazelle.org',
+      'gravatar.com',
+    ],
+  },
 }
 
 module.exports = nextConfig

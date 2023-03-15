@@ -14,6 +14,11 @@ module.exports = {
         'roboto': ['var(--font-roboto)', 'sans-serif'],
         'lora': ['var(--font-lora)', 'serif'],
       },
+      colors: {
+        'lightestGray': "#acacac",
+        'lightGray': "#595959",
+        'bgGray': "#c6c6c6",
+      },
     },  
   },
   plugins: [],
