@@ -46,8 +46,8 @@ const TeamDepartment = ({ department }: { department: string }) => {
 const Team = () => {
     return (
       <>
-        {Object.keys(TeamJSON).map((department) => (
-          // console.log(department),
+        {/* gets all the team members in each department and renders them (also skips over the default created by the JSON implementation) */}
+        {Object.keys(TeamJSON).map((department) => department === 'default' ? null : (
           <div key={department} className="block">
             <TeamDepartment department={department} />
           </div>
