@@ -28,6 +28,7 @@ const TeamMember = ({ name, position, image }: { name: string, position: string,
 
 
 const TeamDepartment = ({ department }: { department: string }) => {
+  //@ts-ignore - todo - fix this
   const teamMembers = Array.isArray(TeamJSON[department]) ? TeamJSON[department] : [];
     return (
       <div className="mt-4">
