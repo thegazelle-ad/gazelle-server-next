@@ -12,8 +12,8 @@ const Standard = ({ article }: { article: ArticlePreview }) => {
         </Link>
         {/* Title and info */}
         {/* Category */}
-        <Link href={`/category/${article.category}`} >
-        <p className="text-sm font-light text-gray-600">{article.category}</p>
+        <Link href={`/category/${article.categorySlug}`} >
+        <p className="text-sm font-light text-gray-600">{article.categoryName}</p>
         </Link>
         {/* Title */}
         <Link href={getArticleUrl(article)}>

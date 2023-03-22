@@ -7,7 +7,8 @@ export type ArticlePreview = {
     image: string;
     teaser: string;
     authors: string[];
-    category: string;
+    categorySlug: string;
+    categoryName: string;
 }
 
 export function getAuthorsText(article: ArticlePreview, style="text-sm font-light text-gray-600 inline") {

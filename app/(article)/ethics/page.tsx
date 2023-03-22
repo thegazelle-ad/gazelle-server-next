@@ -13,6 +13,7 @@ async function getData() {
     return { title: 'About', body: text };
 }
 
+
 export default async function Page() {    
     const { body, title } = await getData();
 
