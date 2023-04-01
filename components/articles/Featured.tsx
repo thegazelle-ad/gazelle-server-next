@@ -13,8 +13,8 @@ const Featured = ({ article }: { article: ArticlePreview }) => {
         {/* Title and info */}
         <div className="flex flex-col justify-start w-1/2">
           {/* Category */}
-          <Link href={`/category/${article.categorySlug}`} >
-            <p className="text-sm font-light text-gray-600">{article.categoryName}</p>
+          <Link href={`/category/${article.category.slug}`} >
+            <p className="text-sm font-light text-gray-600">{article.category.name}</p>
           </Link>
           {/* Title */}
           <Link href={getArticleUrl(article)}>

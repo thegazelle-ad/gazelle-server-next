@@ -1,14 +1,24 @@
 import Link from 'next/link';
 
+type Category = {
+    name: string;
+    slug: string;
+}
+
+type Author = {
+    name: string;
+    slug: string;
+}
+
 export type ArticlePreview = {
+    issue: number;
     title: string;
     slug: string;
-    issue: number;
     image: string;
     teaser: string;
-    authors: string[];
-    categorySlug: string;
-    categoryName: string;
+    authors: Author[];
+    category: Category;
+    articleOrder: number;
 }
 
 export function getAuthorsText(article: ArticlePreview, style="text-sm font-light text-gray-600 inline") {
@@ -24,8 +34,8 @@ export function getAuthorsText(article: ArticlePreview, style="text-sm font-ligh
             <li key={index} className={style}>
               {/* And before last author */}
               {showAnd && <span> and </span>}
-              <Link href={`/staff/${author}`}>
-                  {author}
+              <Link href={`/staff/${author.slug}`}>
+                  {author.name}
               </Link>
               {/* Comma after authors */}
               {showComma && <span>, </span>}
