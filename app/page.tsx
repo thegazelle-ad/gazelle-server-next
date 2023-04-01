@@ -4,20 +4,33 @@ import StandardArticle from '../components/articles/Standard';
 import StackedArticle from '../components/articles/Stacked';
 import { ArticlePreview } from '../components/articles';
 
-export const revalidate = 60;
+export const revalidate = 0;
 
 export default async function Page() {
 
-  console.log(JSON.stringify(await getLatestIssue()));
+  const articles = await getLatestIssue();
+  console.log(`articles length`, articles.length);
 
   const testFeaturedArticle: ArticlePreview = {
     title: 'Test Article',
     slug: 'test-article',
-    categoryName: 'Opinion',
-    categorySlug: 'opnion',
     teaser: 'This is a test article',
     image: '/images/placeholder-img.jpg',
-    authors: ['Corban', 'Maj', 'Naz'],
+    category: {
+      name: 'Test Category',
+      slug: 'test-category',
+    },
+    authors: [
+      {
+        name: 'Test Author',
+        slug: 'test-author',
+      },
+      {
+        name: 'Test Author 2',
+        slug: 'test-author-2',
+      },
+    ],
+    articleOrder: 0,
     issue: 100,
   }
 
@@ -29,7 +42,7 @@ export default async function Page() {
       </div>
 
       {/* Editors picks (this layout is hardcoded for now) */}
-      <div className="flex flex-row h-96">
+      <div className="flex flex-row">
         {/* editors picks */}
         <div>
           <h2 className="p-0 mb-[0.3rem] text-[1.1rem] font-[300] overflow-hidden text-left text-lightGray before:w-[30px] before:ml-0 before:right-[0.2rem] before:z-[-1] before:bg-bgGray before:inline-block before:h-[1px] before:relative before:align-middle after:w-[90%] after:mr-[-50%] after:left-[0.2rem] after:bg-bgGray after:inline-block after:h-[1px] after:relative after:align-middle">editor&apos;s picks</h2>
@@ -50,7 +63,25 @@ export default async function Page() {
           </div>
         </div>
       </div>
-
+      {/* All other articles */}
+      {
+        articles.map((section) => {
+          return (
+            <div key={section[0].category.name}>
+              <h2 className="p-0 mb-[0.3rem] text-[1.1rem] font-[300] overflow-hidden text-left text-lightGray before:w-[30px] before:ml-0 before:right-[0.2rem] before:z-[-1] before:bg-bgGray before:inline-block before:h-[1px] before:relative before:align-middle after:w-[90%] after:mr-[-50%] after:left-[0.2rem] after:bg-bgGray after:inline-block after:h-[1px] after:relative after:align-middle">{section[0].category.name}</h2>
+              <div className="flex flex-row flex-wrap gap-3 justify-center mr-4">
+                {
+                  section.map((article) => {
+                    return (
+                      <StandardArticle key={article.slug} article={article} />
+                    )
+                  })
+                }
+              </div>
+            </div>
+          )
+        })
+      }
     </div>
   );
 }
