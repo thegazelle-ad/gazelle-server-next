@@ -18,6 +18,7 @@ module.exports = {
         'lightestGray': "#acacac",
         'lightGray': "#595959",
         'bgGray': "#c6c6c6",
+        'evenLighterGray': "#e8e8e8",
       },
     },  
   },

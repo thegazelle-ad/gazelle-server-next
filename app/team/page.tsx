@@ -7,9 +7,10 @@ async function getTitle() {
 }
 
 const TeamMember = ({ name, position, image }: { name: string, position: string, image: string }) => {
+  let name_tag = name.replace(' ', '-').toLowerCase();
     return (
       <>
-        <Link href="/" className="m-4 text-center w-[200px]">
+        <Link href={`/staff-member/${name_tag}`} className="m-4 text-center w-[200px]">
             <div className="flex flex-col items-center justify-center">
               <Image
                 src={image}
