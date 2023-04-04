@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
-type Category = {
+export type Category = {
+    id: number;
     name: string;
     slug: string;
 }
@@ -10,6 +11,36 @@ type Author = {
     slug: string;
 }
 
+// Used on teams page
+export type AuthorPreview = {
+    teamName: string;
+    staffName: string;
+    staffSlug: string;
+    staffTitle: string;
+    staffImage: string;
+    staffOrder: number;
+}
+
+// Used on a profile page
+export type AuthorProfile = {
+    name: string;
+    slug: string;
+    title: string;
+    image: string;
+    bio: string;
+    articles: AuthorArticle[];
+}
+
+// Used on a profile page
+export type AuthorArticle = {
+    issue: number;
+    title: string;
+    slug: string;
+    image: string;
+    teaser: string;
+}
+
+// Used on main page
 export type ArticlePreview = {
     issue: number;
     title: string;
@@ -21,7 +52,7 @@ export type ArticlePreview = {
     articleOrder: number;
 }
 
-export function getAuthorsText(article: ArticlePreview, style="text-sm font-light text-gray-600 inline") {
+export function getAuthorsText(article: ArticlePreview, style="text-sm text-gray-600 inline font-normal") {
   return (
     <div>
       <ul>
@@ -47,6 +78,6 @@ export function getAuthorsText(article: ArticlePreview, style="text-sm font-ligh
   );
 }
 
-export function getArticleUrl(article: ArticlePreview) {
+export function getArticleUrl(article: ArticlePreview | AuthorArticle) {
     return `/${article.issue}/${article.slug}`
 }
