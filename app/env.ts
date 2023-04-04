@@ -3,3 +3,11 @@ export const UNCATEGORIZED_CATEGORY_NAME = process.env.UNCATEGORIZED_CATEGORY_NA
 export const UNCATEGORIZED_CATEGORY_SLUG = process.env.UNCATEGORIZED_CATEGORY_SLUG || 'uncategorized';
 
 export const DEV = process.env.NODE_ENV !== 'production';
+
+export const DEFAULT_STAFF_TITLE = 'Contributing Writer';
+export const DEFAULT_STAFF_IMAGE = 'https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/githmi-rabel.jpg';
+export const DEFAULT_STAFF_BIO = '';
+export const DEFAULT_STAFF_ORDER = 0;
+
+export const DEFAULT_ARTICLE_IMAGE = 'https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/githmi-rabel.jpg';
+export const DEFAULT_ARTICLE_TEASER = '';

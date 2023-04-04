@@ -13,7 +13,7 @@ const lora = Lora({
 
 const roboto = Roboto({
   variable: '--font-roboto',
-  weight: ['300', '500'],
+  weight: ['300', '400', '500'],
   style: ['normal'],
   display: 'swap',
 });
@@ -30,7 +30,7 @@ export default function RootLayout ({ children }: { children: React.ReactNode })
   return (
     <html lang="en" className={`${lora.variable} ${roboto.variable}`}>
       <body>
-        <div className="container mx-auto p-5 min-h-screen flex flex-col flex-nowrap max-w-screen-lg px-4 md:px-2">
+        <div className="container mx-auto p-5 min-h-screen flex flex-col flex-nowrap max-w-screen-lg px-4 md:px-2 font-roboto">
           <Navigation navigationData={{published_at: 1676210107, issueNumber: 100}}/>
           {/* Nav Bar */}
           {children}
