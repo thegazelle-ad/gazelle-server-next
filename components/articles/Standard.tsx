@@ -5,19 +5,19 @@ import { ArticlePreview, getAuthorsText, getArticleUrl } from './common';
 const Standard = ({ article }: { article: ArticlePreview }) => {
 
   return (
-    <div className="flex flex-col w-[16rem] h-[24rem]">
+    <div className="flex flex-col max-w-[32.5%] min-w-[27%]">
         {/* Image */}
-        <Link href={getArticleUrl(article)} className="relative h-full mb-1">
+        <Link href={getArticleUrl(article)} className="relative h-[170px] mb-1">
           <Image src={article.image} alt={article.title} fill className="object-cover" />
         </Link>
         {/* Title and info */}
         {/* Category */}
-        <Link href={`/category/${article.category.slug}`} >
+        {/* <Link href={`/category/${article.category.slug}`} >
         <p className="text-sm font-light text-gray-600">{article.category.name}</p>
-        </Link>
+        </Link> */}
         {/* Title */}
         <Link href={getArticleUrl(article)}>
-        <h1 className="text-2xl font-semibold font-roboto uppercase">{article.title}</h1>
+          <h1 className="text-2xl font-semibold uppercase">{article.title}</h1>
         </Link>
         {/* Authors */}
         {getAuthorsText(article)}
