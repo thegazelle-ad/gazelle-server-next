@@ -12,7 +12,7 @@ import {
     teams as Teams,
     teamsStaff as TeamsStaff,
 } from '../migrations/schema';
-import { eq, isNotNull, not, desc, lte, inArray } from 'drizzle-orm/expressions';
+import { eq, isNotNull, desc, lte } from 'drizzle-orm/expressions';
 
 import {
     ArticlePreview,
