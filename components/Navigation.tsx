@@ -45,7 +45,7 @@ const Navigation = ({ navigationData }: { navigationData: NavigationData }) => {
   });
 
   return (
-    <div className="mt-2 font-roboto pt-5">
+    <div className="mt-2 pt-5">
 
       <div className="flex flex-row w-full justify-between px-4">
         {/* Search */}

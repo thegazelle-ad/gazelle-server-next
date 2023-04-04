@@ -1,4 +1,5 @@
-import { getLatestIssue } from './db'
+// import { getLatestIssue } from './db'
+import { getLatestPublishedIssue as getLatestIssue2, getIssueArticles, getLatestStaffRoster } from './db2';
 import FeaturedArticle from '../components/articles/Featured';
 import StandardArticle from '../components/articles/Standard';
 import StackedArticle from '../components/articles/Stacked';
@@ -8,8 +9,10 @@ export const revalidate = 0;
 
 export default async function Page() {
 
-  const articles = await getLatestIssue();
-  console.log(`articles length`, articles.length);
+  const issue = await getLatestIssue2();
+  // console.log(`getLatestIssue`, JSON.stringify(issue));
+  const articles = await getIssueArticles(issue);
+  // console.log(`issueArticles`, JSON.stringify(issueArticles));
 
   const testFeaturedArticle: ArticlePreview = {
     title: 'Test Article',
@@ -17,6 +20,7 @@ export default async function Page() {
     teaser: 'This is a test article',
     image: '/images/placeholder-img.jpg',
     category: {
+      id: 0,
       name: 'Test Category',
       slug: 'test-category',
     },
@@ -68,15 +72,17 @@ export default async function Page() {
         articles.map((section) => {
           return (
             <div key={section[0].category.name}>
-              <h2 className="p-0 mb-[0.3rem] text-[1.1rem] font-[300] overflow-hidden text-left text-lightGray before:w-[30px] before:ml-0 before:right-[0.2rem] before:z-[-1] before:bg-bgGray before:inline-block before:h-[1px] before:relative before:align-middle after:w-[90%] after:mr-[-50%] after:left-[0.2rem] after:bg-bgGray after:inline-block after:h-[1px] after:relative after:align-middle">{section[0].category.name}</h2>
-              <div className="flex flex-row flex-wrap gap-3 justify-center mr-4">
-                {
-                  section.map((article) => {
-                    return (
-                      <StandardArticle key={article.slug} article={article} />
-                    )
-                  })
-                }
+              <h2 className="p-0 mb-[0.3rem] text-[1.1rem] font-[300] overflow-hidden text-left text-lightGray before:w-[30px] before:ml-0 before:right-[0.2rem] before:z-[-1] before:bg-bgGray before:inline-block before:h-[1px] before:relative before:align-middle after:w-[90%] after:left-[0.2rem] after:bg-bgGray after:inline-block after:h-[1px] after:relative after:align-middle">{section[0].category.name}</h2>
+              <div className="flex justify-center w-full">
+                <div className="flex flex-row flex-wrap gap-3 justify-start flex-grow align-center">
+                  {
+                    section.map((article) => {
+                      return (
+                        <StandardArticle key={article.slug} article={article} />
+                      )
+                    })
+                  }
+                </div>
               </div>
             </div>
           )
