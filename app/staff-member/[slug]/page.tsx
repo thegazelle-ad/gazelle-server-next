@@ -1,12 +1,12 @@
 import { cache } from 'react';
 import Image from "next/image";
 import ProfileArticle from '../../../components/articles/Profile'
-import { getStaff } from "../../db2";
+import { getStaff as getStaffCache } from "../../db2";
 import { AuthorProfile } from "../../../components/articles";
 
 // when we implement this actually, we will use fetch
 // this works for now though to deduplicate requests
-const getStaffCache = cache(getStaff);
+// const getStaffCache = cache(getStaff);
 
 export async function generateMetadata({ params: { slug }}: { params: { slug: string }}) {
   const staffProfile = await getStaffCache({ slug });
