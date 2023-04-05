@@ -11,3 +11,7 @@ export const DEFAULT_STAFF_ORDER = 0;
 
 export const DEFAULT_ARTICLE_IMAGE = 'https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/githmi-rabel.jpg';
 export const DEFAULT_ARTICLE_TEASER = '';
+
+export const DATABASE_HOST = process.env.DATABASE_HOST!;
+export const DATABASE_USERNAME = process.env.DATABASE_USERNAME!;
+export const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD!;

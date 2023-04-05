@@ -1,5 +1,5 @@
 // import { getLatestIssue } from './db'
-import { getLatestPublishedIssue as getLatestIssue2, getIssueArticles, getLatestStaffRoster } from './db2';
+import { getLatestPublishedIssue, getIssueArticles } from './db';
 import FeaturedArticle from '../components/articles/Featured';
 import StandardArticle from '../components/articles/Standard';
 import StackedArticle from '../components/articles/Stacked';
@@ -9,7 +9,7 @@ export const revalidate = 0;
 
 export default async function Page() {
 
-  const issue = await getLatestIssue2();
+  const issue = await getLatestPublishedIssue();
   // console.log(`getLatestIssue`, JSON.stringify(issue));
   const articles = await getIssueArticles(issue);
   // console.log(`issueArticles`, JSON.stringify(issueArticles));
