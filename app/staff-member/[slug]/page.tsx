@@ -6,8 +6,10 @@ import { AuthorProfile } from "../../../components/articles";
 
 // when we implement this actually, we will use fetch
 // this works for now though to deduplicate requests
+const getStaffCache = cache(getStaff);
+
 export async function generateMetadata({ params: { slug }}: { params: { slug: string }}) {
-  const staffProfile = await getStaff({slug});
+  const staffProfile = await getStaffCache(slug);
   return {
     title: `${staffProfile.name} | The Gazelle`,
     robots: {
@@ -45,7 +47,7 @@ const ArticleList = ({ staffProfile }: { staffProfile: AuthorProfile }) => {
 }
 
 export default async function Page({ params: { slug }}: { params: { slug: string } }) {
-  const staffProfile = await getStaff({slug});
+  const staffProfile = await getStaffCache(slug);
   return (
     // main div containing the team member's profile
     <div className="block mx-auto my-0">
