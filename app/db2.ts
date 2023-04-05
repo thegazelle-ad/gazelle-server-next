@@ -212,7 +212,7 @@ export async function getIssueArticles(issue: UnwrapPromise<ReturnType<typeof ge
     return Array.from(articlesInCategories.values());
 };
 
-export async function getStaff({ slug }: { slug: string }): Promise<AuthorProfile> {
+export async function getStaff(slug: string): Promise<AuthorProfile> {
     // This is an expensive query, so we will cache the result for at least 1 hour
     console.log("getStaff", slug);
     const staff = await db.select({
