@@ -1,10 +1,9 @@
 "use client"
 
-import _ from 'lodash';
 import Link from 'next/link';
-import moment from 'moment';
+import { parseISO, format } from 'date-fns';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, FormEvent, ChangeEvent } from 'react';
 
 // Icons
 import Twitter from '../public/icons/twitter.svg';
@@ -31,6 +30,7 @@ const Navigation = ({ navigationData }: { navigationData: NavigationData }) => {
 
   // Whether to show the search bar 
   const [showSearch, setShowSearch] = useState<boolean>(false);
+  const [searchText, setSearchText] = useState<string>('');
 
   // Render the categories
   const renderCategories = categories.map(category => {
@@ -44,23 +44,44 @@ const Navigation = ({ navigationData }: { navigationData: NavigationData }) => {
     );
   });
 
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchText(event.target.value);
+  };
+
+  const handleSearch = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // Perform the search
+    callSearch();
+  };
+
+  const callSearch = () => {
+    if (searchText === '')
+      return;
+    console.log('Search triggered:', searchText);
+  }
+
   return (
     <div className="mt-2 pt-5">
 
       <div className="flex flex-row w-full justify-between px-4">
+
         {/* Search */}
         <div className="flex flex-row gap-2 items-center">
-          <button className="w-4 h-5 relative cursor-pointer" onClick={() => setShowSearch(!showSearch)}>
+          <button className="w-4 h-5 relative cursor-pointer" onClick={() => { setShowSearch(!showSearch); callSearch()}}>
             <Image src={MagnifyingGlass} alt="search" fill className="object-contain"/>
           </button>
 
           {/* Search Bar */}
           {showSearch && (
-            <input
-              type="text"
-              className="min-w-[6rem] w-[20vw] max-w-[20rem] py-1 pl-5 pr-3 rounded-md bg-gray-100 border-2 border-gray-300 focus:outline-none focus:bg-white focus:border-gray-700"
-              placeholder="Search..."
-            />
+            <form onSubmit={handleSearch}>
+              <input
+                type="text"
+                value={searchText}
+                onChange={handleInputChange}
+                className="min-w-[6rem] w-[20vw] max-w-[20rem] py-1 pl-5 pr-3 bg-transparent focus:outline-none focus:border-gray-700 placeholder-gray-500"
+                placeholder="Search..."
+              />
+            </form>
           )}
         </div>
 
@@ -82,9 +103,9 @@ const Navigation = ({ navigationData }: { navigationData: NavigationData }) => {
       {/* Logo and Line */}
       {/* TODO - turn to navbar at small size */}
       <div className="relative">
-        <div className="border-b border-gray-300 absolute inset-0 z-10"/>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-[80%] z-20 w-[5vw] h-[5vh]">
-        <div className="absolute inset-0 bg-white z-10 w-1/2 left-1/2 transform -translate-x-1/2"/>
+        <div className="border-b-[0px] border-gray-300 absolute inset-0 z-10"/>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-[80%] z-20 w-[4rem] h-[4rem]">
+          <div className="absolute inset-0 bg-white z-10 w-1/2 left-1/2 transform -translate-x-1/2"/>
           <Link href="/">
             <Image
               src="/logo.png"
@@ -99,7 +120,7 @@ const Navigation = ({ navigationData }: { navigationData: NavigationData }) => {
       {/* Categories */}
       <div className="flex flex-row justify-between items-center font-light text-sm uppercase px-4">
         <p>
-          {moment(published_at).format('MMM DD, YYYY')}
+          {format(new Date(), 'MMM d, yyyy')}
         </p>
         <ul className="flex justify-center items-center m-4">{renderCategories}</ul>
         <Link href="/archives" className="">

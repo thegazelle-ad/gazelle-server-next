@@ -1,7 +1,7 @@
 import { cache } from 'react';
 import Image from "next/image";
 import ProfileArticle from '../../../components/articles/Profile'
-import { getStaff } from "../../db";
+import { getStaff } from "../../../db";
 import { AuthorProfile } from "../../../components/articles";
 
 // when we implement this actually, we will use fetch

@@ -5,13 +5,13 @@ import { ArticlePreview, getAuthorsText, getArticleUrl } from './common';
 const Featured = ({ article }: { article: ArticlePreview }) => {
 
   return (
-    <div className="flex flex-row gap-4 p-8">
+    <div className="flex flex-row gap-6 px-8 pb-4">
         {/* Image */}
         <Link href={getArticleUrl(article)} className="relative h-[350px] w-2/3">
           <Image src={article.image} alt={article.title} fill className="object-cover object-right" />
         </Link>
         {/* Title and info */}
-        <div className="flex flex-col justify-start w-1/2">
+        <div className="flex flex-col justify-center w-1/3 gap-3">
           {/* Category */}
           <Link href={`/category/${article.category.slug}`} >
             <p className="text-sm text-gray-600 font-semibold">{article.category.name}</p>

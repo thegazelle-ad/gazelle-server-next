@@ -1,12 +1,16 @@
 import Link from 'next/link';
 
+import {
+  ARTICLE_TYPES,
+} from '../../env';
+
 export type Category = {
     id: number;
     name: string;
     slug: string;
 }
 
-type Author = {
+export type Author = {
     name: string;
     slug: string;
 }
@@ -50,26 +54,44 @@ export type ArticlePreview = {
     authors: Author[];
     category: Category;
     articleOrder: number;
+    type: ARTICLE_TYPES;
+    views: number;
 }
 
-export function getAuthorsText(article: ArticlePreview, style="text-sm text-gray-600 inline font-normal") {
+export type ArticlePage = {
+    title: string;
+    image: string;
+    teaser: string;
+    authors: Author[];
+    markdown: string;
+    publishedAt: string;
+}
+
+export type IssueArticles = {
+    allCategories: ArticlePreview[][];
+    featured: ArticlePreview;
+    trending: ArticlePreview[];
+    editorsPicks: ArticlePreview[];
+}
+
+export function getAuthorsText(article: ArticlePreview, style="text-sm text-gray-600 font-normal -my-1 leading-4") {
   return (
     <div>
-      <ul>
+      <ul className={style}>
         {article.authors.map((author, index) => {
           const isLastAuthor = index === article.authors.length - 1;
           const showAnd = isLastAuthor && article.authors.length > 1;
           const showComma = !isLastAuthor;
 
           return (
-            <li key={index} className={style}>
+            <li key={index} className="inline-flex">
               {/* And before last author */}
-              {showAnd && <span> and </span>}
+              {showAnd && <span className='mr-1'> and </span>}
               <Link href={`/staff/${author.slug}`}>
-                  {author.name}
+                  <p>{author.name}</p>
               </Link>
               {/* Comma after authors */}
-              {showComma && <span>, </span>}
+              {showComma && <span className='mr-1'>, </span>}
             </li>
           );
         })}
@@ -79,5 +101,5 @@ export function getAuthorsText(article: ArticlePreview, style="text-sm text-gray
 }
 
 export function getArticleUrl(article: ArticlePreview | AuthorArticle) {
-    return `/${article.issue}/${article.slug}`
+    return `/issue/${article.issue}/${article.slug}`
 }

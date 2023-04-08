@@ -1,10 +1,22 @@
 import { eq } from 'drizzle-orm/expressions';
-import { ArticlePreview, Category } from "../../../components/articles";
+import { 
+    ArticlePreview,
+    Category,
+    IssueArticles,
+    ArticlePage,
+    Author
+} from "../../components/articles";
 import { getLatestPublishedIssue } from "./issues";
 import { 
     UNCATEGORIZED_CATEGORY_ID,
     UNCATEGORIZED_CATEGORY_NAME,
     UNCATEGORIZED_CATEGORY_SLUG,
+    ARTICLE_TYPE_FEATURED,
+    ARTICLE_TYPE_EDITORS_PICKS,
+    ARTICLE_TYPES,
+    ARTICLE_DEFAULT_IMAGE,
+    ARTICLE_DEFAULT_PUBLISHED_AT,
+    ARTICLE_DEFAULT_TEASER,
 } from "../../env";
 import { 
     UnwrapPromise,
@@ -17,7 +29,7 @@ import {
 
 export const UNCATEGORIZED_CATEGORY: Category = { id: UNCATEGORIZED_CATEGORY_ID, name: UNCATEGORIZED_CATEGORY_NAME, slug: UNCATEGORIZED_CATEGORY_SLUG };
 
-export async function getIssueArticles(issue: UnwrapPromise<ReturnType<typeof getLatestPublishedIssue>>): Promise<ArticlePreview[][]> {
+export async function getIssueArticles(issue: UnwrapPromise<ReturnType<typeof getLatestPublishedIssue>>): Promise<IssueArticles> {
     // Fetch authors and articles in separate queries to reduce payload size
     const latestIssueArticles = await db.select({
         id: Articles.id,
@@ -31,6 +43,10 @@ export async function getIssueArticles(issue: UnwrapPromise<ReturnType<typeof ge
         articleOrder: IssuesArticlesOrder.articleOrder,
         author: Staff.name,
         authorSlug: Staff.slug,
+        // to get featured,editors picks
+        type: IssuesArticlesOrder.type,
+        // to get trending
+        views: Articles.views,
     })
         .from(IssuesArticlesOrder)
         .where(eq(IssuesArticlesOrder.issueId, issue.id))
@@ -39,6 +55,10 @@ export async function getIssueArticles(issue: UnwrapPromise<ReturnType<typeof ge
         .innerJoin(Staff, eq(AuthorsArticles.authorId, Staff.id))
         .orderBy(IssuesArticlesOrder.articleOrder);
 
+    // ensure we have atleast 4 articles
+    if (latestIssueArticles.length < 4) {
+        throw new Error('Not enough articles to render issue');
+    }
 
     // map the id to the category type
     const idToCategory: Map<number, Category> = new Map();
@@ -56,6 +76,7 @@ export async function getIssueArticles(issue: UnwrapPromise<ReturnType<typeof ge
         if (!article.slug) throw new Error('Article missing slug');
         if (!article.teaser) throw new Error('Article missing teaser');
         if (!article.imageUrl) throw new Error('Article missing image_url');
+        if (article.type > 3 || article.type < 0) throw new Error('Article missing type');
 
         // check if article id in map
         const existingArticle = articlesWithAuthors.get(article.id);
@@ -81,6 +102,8 @@ export async function getIssueArticles(issue: UnwrapPromise<ReturnType<typeof ge
                 name: article.author,
                 slug: article.authorSlug,
             }],
+            type: article.type as ARTICLE_TYPES,
+            views: article.views,
         };
 
         articlesWithAuthors.set(article.id, articlePreview);
@@ -91,11 +114,87 @@ export async function getIssueArticles(issue: UnwrapPromise<ReturnType<typeof ge
     const articlesInCategories: Map<number, ArticlePreview[]> = new Map();
     articlesWithAuthors.forEach((article) => {
         const currentArticles = articlesInCategories.get(article.category.id) || [];
+        // ignore if featured or editors picks
+        if (article.type === ARTICLE_TYPE_FEATURED || article.type === ARTICLE_TYPE_EDITORS_PICKS)
+            return;
+
         // append our article to the end of the array
         currentArticles.push(article);
         // update the map 
         articlesInCategories.set(article.category.id, currentArticles);
     });
 
-    return Array.from(articlesInCategories.values());
+    // sort by views (in place)
+    // this could be improved by using a quicksort and then O(n) to get the top k articles
+    // but this is fine for now
+    const trendingArticles: ArticlePreview[] = Array.from(articlesWithAuthors.values());
+    trendingArticles.sort((a, b) => b.views - a.views);
+    let editorsPicks: ArticlePreview[] = [];
+    let featured: ArticlePreview | undefined;
+    trendingArticles.map((article) => {
+        if (article.type === ARTICLE_TYPE_FEATURED) {
+            featured = article;
+        } else if (article.type === ARTICLE_TYPE_EDITORS_PICKS) {
+            editorsPicks.push(article);
+        }
+    });
+    // if featured is undefined, use the first trending article
+    // this should be tested
+    if (featured === undefined) {
+        featured = trendingArticles[0];
+    };
+    if (editorsPicks.length === 0) {
+        editorsPicks = trendingArticles.slice(1, 4);
+    }
+
+    return {
+        allCategories: Array.from(articlesInCategories.values()),
+        featured,
+        trending: trendingArticles.slice(0,6),
+        editorsPicks,
+    }
 };
+
+export async function getArticle(slug: string): Promise<ArticlePage> {
+    const article = await db.select({
+        id: Articles.id,
+        title: Articles.title,
+        teaser: Articles.teaser,
+        markdown: Articles.markdown,
+        imageUrl: Articles.imageUrl,
+        publishedAt: Articles.publishedAt
+    })
+        .from(Articles)
+        .where(eq(Articles.slug, slug))
+        .limit(1);
+
+    if (!article)
+        throw new Error('Article not found!');
+
+    if (!article[0].markdown)
+        throw new Error('Article missing content!');    
+
+
+    // get authors
+    const authors = await db.select({
+        name: Staff.name,
+        slug: Staff.slug,
+    })
+        .from(AuthorsArticles)
+        .where(eq(AuthorsArticles.articleId, article[0].id))
+        .innerJoin(Staff, eq(AuthorsArticles.authorId, Staff.id))
+        .limit(1);
+    
+    if (!authors)
+        throw new Error('Article missing authors');
+
+    return {
+        title: article[0].title,
+        image: article[0].imageUrl || ARTICLE_DEFAULT_IMAGE,
+        teaser: article[0].teaser || ARTICLE_DEFAULT_TEASER,
+        markdown: article[0].markdown,
+        publishedAt: article[0].publishedAt || ARTICLE_DEFAULT_PUBLISHED_AT,
+        authors: authors as Author[],
+    }
+
+}

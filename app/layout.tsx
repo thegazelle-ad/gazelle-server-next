@@ -9,6 +9,7 @@ import { Lora, Roboto } from 'next/font/google';
 const lora = Lora({
   variable: '--font-lora',
   display: 'swap',
+  subsets: ['latin'],
 });
 
 const roboto = Roboto({
@@ -16,6 +17,7 @@ const roboto = Roboto({
   weight: ['300', '400', '500'],
   style: ['normal'],
   display: 'swap',
+  subsets: ['latin'],
 });
 
 // Static metadata

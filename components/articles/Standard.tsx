@@ -2,10 +2,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArticlePreview, getAuthorsText, getArticleUrl } from './common';
 
-const Standard = ({ article }: { article: ArticlePreview }) => {
+const Standard = ({ article, maxWidth, minWidth }: { article: ArticlePreview, maxWidth?: string, minWidth?: string }) => {
 
   return (
-    <div className="flex flex-col max-w-[32.5%] min-w-[27%]">
+    <div className={`flex flex-col gap-2 ${minWidth ? minWidth : 'min-w-[27%]'} ${maxWidth ? maxWidth : 'max-w-[32.5%]'}`}>
         {/* Image */}
         <Link href={getArticleUrl(article)} className="relative h-[170px] mb-1">
           <Image src={article.image} alt={article.title} fill className="object-cover" />
@@ -17,7 +17,7 @@ const Standard = ({ article }: { article: ArticlePreview }) => {
         </Link> */}
         {/* Title */}
         <Link href={getArticleUrl(article)}>
-          <h1 className="text-2xl font-semibold uppercase">{article.title}</h1>
+          <h1 className="text-lg font-semibold uppercase leading-snug">{article.title}</h1>
         </Link>
         {/* Authors */}
         {getAuthorsText(article)}
