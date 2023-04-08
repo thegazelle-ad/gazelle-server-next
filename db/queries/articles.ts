@@ -162,6 +162,7 @@ export async function getArticle(slug: string): Promise<ArticlePage> {
         teaser: Articles.teaser,
         markdown: Articles.markdown,
         imageUrl: Articles.imageUrl,
+        views: Articles.views,
         publishedAt: Articles.publishedAt
     })
         .from(Articles)
@@ -187,6 +188,16 @@ export async function getArticle(slug: string): Promise<ArticlePage> {
     
     if (!authors)
         throw new Error('Article missing authors');
+
+    // fire off a view
+    try {
+        db.update(Articles)
+            .set({ views: article[0].views + 1 })
+            .where(eq(Articles.id, article[0].id))
+            .execute();
+    } catch (e) {
+        console.error('Failed to increment article views', e);
+    }
 
     return {
         title: article[0].title,
