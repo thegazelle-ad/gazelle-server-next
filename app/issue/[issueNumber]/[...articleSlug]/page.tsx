@@ -20,7 +20,7 @@ export default async function Article({ params: { articleSlug }}: { params: { ar
     // render markdown images with the next/image component
     const imageRender = (props: MarkdownImage) => (
         <div className="flex justify-center items-center">
-            <div className="relative h-[50vh] w-[70vw] max-w-[2000px]">
+            <div className="relative h-[50vh] md:min-w-[100vw] lg:min-w-[1000px]">
                 <Image
                     fill
                     src={props.src || ARTICLE_DEFAULT_IMAGE}
@@ -32,15 +32,15 @@ export default async function Article({ params: { articleSlug }}: { params: { ar
     );
 
     return (
-        <div>
-            <div className='relative flex flex-col min-h-screen max-w-[529px] mx-auto py-2 sm:py-8'>
+        <div className="relative">
+            <div className='flex flex-col min-h-screen max-w-[529px] mx-auto py-2 sm:py-8'>
                 {/* Title */}
                 <header className='flex flex-col m-w-4xl mx-auto'>
                     <h1 className='text-center font-medium uppercase text-2xl'>
                         {article.title}
                     </h1>
                 </header>
-                <ReactMarkdown components={{img: imageRender}} className="font-lora">
+                <ReactMarkdown components={{img: imageRender }} className="font-lora">
                     {article.markdown}
                 </ReactMarkdown>
             </div>
