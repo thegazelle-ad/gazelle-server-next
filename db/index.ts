@@ -1,5 +1,6 @@
 export { 
     getLatestPublishedIssue,
+    getIssue,
 } from './queries/issues';
 export {
     getStaff,
@@ -7,4 +8,5 @@ export {
 } from './queries/staff';
 export {
     getIssueArticles,
+    getArticle,
 } from './queries/articles';

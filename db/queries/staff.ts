@@ -3,7 +3,7 @@ import {
     AuthorProfile,
     AuthorPreview,
     AuthorArticle,
-} from '../../../components/articles';
+} from '../../components/articles';
 import { 
     Issues,
     Articles,
