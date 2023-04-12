@@ -10,7 +10,7 @@ const ProfileArticle = ( {article} : { article: AuthorArticle }) => {
                     mb-[1.5rem] pb-[1.25rem] px-[0.75rem] flex-shrink border-b border-evenLighterGray border-1">
     {/* Image */}
     <Link href={getArticleUrl(article)} className="relative h-[170px] w-full">
-        <Image src={article.image} height={500} width={500} className={"object-cover pb-[0.5rem]"} alt="team-member-image" />
+        <Image src={article.image} alt={article.title} fill className={"object-cover pb-[0.5rem]"} />
     </Link>
     {/* Title and teaser */}
     <div className="max-w-[20%] min-w-[250px] pl-[1.3rem]">
