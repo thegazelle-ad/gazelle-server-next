@@ -3,7 +3,7 @@ export {
     getIssue,
 } from './queries/issues';
 export {
-    getStaff,
+    getStaffArticles as getStaff,
     getLatestStaffRoster,
 } from './queries/staff';
 export {

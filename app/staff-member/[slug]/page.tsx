@@ -22,9 +22,10 @@ export async function generateMetadata({ params: { slug }}: { params: { slug: st
 const ProfileCard = ({ person }: { person: AuthorProfile }) => {
   return (
     <div className="flex justify-center pb-[1.5rem] mb-[1.5rem] 
-                    border-b border-lightestGray border-1
-                    relative">
-      <Image src={person.image} alt={person.name} fill className={"aspect-square max-h-[300px] max-w-[300px] object-cove pr-[1.5rem]"} />
+                    border-b border-lightestGray border-1 gap-8">
+      <div className="aspect-square h-[300px] w-[300px] object-cover pr-[1.5rem] relative">
+        <Image src={person.image} alt={person.name} fill/>
+      </div>
       <div className="flex justify-center flex-col max-w-[50%]">
         <h1 className="uppercase font-bold text-[2em] leading-[1.2em]
                       block m-0">{person.name}</h1>
@@ -39,10 +40,12 @@ const ProfileCard = ({ person }: { person: AuthorProfile }) => {
 // list of articles
 const ArticleList = ({ staffProfile }: { staffProfile: AuthorProfile }) => {
   return (
-    <div className="flex flex-col max-w-[40%] min-w-[20%]">
-      {staffProfile.articles.map((article) => (
-        <ProfileArticle key={article.title} article={article} />
-      ))}
+    <div className="flex justify-center items-center w-full">
+      <div className="flex flex-col justify-center items-center max-w-[70%] min-w-[20%]">
+        {staffProfile.articles.map((article) => (
+          <ProfileArticle key={article.title} article={article} />
+        ))}
+      </div>
     </div>
   );
 }

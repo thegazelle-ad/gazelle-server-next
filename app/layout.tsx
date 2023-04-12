@@ -6,6 +6,10 @@ import Footer from '../components/Footer';
 
 import { Lora, Roboto } from 'next/font/google';
 
+import {
+  DEFAULT_SITE_TITLE,
+} from '../env';
+
 const lora = Lora({
   variable: '--font-lora',
   display: 'swap',
@@ -22,7 +26,7 @@ const roboto = Roboto({
 
 // Static metadata
 export const metadata = {
-  title: 'title',
+  title: DEFAULT_SITE_TITLE,
   robots: {
     index: true,
   }
