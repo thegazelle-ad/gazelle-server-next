@@ -25,3 +25,6 @@ export const ARTICLE_DEFAULT_IMAGE = 'https://cdn.thegazelle.org/gazelle/2022/Fa
 export const ARTICLE_DEFAULT_IMAGE_ALT = 'image';
 export const ARTICLE_DEFAULT_TEASER = '';
 export const ARTICLE_DEFAULT_PUBLISHED_AT = '1970-01-01 00:00:00';
+export const ARTICLE_DATE_FORMAT = 'MMM d, yyyy';
+
+export const DEFAULT_BROKEN_LINK = 'https://thegazelle.org/404';
