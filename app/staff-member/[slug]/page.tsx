@@ -22,8 +22,9 @@ export async function generateMetadata({ params: { slug }}: { params: { slug: st
 const ProfileCard = ({ person }: { person: AuthorProfile }) => {
   return (
     <div className="flex justify-center pb-[1.5rem] mb-[1.5rem] 
-                    border-b border-lightestGray border-1">
-      <Image src={person.image} height={300} width={300} className={"aspect-square max-h-[300px] max-w-[300px] object-cove pr-[1.5rem]"} alt="team-member-image" />
+                    border-b border-lightestGray border-1
+                    relative">
+      <Image src={person.image} alt={person.name} fill className={"aspect-square max-h-[300px] max-w-[300px] object-cove pr-[1.5rem]"} />
       <div className="flex justify-center flex-col max-w-[50%]">
         <h1 className="uppercase font-bold text-[2em] leading-[1.2em]
                       block m-0">{person.name}</h1>
