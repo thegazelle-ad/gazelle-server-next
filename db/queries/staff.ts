@@ -1,4 +1,4 @@
-import { eq, desc } from 'drizzle-orm/expressions';
+import { eq, ne, desc, inArray, and } from 'drizzle-orm/expressions';
 import { 
     AuthorProfile,
     AuthorPreview,
@@ -24,7 +24,14 @@ import {
     DEFAULT_STAFF_TITLE,
 } from '../../env';
 
-export async function getStaff(slug: string): Promise<AuthorProfile> {
+// Used to fetch other authors for the staff profile (not the staff member themselves)
+type ArticleAuthorMap = {
+    articleId: number;
+    name: string;
+    slug: string;
+}
+
+export async function getStaffArticles(slug: string): Promise<AuthorProfile> {
     // This is an expensive query, so we will cache the result for at least 1 hour
     const staff = await db.select({
         id: Staff.id,
@@ -43,6 +50,7 @@ export async function getStaff(slug: string): Promise<AuthorProfile> {
         throw new Error('Staff member not found');
     };
 
+    // fetch all the articles they have written
     const staffArticles = await db.select({
         issue: Issues.issueNumber,
         id: Articles.id,
@@ -56,26 +64,83 @@ export async function getStaff(slug: string): Promise<AuthorProfile> {
         .innerJoin(Articles, eq(AuthorsArticles.articleId, Articles.id))
         .innerJoin(IssuesArticlesOrder, eq(AuthorsArticles.articleId, IssuesArticlesOrder.articleId))
         .innerJoin(Issues, eq(IssuesArticlesOrder.issueId, Issues.id))
+        .orderBy(desc(Articles.id));
 
-    // dedup articles by id
-    const dedupedArticles: AuthorArticle[] = [];
-    const uniqueIds = new Set();
+    // also grab the other authors for these articles
+    let otherAuthors: ArticleAuthorMap[] = [];
+    if (staffArticles.length > 0) {
+        const staffArticleIds = staffArticles.map(article => article.id);
+
+        otherAuthors = await db.select({
+            articleId: AuthorsArticles.articleId,
+            name: Staff.name,
+            slug: Staff.slug,
+        })
+            .from(AuthorsArticles)
+            .where(
+                and(
+                    inArray(AuthorsArticles.articleId, staffArticleIds), 
+                    ne(Staff.id, staff[0].id)
+                )
+            )
+            .innerJoin(Staff, eq(AuthorsArticles.authorId, Staff.id))
+            .orderBy(desc(AuthorsArticles.articleId));
+    }
+
+    // combine both author arrays
+    const articleReturn: AuthorArticle[] = [];
+    // index of the other author we are currently on - allows O(n) instead of O(n^2)
+    let otherAuthorIndex = 0; 
+    // loop through all the staff articles
     for (const article of staffArticles) {
-        // check if article id in set
-        if (uniqueIds.has(article.id)) {
-            continue;
+        // print article id 
+        console.log('article id', article.id);
+        const authors = [{
+            name: staff[0].name,
+            slug: staff[0].slug,
+        }];
+        // check if the other author is also for this article
+        // print whether or not the other author is for this 
+        console.log('other author is for this', otherAuthors[otherAuthorIndex]?.articleId);
+        while (otherAuthors[otherAuthorIndex]?.articleId === article.id) {
+            authors.push({
+                name: otherAuthors[otherAuthorIndex].name,
+                slug: otherAuthors[otherAuthorIndex].slug,
+            });
+            otherAuthorIndex++;
         }
-        // otherwise add to set
-        uniqueIds.add(article.id);
-        // and add to array
-        dedupedArticles.push({
+        // add the article to the return array
+        articleReturn.push({
             issue: article.issue,
             title: article.title,
             slug: article.slug,
             image: article.imageUrl || DEFAULT_ARTICLE_IMAGE,
             teaser: article.teaser || DEFAULT_ARTICLE_TEASER,
+            authors,
         });
     }
+
+    // TODO - test if we can drop this!
+    // combine authors and 
+    // // dedup articles by id
+    // const dedupedArticles: AuthorArticle[] = [];
+    // const uniqueIds: Set<number> = new Set();
+    // for (const article of staffArticles) {
+    //     // check if article id in set
+    //     if (uniqueIds.has(article.id)) {
+    //         continue;
+    //     }
+    //     // otherwise add to set
+    //     uniqueIds.add(article.id);
+    //     // and add to array
+    //     dedupedArticles.push({
+    //         issue: article.issue,
+    //         title: article.title,
+    //         slug: article.slug,
+    //         image: article.imageUrl || DEFAULT_ARTICLE_IMAGE,
+    //         teaser: article.teaser || DEFAULT_ARTICLE_TEASER,
+    //     });
+    // }
 
     return {
         name: staff[0].name,
@@ -83,7 +148,7 @@ export async function getStaff(slug: string): Promise<AuthorProfile> {
         title: staff[0].title || DEFAULT_STAFF_TITLE,
         image: staff[0].image || DEFAULT_STAFF_IMAGE,
         bio: staff[0].bio || DEFAULT_STAFF_BIO,
-        articles: dedupedArticles,
+        articles: articleReturn,
     } as const;
 };
 

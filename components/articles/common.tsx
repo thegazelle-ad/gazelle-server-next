@@ -42,6 +42,7 @@ export type AuthorArticle = {
     slug: string;
     image: string;
     teaser: string;
+    authors: Author[];
 }
 
 // Used on main page
@@ -74,7 +75,7 @@ export type IssueArticles = {
     editorsPicks: ArticlePreview[];
 }
 
-export function getAuthorsText(article: ArticlePreview | ArticlePage, style="text-sm text-gray-600 font-normal -my-1 leading-4") {
+export function getAuthorsText(article: ArticlePreview | ArticlePage | AuthorArticle, style="text-sm text-gray-600 font-normal -my-1 leading-4") {
   return (
     <div>
       <ul className={style}>

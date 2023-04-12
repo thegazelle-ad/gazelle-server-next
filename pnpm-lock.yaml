@@ -11,7 +11,7 @@ specifiers:
   autoprefixer: ^10.4.14
   date-fns: ^2.29.3
   drizzle-kit: ^0.17.1
-  drizzle-orm: ^0.23.4
+  drizzle-orm: ^0.23.11
   eslint: 8.36.0
   eslint-config-next: 13.3.0
   mysql2: ^3.2.0
@@ -27,7 +27,7 @@ specifiers:
 dependencies:
   '@planetscale/database': 1.6.0
   date-fns: 2.29.3
-  drizzle-orm: 0.23.5_7wrgmb4pybenke4ozfnne7qf3u
+  drizzle-orm: 0.23.11_7wrgmb4pybenke4ozfnne7qf3u
   next: 13.3.0_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -890,8 +890,8 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm/0.23.5_7wrgmb4pybenke4ozfnne7qf3u:
-    resolution: {integrity: sha512-in1BiPpiAInwalan+paPEKDzldkMLbJWFR7jiCunLtqO8Truw0yPxweu3vifaEBkAMIsEHgS/BuSEb8EMA379g==}
+  /drizzle-orm/0.23.11_7wrgmb4pybenke4ozfnne7qf3u:
+    resolution: {integrity: sha512-uqebUff9QeDo0ZI+s5XurmHjFNDuQMbnNObWIClzotU+iI0RfA1RSEXbK3lSp1FNp/HeUy23yIv8lkYzU9278A==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=3'
