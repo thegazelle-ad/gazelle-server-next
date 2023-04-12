@@ -9,9 +9,6 @@ export const DEFAULT_STAFF_IMAGE = 'https://cdn.thegazelle.org/gazelle/2022/Fall
 export const DEFAULT_STAFF_BIO = '';
 export const DEFAULT_STAFF_ORDER = 0;
 
-export const DEFAULT_ARTICLE_IMAGE = 'https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/githmi-rabel.jpg';
-export const DEFAULT_ARTICLE_TEASER = '';
-
 export const DATABASE_HOST = process.env.DATABASE_HOST!;
 export const DATABASE_USERNAME = process.env.DATABASE_USERNAME!;
 export const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD!;
@@ -28,5 +25,4 @@ export const ARTICLE_DEFAULT_PUBLISHED_AT = '1970-01-01 00:00:00';
 export const ARTICLE_DATE_FORMAT = 'MMM d, yyyy';
 
 export const DEFAULT_BROKEN_LINK = 'https://thegazelle.org/404';
-
-export const DEFAULT_SITE_TITLE = 'The Gazelle | NYU Abu Dhabi News'
+export const DEFAULT_SITE_TITLE = 'The Gazelle | NYU Abu Dhabi News';

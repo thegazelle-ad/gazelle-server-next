@@ -16,8 +16,8 @@ import {
     db,
 } from '../common';
 import {
-    DEFAULT_ARTICLE_IMAGE,
-    DEFAULT_ARTICLE_TEASER,
+    ARTICLE_DEFAULT_IMAGE,
+    ARTICLE_DEFAULT_TEASER,
     DEFAULT_STAFF_BIO,
     DEFAULT_STAFF_IMAGE,
     DEFAULT_STAFF_ORDER,
@@ -114,8 +114,8 @@ export async function getStaffArticles(slug: string): Promise<AuthorProfile> {
             issue: article.issue,
             title: article.title,
             slug: article.slug,
-            image: article.imageUrl || DEFAULT_ARTICLE_IMAGE,
-            teaser: article.teaser || DEFAULT_ARTICLE_TEASER,
+            image: article.imageUrl || ARTICLE_DEFAULT_IMAGE,
+            teaser: article.teaser || ARTICLE_DEFAULT_TEASER,
             authors,
         });
     }
@@ -137,8 +137,8 @@ export async function getStaffArticles(slug: string): Promise<AuthorProfile> {
     //         issue: article.issue,
     //         title: article.title,
     //         slug: article.slug,
-    //         image: article.imageUrl || DEFAULT_ARTICLE_IMAGE,
-    //         teaser: article.teaser || DEFAULT_ARTICLE_TEASER,
+    //         image: article.imageUrl || ARTICLE_DEFAULT_IMAGE,
+    //         teaser: article.teaser || ARTICLE_DEFAULT_TEASER,
     //     });
     // }
 
