@@ -1,15 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { AuthorArticle, getAuthorsText, getArticleUrl } from "./common";
+import { ArticleList, getAuthorsText, getArticleUrl } from "./common";
 
 // single article
-const ProfileArticle = ( {article} : { article: AuthorArticle }) => {
+const ProfileArticle = ( {article, imageHeight } : { article: ArticleList, imageHeight?: string }) => {
+  imageHeight = imageHeight || "h-[250px]";
+
   return (
     <div className="flex justify-center items-center flex-grow max-w-[100%] min-w-[220px]
                     mb-[1.5rem] pb-[1.25rem] px-[0.75rem] flex-shrink border-b border-evenLighterGray border-1">
       {/* Image */}
-      <Link href={getArticleUrl(article)} className="relative h-[250px] w-full">
+      <Link href={getArticleUrl(article)} className={`relative ${imageHeight} w-full`}>
           <Image src={article.image} alt={article.title} fill className="object-cover pb-[0.5rem]" />
       </Link>
       {/* Title and teaser */}

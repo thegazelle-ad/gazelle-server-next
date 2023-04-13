@@ -9,4 +9,6 @@ export {
 export {
     getIssueArticles,
     getArticle,
+    getGlobalTrendingArticles,
+    getRelatedArticles,
 } from './queries/articles';

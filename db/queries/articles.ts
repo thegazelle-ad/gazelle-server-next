@@ -1,8 +1,10 @@
-import { eq } from 'drizzle-orm/expressions';
+import { eq, ne, desc, inArray } from 'drizzle-orm/expressions';
 import { 
     ArticlePreview,
     Category,
     IssueArticles,
+    ArticleStack,
+    ArticleList,
     ArticlePage,
     Author
 } from "../../components/articles";
@@ -21,6 +23,7 @@ import {
 import { 
     UnwrapPromise,
     Articles,
+    Issues,
     IssuesArticlesOrder,
     AuthorsArticles,
     Staff,
@@ -163,7 +166,8 @@ export async function getArticle(slug: string): Promise<ArticlePage> {
         markdown: Articles.markdown,
         imageUrl: Articles.imageUrl,
         views: Articles.views,
-        publishedAt: Articles.publishedAt
+        publishedAt: Articles.publishedAt,
+        categoryId: Articles.categoryId,
     })
         .from(Articles)
         .where(eq(Articles.slug, slug))
@@ -206,6 +210,113 @@ export async function getArticle(slug: string): Promise<ArticlePage> {
         markdown: article[0].markdown,
         publishedAt: article[0].publishedAt || ARTICLE_DEFAULT_PUBLISHED_AT,
         authors: authors as Author[],
-    }
+        categoryId: article[0].categoryId || UNCATEGORIZED_CATEGORY_ID,
+    } as const;
 
+}
+
+// TODO - to be replaced by a better algorithm with openai embeddings
+export async function getRelatedArticles(articleCategoryId: number, articleSlug: string, articlePublishedAt: string): Promise<ArticleList[]> {
+    const relatedArticles = await db.select({
+        id: Articles.id,
+        issue: Issues.issueNumber,
+        title: Articles.title,
+        slug: Articles.slug,
+        image: Articles.imageUrl,
+        teaser: Articles.teaser,      
+    })
+        // TODO - this algorithm could be a lot better
+        // experiment with other solutions
+        .from(Articles)
+        .where(eq(Articles.categoryId, articleCategoryId))
+        .where(ne(Articles.slug, articleSlug))
+        .where(ne(Articles.publishedAt, articlePublishedAt))
+        .innerJoin(IssuesArticlesOrder, eq(Articles.id, IssuesArticlesOrder.articleId))
+        .innerJoin(Issues, eq(IssuesArticlesOrder.issueId, Issues.id))
+        .orderBy(desc(Articles.publishedAt))
+        .limit(2);
+
+    // fetch the authors
+    const authors = await db.select({
+        articleId: AuthorsArticles.articleId,
+        name: Staff.name,
+        slug: Staff.slug,
+    })
+        .from(AuthorsArticles)
+        .innerJoin(Staff, eq(AuthorsArticles.authorId, Staff.id))
+        .where(inArray(AuthorsArticles.articleId, relatedArticles.map((a) => a.id)));
+    
+    // combine articles and authors
+    // we can probably do this better in the future
+    const articlesWithAuthors = new Map<number, ArticleList>();
+    relatedArticles.forEach((article) => {
+        articlesWithAuthors.set(article.id, {
+            issue: article.issue,
+            title: article.title,
+            slug: article.slug,
+            image: article.image || ARTICLE_DEFAULT_IMAGE,
+            teaser: article.teaser || ARTICLE_DEFAULT_TEASER,
+            authors: [],
+        });
+    });
+    authors.forEach((author) => {
+        const article = articlesWithAuthors.get(author.articleId);
+        if (!article)
+            return;
+
+        article.authors.push({
+            name: author.name,
+            slug: author.slug,
+        } as Author);
+    });
+
+    return Array.from(articlesWithAuthors.values()) as ArticleList[];
+}
+
+export async function getGlobalTrendingArticles() {
+    const trendingArticles = await db.select({
+        id: Articles.id,
+        issue: Issues.issueNumber,
+        title: Articles.title,
+        slug: Articles.slug,
+    })
+        .from(Articles)
+        .innerJoin(IssuesArticlesOrder, eq(Articles.id, IssuesArticlesOrder.articleId))
+        .innerJoin(Issues, eq(IssuesArticlesOrder.issueId, Issues.id))
+        .orderBy(desc(Articles.views))
+        .limit(6);
+
+    // fetch the authors
+    const authors = await db.select({
+        articleId: AuthorsArticles.articleId,
+        name: Staff.name,
+        slug: Staff.slug,
+    })
+        .from(AuthorsArticles)
+        .innerJoin(Staff, eq(AuthorsArticles.authorId, Staff.id))
+        .where(inArray(AuthorsArticles.articleId, trendingArticles.map((a) => a.id)));
+    
+    // combine articles and authors
+    // we can probably do this better in the future
+    const articlesWithAuthors = new Map<number, ArticleStack>();
+    trendingArticles.forEach((article) => {
+        articlesWithAuthors.set(article.id, {
+            issue: article.issue,
+            title: article.title,
+            slug: article.slug,
+            authors: [],
+        });
+    });
+    authors.forEach((author) => {
+        const article = articlesWithAuthors.get(author.articleId);
+        if (!article)
+            return;
+
+        article.authors.push({
+            name: author.name,
+            slug: author.slug,
+        } as Author);
+    });
+
+    return Array.from(articlesWithAuthors.values()) as ArticleList[];
 }
