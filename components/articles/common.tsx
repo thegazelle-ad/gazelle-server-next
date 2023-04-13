@@ -32,11 +32,11 @@ export type AuthorProfile = {
     title: string;
     image: string;
     bio: string;
-    articles: AuthorArticle[];
+    articles: ArticleList[];
 }
 
 // Used on a profile page
-export type AuthorArticle = {
+export type ArticleList = {
     issue: number;
     title: string;
     slug: string;
@@ -66,6 +66,14 @@ export type ArticlePage = {
     authors: Author[];
     markdown: string;
     publishedAt: string;
+    categoryId: number;
+}
+
+export type ArticleStack = {
+    issue: number;
+    title: string;
+    slug: string;
+    authors: Author[];
 }
 
 export type IssueArticles = {
@@ -75,7 +83,7 @@ export type IssueArticles = {
     editorsPicks: ArticlePreview[];
 }
 
-export function getAuthorsText(article: ArticlePreview | ArticlePage | AuthorArticle, style="text-sm text-gray-600 font-normal -my-1 leading-4") {
+export function getAuthorsText(article: ArticlePreview | ArticlePage | ArticleList, style="text-sm text-gray-600 font-normal -my-1 leading-4") {
   return (
     <div>
       <ul className={style}>
@@ -101,6 +109,6 @@ export function getAuthorsText(article: ArticlePreview | ArticlePage | AuthorArt
   );
 }
 
-export function getArticleUrl(article: ArticlePreview | AuthorArticle) {
+export function getArticleUrl(article: ArticlePreview | ArticleList) {
     return `/issue/${article.issue}/${article.slug}`
 }

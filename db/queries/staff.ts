@@ -2,7 +2,7 @@ import { eq, ne, desc, inArray, and } from 'drizzle-orm/expressions';
 import { 
     AuthorProfile,
     AuthorPreview,
-    AuthorArticle,
+    ArticleList,
 } from '../../components/articles';
 import { 
     Issues,
@@ -88,7 +88,7 @@ export async function getStaffArticles(slug: string): Promise<AuthorProfile> {
     }
 
     // combine both author arrays
-    const articleReturn: AuthorArticle[] = [];
+    const articleReturn: ArticleList[] = [];
     // index of the other author we are currently on - allows O(n) instead of O(n^2)
     let otherAuthorIndex = 0; 
     // loop through all the staff articles
@@ -123,7 +123,7 @@ export async function getStaffArticles(slug: string): Promise<AuthorProfile> {
     // TODO - test if we can drop this!
     // combine authors and 
     // // dedup articles by id
-    // const dedupedArticles: AuthorArticle[] = [];
+    // const dedupedArticles: ArticleList[] = [];
     // const uniqueIds: Set<number> = new Set();
     // for (const article of staffArticles) {
     //     // check if article id in set

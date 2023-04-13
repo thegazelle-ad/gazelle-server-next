@@ -1,6 +1,6 @@
 import { cache } from 'react';
 import Image from "next/image";
-import ProfileArticle from '../../../components/articles/Profile'
+import ProfileArticle from '../../../components/articles/List'
 import { getStaff } from "../../../db";
 import { AuthorProfile } from "../../../components/articles";
 
