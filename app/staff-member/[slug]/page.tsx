@@ -1,3 +1,8 @@
+export const config = {
+    runtime: 'experimental-edge',   // this is a pre-requisite   
+    regions :  [ 'fra1' ] ,   // only execute this function on iad1
+};
+
 import { cache } from 'react';
 import Image from "next/image";
 import ProfileArticle from '../../../components/articles/List'

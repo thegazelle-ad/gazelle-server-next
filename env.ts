@@ -26,3 +26,5 @@ export const ARTICLE_DATE_FORMAT = 'MMM d, yyyy';
 
 export const DEFAULT_BROKEN_LINK = 'https://thegazelle.org/404';
 export const DEFAULT_SITE_TITLE = 'The Gazelle | NYU Abu Dhabi News';
+
+export const DATE_TIME_FORMAT = 'yyyy-MM-dd HH:mm:ss';

@@ -1,3 +1,8 @@
+export const config = {
+    runtime: 'experimental-edge',   // this is a pre-requisite   
+    regions :  [ 'fra1' ] ,   // only execute this function on iad1
+};
+
 import Image from "next/image";
 
 async function getData() {
