@@ -1,5 +1,6 @@
 "use client"
 
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import Image from 'next/image';
@@ -30,6 +31,7 @@ const categories = [
 
 const Navigation = ({ navigationData }: { navigationData: NavigationData }) => {
   const { published_at, issueNumber } = navigationData;
+  const router = useRouter();
 
   // Whether to show the search bar 
   const [showSearch, setShowSearch] = useState<boolean>(false);
@@ -60,7 +62,8 @@ const Navigation = ({ navigationData }: { navigationData: NavigationData }) => {
   const callSearch = () => {
     if (searchText === '')
       return;
-    console.log('Search triggered:', searchText);
+    console.log('searching for: ' + searchText);
+    router.push(`/search?q=${searchText}`);
   }
 
   return (
