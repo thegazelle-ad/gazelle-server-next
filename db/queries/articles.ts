@@ -1,4 +1,5 @@
-import { eq, ne, desc, inArray } from 'drizzle-orm/expressions';
+import { eq, ne, desc, inArray, gte, like } from 'drizzle-orm/expressions';
+import { sql } from 'drizzle-orm';
 import { 
     ArticlePreview,
     Category,
@@ -19,6 +20,7 @@ import {
     ARTICLE_DEFAULT_IMAGE,
     ARTICLE_DEFAULT_PUBLISHED_AT,
     ARTICLE_DEFAULT_TEASER,
+    DATE_TIME_FORMAT,
 } from "../../env";
 import { 
     UnwrapPromise,
@@ -29,6 +31,7 @@ import {
     Staff,
     db,
 } from "../common";
+import { format } from 'date-fns';
 
 export const UNCATEGORIZED_CATEGORY: Category = { id: UNCATEGORIZED_CATEGORY_ID, name: UNCATEGORIZED_CATEGORY_NAME, slug: UNCATEGORIZED_CATEGORY_SLUG };
 
@@ -281,10 +284,14 @@ export async function getGlobalTrendingArticles() {
         slug: Articles.slug,
     })
         .from(Articles)
+        .where(gte(Articles.publishedAt, format(new Date(Date.now() - (1000 * 60 * 60 * 24 * 180)), DATE_TIME_FORMAT)))
         .innerJoin(IssuesArticlesOrder, eq(Articles.id, IssuesArticlesOrder.articleId))
         .innerJoin(Issues, eq(IssuesArticlesOrder.issueId, Issues.id))
         .orderBy(desc(Articles.views))
         .limit(6);
+
+    if (!trendingArticles || trendingArticles.length === 0)
+        throw new Error('No trending articles found!');
 
     // fetch the authors
     const authors = await db.select({
@@ -304,6 +311,101 @@ export async function getGlobalTrendingArticles() {
             issue: article.issue,
             title: article.title,
             slug: article.slug,
+            authors: [],
+        });
+    });
+    authors.forEach((author) => {
+        const article = articlesWithAuthors.get(author.articleId);
+        if (!article)
+            return;
+
+        article.authors.push({
+            name: author.name,
+            slug: author.slug,
+        } as Author);
+    });
+
+    return Array.from(articlesWithAuthors.values()) as ArticleList[];
+}
+
+export async function searchArticles(query: string): Promise<ArticleList[]> {
+    // Task 1 - Search for authors
+    const relatedAuthors = await db.select({
+        id: Articles.id,
+        relevancy: sql<number>`MATCH (name) AGAINST (${query} IN NATURAL LANGUAGE MODE) AS relevance`,
+    })
+        .from(Staff)
+        .where(sql`MATCH (name) AGAINST (${query} IN NATURAL LANGUAGE MODE)`)
+        .innerJoin(AuthorsArticles, eq(AuthorsArticles.authorId, Staff.id))
+        .innerJoin(Articles, eq(AuthorsArticles.articleId, Articles.id))
+        .orderBy(sql`relevance DESC`)
+        .limit(20);
+
+    // Task 2 - Search for content
+    const relatedContent = await db.select({
+        id: Articles.id,
+        relevancy: sql<number>`MATCH (markdown) AGAINST (${query} IN NATURAL LANGUAGE MODE) AS relevance`,
+    })
+        .from(Articles)
+        .where(sql`MATCH (markdown) AGAINST (${query} IN NATURAL LANGUAGE MODE)`)
+        .orderBy(sql`relevance DESC`)
+        .limit(20);
+    
+    // Task 3 - Search for article titles
+    const relatedTitles = await db.select({
+        id: Articles.id,
+        relevancy: sql<number>`MATCH (title) AGAINST (${query} IN NATURAL LANGUAGE MODE) AS relevance`,
+    })
+        .from(Articles)
+        .where(sql`MATCH (title) AGAINST (${query} IN NATURAL LANGUAGE MODE)`)
+        .orderBy(sql`relevance DESC`)
+        .limit(20);
+    
+    // Sort all results by relevancy
+    const allResults = [...relatedAuthors, ...relatedContent, ...relatedTitles];
+    allResults.sort((a, b) => b.relevancy - a.relevancy);
+    // print results
+    const resultIds = allResults.slice(0, 30).map((a) => a.id);
+
+    // If there are no results, return an empty array
+    if (resultIds.length === 0)
+        return [];
+
+    // Return the most relevant 20 results        
+    const results = await db.select({
+        id: Articles.id,
+        issue: Issues.issueNumber,
+        title: Articles.title,
+        slug: Articles.slug,
+        image: Articles.imageUrl,
+        teaser: Articles.teaser,
+    })
+        .from(Articles)
+        .innerJoin(IssuesArticlesOrder, eq(Articles.id, IssuesArticlesOrder.articleId))
+        .innerJoin(Issues, eq(IssuesArticlesOrder.issueId, Issues.id))
+        .where(inArray(Articles.id, resultIds))
+        .orderBy(desc(Articles.publishedAt));
+
+    // Fetch the authors
+    const authors = await db.select({
+        articleId: AuthorsArticles.articleId,
+        name: Staff.name,
+        slug: Staff.slug,
+    })
+        .from(AuthorsArticles)
+        .innerJoin(Staff, eq(AuthorsArticles.authorId, Staff.id))
+        .where(inArray(AuthorsArticles.articleId, resultIds));
+
+    // Combine articles and authors
+    // we can probably do this better in the future
+    const articlesWithAuthors = new Map<number, ArticleList>();
+    results.forEach((article) => {
+        articlesWithAuthors.set(article.id, {
+            issue: article.issue,
+            title: article.title,
+            slug: article.slug,
+            image: article.image || ARTICLE_DEFAULT_IMAGE,
+            teaser: article.teaser || ARTICLE_DEFAULT_TEASER,
             authors: [],
         });
     });

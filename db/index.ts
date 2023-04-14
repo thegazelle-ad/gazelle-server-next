@@ -11,4 +11,5 @@ export {
     getArticle,
     getGlobalTrendingArticles,
     getRelatedArticles,
+    searchArticles,
 } from './queries/articles';

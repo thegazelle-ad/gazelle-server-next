@@ -19,10 +19,17 @@ const nextConfig = {
         port: '',
         pathname: '/avatar/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'i6.cims.nyu.edu',
+        port: '',
+        pathname: '/',
+      }
     ],
     domains: [
       'cdn.thegazelle.org',
       'gravatar.com',
+      'i6.cims.nyu.edu',
     ],
   },
 }
