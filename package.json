@@ -11,8 +11,8 @@
   "dependencies": {
     "@planetscale/database": "^1.6.0",
     "date-fns": "^2.29.3",
-    "drizzle-orm": "^0.23.11",
-    "next": "13.3.0",
+    "drizzle-orm": "^0.23.12",
+    "next": "13.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-markdown": "^8.0.6",
@@ -36,6 +36,6 @@
     "typescript": "5.0.2"
   },
   "engines": {
-    "node": "16.x"
+    "node": "18.x"
   }
 }

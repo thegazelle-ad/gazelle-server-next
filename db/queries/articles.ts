@@ -176,7 +176,7 @@ export async function getArticle(slug: string): Promise<ArticlePage> {
         .where(eq(Articles.slug, slug))
         .limit(1);
 
-    if (!article)
+    if (!Array.isArray(article) || article.length === 0)
         throw new Error('Article not found!');
 
     if (!article[0].markdown)

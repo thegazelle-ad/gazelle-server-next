@@ -94,14 +94,12 @@ export async function getStaffArticles(slug: string): Promise<AuthorProfile> {
     // loop through all the staff articles
     for (const article of staffArticles) {
         // print article id 
-        console.log('article id', article.id);
         const authors = [{
             name: staff[0].name,
             slug: staff[0].slug,
         }];
         // check if the other author is also for this article
         // print whether or not the other author is for this 
-        console.log('other author is for this', otherAuthors[otherAuthorIndex]?.articleId);
         while (otherAuthors[otherAuthorIndex]?.articleId === article.id) {
             authors.push({
                 name: otherAuthors[otherAuthorIndex].name,

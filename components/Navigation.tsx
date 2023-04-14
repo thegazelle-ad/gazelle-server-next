@@ -62,7 +62,6 @@ const Navigation = ({ navigationData }: { navigationData: NavigationData }) => {
   const callSearch = () => {
     if (searchText === '')
       return;
-    console.log('searching for: ' + searchText);
     router.push(`/search?q=${searchText}`);
   }
 

@@ -1,8 +1,3 @@
-export const config = {
-    runtime: 'experimental-edge',   // this is a pre-requisite   
-    regions :  [ 'fra1' ] ,   // only execute this function on iad1
-};
-
 import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,17 +5,17 @@ import { format, parseISO } from 'date-fns';
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from "rehype-raw";
 
-import { getArticle, getRelatedArticles, getGlobalTrendingArticles } from '../../../../db';
+import { getArticle, getRelatedArticles, getGlobalTrendingArticles } from '../db';
 import { 
     ARTICLE_DEFAULT_IMAGE,
     ARTICLE_DEFAULT_IMAGE_ALT,
     DEFAULT_BROKEN_LINK,
     ARTICLE_DATE_FORMAT,
-} from '../../../../env';
-import { getAuthorsText } from "../../../../components/articles";
-import { Divider } from "../../../../components/layout";
-import StackedArticle from "../../../../components/articles/Stacked";
-import ListArticle from "../../../../components/articles/List";
+} from '../env';
+import { getAuthorsText } from "./articles";
+import { Divider } from "./layout";
+import StackedArticle from "./articles/Stacked";
+import ListArticle from "./articles/List";
 
 type MarkdownImage = {
     src?: string;
@@ -88,12 +83,8 @@ const TrendingArticles = (async () => {
 });
 
 
-export default async function Article({ params: { articleSlug }}: { params: { articleSlug: string[] } }) {
-    // Because of how this route used to work, articles can be at either
-    // issue/[issueNumber]/[category]/[articleSlug] or 
-    // issue/[issueNumber]/[articleSlug]/
-    const slug = articleSlug[articleSlug.length - 1];
-    const article = await getArticle(slug);
+export default async function Article({ articleSlug }: { articleSlug: string }) {
+    const article = await getArticle(articleSlug);
 
     return (
         <>
@@ -149,7 +140,7 @@ export default async function Article({ params: { articleSlug }}: { params: { ar
                         <Divider text="related" />
                         <Suspense fallback={<p>Loading related articles...</p>}>
                             {/* @ts-expect-error Server Component - https://github.com/vercel/next.js/issues/42292 */}
-                            <RelatedArticles articleCategoryId={article.categoryId} articleSlug={slug} articlePublishedAt={article.publishedAt} />
+                            <RelatedArticles articleCategoryId={article.categoryId} articleSlug={articleSlug} articlePublishedAt={article.publishedAt} />
                         </Suspense>
                     </div>
                     {/* Trending */}
