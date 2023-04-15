@@ -6,6 +6,8 @@ const nextConfig = {
     appDir: true,
  },
   images: {
+    loader: 'custom',
+    loaderFile: './image-loader.tsx',
     remotePatterns: [
       {
         protocol: 'https',
