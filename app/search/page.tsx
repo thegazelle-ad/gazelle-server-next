@@ -13,7 +13,7 @@ const SearchResults = (async({ query }: { query: string }) => {
     let articles: ArticleList[] = [];
     if (query)
         articles = await searchArticles(query);
-    
+
     return (
         <div className="flex flex-col">
             {
