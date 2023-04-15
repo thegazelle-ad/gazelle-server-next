@@ -14,6 +14,11 @@ type Issue = {
     publishedAt: string | null;
 }
 
+export type IssueArchive = {
+    issueNumber: number;
+    issueName: string;
+    publishedAt: string | null; 
+}
 // NOTE - Caching is per request
 export async function getLatestPublishedIssue() {
     // get the latest issue id
@@ -76,4 +81,17 @@ export async function fetchCategories(issue: Issue) {
         publishedAt: issue.publishedAt,
         categories: issueCategories
     }
+}
+
+export async function getIssueArchive() {
+    const issues = await db.select({
+        issueNumber: Issues.issueNumber,
+        issueName: Issues.name,
+        publishedAt: Issues.published_at,
+    })
+        .from(Issues)
+        .where(isNotNull(Issues.published_at))
+        .orderBy(desc(Issues.id));
+
+    return issues;
 }
