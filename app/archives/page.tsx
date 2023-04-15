@@ -5,41 +5,30 @@ export const config = {
 
 import Image from "next/image";
 
-async function getData() {
-    const text = Array.from({ length: 10 }).map((_, i) => (
-        <p key={i}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Nullam euismod, nisl nec tincidunt lacinia, nunc est
-        tincidunt nunc, eget aliquam massa nisl eget dolor.
-        Nullam euismod, nisl nec tincidunt lacinia, nunc est
-        </p>
-    ));
-
-    return { title: 'Archives', body: text };
+const IssueCard = ({ issue }: { issue: IssueArchive }) => {
+  return (
+    <div className="flex flex-col justify-center
+                    w-[300px] m-[1rem]
+                    text-center">
+      <Link href={`/issue/${issue.issueNumber}`}>
+        <h1 className="font-normal text-[2rem] mt-[0.2rem]">
+          {issue.issueName}
+        </h1>
+        <p className="text-lightestGray text-[1rem] mb-[0.5rem]">{issue.publishedAt}</p>
+      </Link>
+    </div>
+  );
 }
 
 export default async function Page() {    
-    const { body, title } = await getData();
+  const issues = await getIssueArchive();
 
-    return (
-        <div>
-         <header className='flex flex-col m-w-4xl mx-auto'>
-          <h1 className='text-center font-medium uppercase text-2xl'>
-            {title}
-          </h1>
-            <Image
-              priority
-              src="/images/placeholder-img.jpg"
-              height={1000}
-              width={1000}
-              // className={"rounded-xl w-64 h-64"}
-              alt="placeholder"
-            />
-        </header>
-        <main>
-          {/* create ten paragraph elements of lorem ipsum */}
-            {body}
-        </main>
-        </div>
-    );
+  return (
+    <div id = "archives-container" className='flex max-w-[1000px] flex-wrap flex-row justify-center
+              my-0 mx-auto'>
+      {issues.map((issue) => (
+        <IssueCard issue={issue}/>
+      ))}
+    </div>
+  );
 }
