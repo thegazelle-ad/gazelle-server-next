@@ -23,6 +23,7 @@ const TeamMember = ({ staff }: { staff: AuthorPreview }) => {
                 width={300}
                 className={"aspect-square max-h-[200px] max-w-[200px] object-cover"}
                 alt="team-member-image"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
               <h2 className="text-[1.3rem] font-normal mr-[0.75rem] mt-[0.2rem] block leading-tight">{staff.staffName}</h2>
               <h3 className="text-[1rem] font-[300] text-lightestGray mr-[0.5rem] block">{staff.staffTitle}</h3>

@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { format, parseISO } from 'date-fns';
@@ -28,22 +28,36 @@ type Link = {
     children: any;
 }
 
+let renderedFeaturedArticle = false;
+let renderedFirstLetter = true; // set to false to enable first letter styling
+
 // TODO - refactor out to a common file
 // render markdown images with the next/image component
-const imageRender = (props: MarkdownImage) => (
-    <>
-        <div className="flex justify-center items-center my-4">
-            <div className="relative xl:h-[800px] lg:h-[600px] md:h-[400px] sm:h-[350px] h-[350px] min-w-[100vw] w-full">
-                <Image
-                    fill
-                    src={props.src || ARTICLE_DEFAULT_IMAGE}
-                    alt={props.alt || ARTICLE_DEFAULT_IMAGE_ALT}
-                    className="object-contain"
-                />
+const imageRender = ((props: MarkdownImage) => {
+    // Only mark first image as priority
+    let priority = false;
+    if (!renderedFeaturedArticle) {
+        priority = true;
+        renderedFeaturedArticle = true;
+    }
+
+    return (
+        <>
+            <div className="flex justify-center items-center my-4">
+                <div className="relative xl:h-[800px] lg:h-[600px] md:h-[400px] sm:h-[350px] h-[350px] min-w-[100vw] w-full">
+                    <Image
+                        fill
+                        priority={priority}
+                        src={props.src || ARTICLE_DEFAULT_IMAGE}
+                        alt={props.alt || ARTICLE_DEFAULT_IMAGE_ALT}
+                        className="object-contain"
+                        sizes="80vw"
+                    />
+                </div>
             </div>
-        </div>
-    </>
-);
+        </>
+    )
+    });
 
 // render links
 const linkRender = (props: Link) => (
@@ -51,6 +65,20 @@ const linkRender = (props: Link) => (
         <Link href={props.href || DEFAULT_BROKEN_LINK} className="text-blue-500 underline visited:text-purple-600" >{props.children}</Link>
     </>
 );
+
+// text renderer
+const textRender = (({ children }: { children: ReactNode | ReactNode[] }) => {
+    // Only mark first letter as priority
+    let firstLetter = false;
+    if (!renderedFirstLetter && Array.isArray(children) && children.length > 0 && typeof children[0] === 'string') {
+        firstLetter = true;
+        renderedFirstLetter = true;
+    }
+
+    return (
+        <div className={`mb-6${firstLetter ? " first-letter:text-5xl first-letter:font-medium" : ""}`}>{children}</div>
+    );
+});
 
 const RelatedArticles = (async ({ articleCategoryId, articleSlug, articlePublishedAt }: { articleCategoryId: number, articleSlug: string, articlePublishedAt: string}) => {
     const relatedArticles = await getRelatedArticles(articleCategoryId, articleSlug, articlePublishedAt);
@@ -116,7 +144,7 @@ export default async function Article({ articleSlug }: { articleSlug: string }) 
                     img: imageRender,
                     a: linkRender,
                     // remove the wrapping <p> tag - https://github.com/remarkjs/react-markdown/issues/731
-                    p: ({ children }) => <div className="mb-6">{children}</div>,
+                    p: textRender,
                 }}>
                     {article.markdown}
                 </ReactMarkdown>

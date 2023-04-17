@@ -12,7 +12,13 @@ const ProfileArticle = ( {article, imageHeight } : { article: ArticleList, image
                     mb-[1.5rem] pb-[1.25rem] px-[0.75rem] flex-shrink border-b border-evenLighterGray border-1">
       {/* Image */}
       <Link href={getArticleUrl(article)} className={`relative ${imageHeight} w-full`}>
-          <Image src={article.image} alt={article.title} fill className="object-cover pb-[0.5rem]" />
+          <Image 
+            src={article.image} 
+            alt={article.title} 
+            fill 
+            className="object-cover pb-[0.5rem]" 
+            sizes="430px"
+          />
       </Link>
       {/* Title and teaser */}
       <div className="flex flex-col max-w-[20%] min-w-[250px] pl-[1.3rem] gap-2">

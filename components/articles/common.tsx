@@ -96,7 +96,7 @@ export function getAuthorsText(article: ArticlePreview | ArticlePage | ArticleLi
             <li key={index} className="inline-flex">
               {/* And before last author */}
               {showAnd && <span className='mr-1'> and </span>}
-              <Link href={`/staff/${author.slug}`}>
+              <Link href={`/staff-member/${author.slug}`}>
                   <p>{author.name}</p>
               </Link>
               {/* Comma after authors */}

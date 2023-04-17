@@ -10,7 +10,7 @@ export default function Issue({ issue }: { issue: IssueArticles}) {
   const { allCategories, featured, trending, editorsPicks } = issue;
 
   return (
-    <div className="flex flex-col justify-center">
+    <div className="flex flex-col justify-center gap-2 md:gap-0">
       {/* Featured Article */}
       <div>
         <FeaturedArticle article={featured} />
@@ -22,21 +22,23 @@ export default function Issue({ issue }: { issue: IssueArticles}) {
         <div className="">
           <Divider text="editor's picks"/>
           {/* Editors Picks div */}
-          <div className="shrink flex flex-row flex-wrap gap-3 justify-center mr-4 pl-6">
+          <div className="shrink flex flex-row flex-wrap gap-1 justify-between mr-4 pl-6">
             {editorsPicks.map((article) => {
               return (
-                <StandardArticle key={article.slug} article={article} minWidth='min-w-[20%]' maxWidth='max-w-[48%]'/>
+                <StandardArticle key={article.slug} article={article} minWidth='md:min-w-[20%]' maxWidth='md:max-w-[49%]'/>
               );
             })}
           </div>
         </div>
         {/* Trending */}
-        <div>
+        <div className="hidden md:block">
           <Divider text="trending" />
           <div className="flex flex-col justify-start gap-2 w-1/3 border-l-[1.5px] border-bgGray pl-4">
             {trending.map((article) => {
               return (
-                <StackedArticle key={article.slug} article={article} />
+                <div key={article.slug} className="my-2 md:my-0">
+                  <StackedArticle article={article} />
+                </div>
               );
             })}
           </div>
@@ -53,7 +55,9 @@ export default function Issue({ issue }: { issue: IssueArticles}) {
                   {
                     section.map((article) => {
                       return (
-                        <StandardArticle key={article.slug} article={article} />
+                        <div key={article.slug} className="my-2 md:my-0 w-full md:min-w-[44%] md:max-w-[48%] lg:min-w-[27%] lg:max-w-[32.5%]">
+                          <StandardArticle article={article} minWidth="w-full" maxWidth="max-w-full"/>
+                        </div>
                       )
                     })
                   }
