@@ -28,8 +28,15 @@ const ProfileCard = ({ person }: { person: AuthorProfile }) => {
   return (
     <div className="flex justify-center pb-[1.5rem] mb-[1.5rem] 
                     border-b border-lightestGray border-1 gap-8">
-      <div className="aspect-square h-[300px] w-[300px] object-cover pr-[1.5rem] relative">
-        <Image src={person.image} alt={person.name} fill/>
+      <div className="aspect-square h-[300px] w-[300px] pr-[1.5rem] relative">
+        <Image 
+          priority={true} 
+          src={person.image} 
+          alt={person.name} 
+          fill
+          sizes="300px"
+          className="object-contain"
+        />
       </div>
       <div className="flex justify-center flex-col max-w-[50%]">
         <h1 className="uppercase font-bold text-[2em] leading-[1.2em]

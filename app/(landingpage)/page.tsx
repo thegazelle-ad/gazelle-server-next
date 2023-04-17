@@ -3,8 +3,13 @@ export const config = {
     regions :  [ 'fra1' ] ,   // only execute this function on iad1
 };
 
+import { Metadata } from 'next';
 import { getLatestPublishedIssue, getIssueArticles } from '../../db';
 import Issue from '../../components/Issue';
+
+export const metadata: Metadata = {
+  description: 'The latest issue from The Gazelle team at NYU Abu Dhabi',
+};
 
 export default async function Page() {
   // Fetch latest article data

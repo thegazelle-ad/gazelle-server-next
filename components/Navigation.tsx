@@ -73,7 +73,7 @@ const Navigation = ({ navigationData }: { navigationData: NavigationData }) => {
           {/* Search */}
           <div className="flex flex-row gap-2 items-center">
             <button className="w-4 h-5 relative cursor-pointer" onClick={() => { setShowSearch(!showSearch); callSearch()}}>
-              <Image src={MagnifyingGlass} alt="search" fill className="object-contain"/>
+              <Image src={MagnifyingGlass} alt="search" fill unoptimized className="object-contain" sizes="16px"/>
             </button>
 
             {/* Search Bar */}
@@ -93,13 +93,13 @@ const Navigation = ({ navigationData }: { navigationData: NavigationData }) => {
           {/* Social Media Icons */}
           <div className="flex flex-row gap-2 m-2">
             <Link href="/" className="w-5 h-5 relative">
-              <Image src={Facebook} alt="fb" fill className="object-contain"/>
+              <Image src={Facebook} alt="fb" fill unoptimized className="object-contain" sizes="20px"/>
             </Link>
             <Link href="/" className="w-5 h-5 relative">
-              <Image src={Twitter} alt="twitter" fill className="object-contain"/>
+              <Image src={Twitter} alt="twitter" fill unoptimized className="object-contain" sizes="20px"/>
             </Link>
             <Link href="/" className="w-5 h-5 relative">
-              <Image src={Instagram} alt="insta" fill className="object-contain"/>
+              <Image src={Instagram} alt="insta" fill unoptimized className="object-contain" sizes="20px"/>
             </Link>
           </div>
         </div>
@@ -113,10 +113,12 @@ const Navigation = ({ navigationData }: { navigationData: NavigationData }) => {
             <div className="absolute inset-0 bg-white z-10 w-1/2 left-1/2 transform -translate-x-1/2"/>
             <Link href="/">
               <Image
-                src="/logo.png"
+                src="/gazelle.svg"
                 alt="logo"
                 fill
+                unoptimized
                 className="z-10 object-contain"
+                sizes="64px"
               />
             </Link>
           </div>
