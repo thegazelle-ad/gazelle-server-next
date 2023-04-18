@@ -5,9 +5,9 @@ import { ArticlePreview, getAuthorsText, getArticleUrl } from './common';
 const Standard = ({ article, maxWidth, minWidth }: { article: ArticlePreview, maxWidth: string, minWidth: string }) => {
 
   return (
-    <div className={`flex flex-col flex-wrap w-full gap-2 ${minWidth} ${maxWidth}`}>
+    <div className={`flex flex-col flex-wrap w-full gap-4 md:gap-2 ${minWidth} ${maxWidth}`}>
         {/* Image */}
-        <Link href={getArticleUrl(article)} className="relative h-[300px] md:h-[170px] mb-1">
+        <Link href={getArticleUrl(article)} className="relative w-full md:w-auto h-[300px] md:h-[170px] mb-1">
           <Image 
             src={article.image} 
             alt={article.title} 
@@ -26,10 +26,10 @@ const Standard = ({ article, maxWidth, minWidth }: { article: ArticlePreview, ma
           <h1 className="text-3xl md:text-lg font-semibold uppercase leading-snug">{article.title}</h1>
         </Link>
         {/* Authors */}
-        {getAuthorsText(article)}
+        {getAuthorsText(article, "text-lg md:text-sm text-gray-600 font-normal -my-1 leading-4")}
         {/* Teaser */}
         <Link href={getArticleUrl(article)}>
-        <p className="text-base md:text-sm font-light text-gray-600">{article.teaser}</p>
+        <p className="text-lg md:text-sm font-light text-gray-600">{article.teaser}</p>
         </Link>
     </div>
 );

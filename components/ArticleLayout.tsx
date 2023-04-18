@@ -44,7 +44,7 @@ const imageRender = ((props: MarkdownImage) => {
     return (
         <>
             <div className="flex justify-center items-center my-4">
-                <div className="relative xl:h-[800px] lg:h-[600px] md:h-[400px] sm:h-[350px] h-[350px] min-w-[100vw] w-full">
+                <div className="relative xl:h-[800px] lg:h-[600px] md:h-[400px] h-[350px] min-w-[100vw] w-[100vw]">
                     <Image
                         fill
                         priority={priority}
@@ -136,7 +136,7 @@ export default async function Article({ articleSlug }: { articleSlug: string }) 
                 <div className="border-b border-gray-300 w-full pt-2"/>
             </header>
             {/* Article */}
-            <div className='flex flex-col min-h-screen max-w-[600px] mx-auto'>
+            <div className='flex flex-col min-h-screen w-full md:max-w-[600px] mx-auto px-8 md:px-0'>
                 <ReactMarkdown 
                     className="font-lora text-lg leading-relaxed"
                     rehypePlugins={[rehypeRaw]}
@@ -153,7 +153,7 @@ export default async function Article({ articleSlug }: { articleSlug: string }) 
             <div className="flex flex-row items-center justify-center mb-4">
                 <div className="relative h-12 w-full">
                     <Image
-                        src="/logo.png"
+                        src="/gazelle.svg"
                         alt="gazelle logo"
                         fill
                         className="object-contain"
@@ -164,7 +164,7 @@ export default async function Article({ articleSlug }: { articleSlug: string }) 
             <div className="flex justify-center items-center">
                 <div className="flex flex-row w-4/5 gap-4">
                     {/* Related */}
-                    <div className="w-3/5">
+                    <div className="grow">
                         <Divider text="related" />
                         <Suspense fallback={<p>Loading related articles...</p>}>
                             {/* @ts-expect-error Server Component - https://github.com/vercel/next.js/issues/42292 */}
@@ -172,7 +172,7 @@ export default async function Article({ articleSlug }: { articleSlug: string }) 
                         </Suspense>
                     </div>
                     {/* Trending */}
-                    <div className="w-2/5">
+                    <div className="hidden md:block w-2/5">
                         <Divider text="trending" />
                         <Suspense fallback={<p>Loading trending articles...</p>}>
                             {/* @ts-expect-error Server Component - https://github.com/vercel/next.js/issues/42292 */}
