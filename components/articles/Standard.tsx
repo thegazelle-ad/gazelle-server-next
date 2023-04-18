@@ -26,7 +26,7 @@ const Standard = ({ article, maxWidth, minWidth }: { article: ArticlePreview, ma
           <h1 className="text-3xl md:text-lg font-semibold uppercase leading-snug">{article.title}</h1>
         </Link>
         {/* Authors */}
-        {getAuthorsText(article, "text-lg md:text-sm text-gray-600 font-normal -my-1 leading-4")}
+        {getAuthorsText(article, "text-lg md:text-sm text-gray-600 font-normal -my-1 leading-6")}
         {/* Teaser */}
         <Link href={getArticleUrl(article)}>
         <p className="text-lg md:text-sm font-light text-gray-600">{article.teaser}</p>

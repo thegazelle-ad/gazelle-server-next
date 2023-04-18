@@ -25,8 +25,8 @@ export default function Issue({ issue }: { issue: IssueArticles}) {
           <div className="shrink flex flex-row flex-wrap gap-1 justify-between px-3 md:mr-4 md:pl-6">
             {editorsPicks.map((article) => {
               return (
-                <div key={article.slug} className="my-4 md:my-0">
-                  <StandardArticle article={article} minWidth='md:min-w-[20%]' maxWidth='md:max-w-[49%]'/>
+                <div key={article.slug} className="my-4 md:my-0 md:max-w-[49%] md:min-w-[20%]">
+                  <StandardArticle article={article} minWidth="w-full" maxWidth="m-w-full"/>
                 </div>
               );
             })}

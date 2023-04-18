@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import Image from 'next/image';
-import { useState, FormEvent, ChangeEvent, MouseEventHandler } from 'react';
+import { useEffect, useRef, useState, FormEvent, ChangeEvent, MouseEventHandler } from 'react';
 
 // Icons
 import Twitter from '../public/icons/twitter.svg';
@@ -36,12 +36,15 @@ const mobileDropdown = [
 ]
 
 // Menu component
-const Menu = ({ show, closeMenu }: { show: boolean, closeMenu: MouseEventHandler }) => {
+const Menu = ({ show, closeMenu, showSearch }: { show: boolean, closeMenu: MouseEventHandler, showSearch: MouseEventHandler }) => {
   return (
     <div className={`${show ? 'block' : 'hidden'}`}>
       {/* Menu */}
       <div className="bg-white p-4 absolute top-full left-0 w-full" onClick={(e) => e.stopPropagation()}>
         <ul className="pl-4 space-y-6 text-2xl">
+          <div>
+            <li className="font-light capitalize" onClick={showSearch}>Search</li>
+          </div>
           {
             mobileDropdown.map(category => 
               <div key={category.slug}>
@@ -61,12 +64,73 @@ const Menu = ({ show, closeMenu }: { show: boolean, closeMenu: MouseEventHandler
         onClick={closeMenu}
       />
     </div>
-);
+  );
+}
+
+// Search component
+const Search = ({ show, closeSearch }: { show: boolean, closeSearch: MouseEventHandler }) => {
+  const [searchText, setSearchText] = useState<string>('');
+  const router = useRouter();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (show && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [show]);
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchText(event.target.value);
+  };
+
+  const handleSearch = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // Perform the search
+    callSearch();
+  };
+
+  const callSearch = () => {
+    if (searchText === '')
+      return;
+    
+    //@ts-ignore
+    closeSearch();
+
+    router.push(`/search?q=${searchText}`);
+  }
+
+  return (
+    <div className={`${show ? 'block' : 'hidden'}`}>
+      {/* Search box */}
+      <div className="absolute top-[20vh] left-1/2 transform -translate-x-1/2 -translate-y-1/3 z-[60] bg-white placeholder-gray-500 w-4/5 md:w-[700px]">
+        <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-row items-center justify-center w-full px-4">
+            <form onSubmit={handleSearch} className="w-full">
+            <input
+              ref={inputRef}
+              type="text"
+              value={searchText}
+              onChange={handleInputChange}
+              className="w-full text-2xl bg-white focus:outline-none border-gray-300 shadow-sm p-4"
+              placeholder="Search..."
+            />
+          </form>
+          <button onClick={() => callSearch()} type="submit" className="bg-blue-400 text-white text-lg font-semibold h-12 px-6 ml-4">Go</button>
+          </div> 
+          <div className="flex items-center border-b-2 border-gray-600 w-full"/>
+        </div>
+      </div>
+      {/* White Background */}
+      <div
+        className={`${show ? 'block' : 'hidden'} fixed inset-0 opacity-75 bg-white z-60`}
+        onClick={closeSearch}
+      />
+    </div>
+  );
 }
 
 const Navigation = ({ navigationData }: { navigationData: NavigationData }) => {
 const { published_at, issueNumber } = navigationData;
-const router = useRouter();
 
   // Whether to show the search bar 
   const [showSearch, setShowSearch] = useState<boolean>(false);
@@ -85,22 +149,6 @@ const router = useRouter();
     );
   });
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchText(event.target.value);
-  };
-
-  const handleSearch = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    // Perform the search
-    callSearch();
-  };
-
-  const callSearch = () => {
-    if (searchText === '')
-      return;
-    router.push(`/search?q=${searchText}`);
-  }
-
   return (
     <nav className="mt-2 pt-5 sticky top-0 z-50 bg-white flex justify-center">
       <div className="container max-w-screen-lg">
@@ -111,22 +159,9 @@ const router = useRouter();
           {/* Search */}
           <div className="hidden md:block">
             <div className="flex flex-row gap-2 items-center">
-              <button className="w-4 h-5 relative cursor-pointer" onClick={() => { setShowSearch(!showSearch); callSearch()}}>
-                <Image src={MagnifyingGlass} alt="search" fill unoptimized className="object-contain" sizes="16px"/>
+              <button className="cursor-pointer" onClick={() => setShowSearch(!showSearch)}>
+                <Image src={MagnifyingGlass} alt="search" unoptimized height={18} width={18} className="object-contain" sizes="16px"/>
               </button>
-
-              {/* Search Bar */}
-              {showSearch && (
-                <form onSubmit={handleSearch}>
-                  <input
-                    type="text"
-                    value={searchText}
-                    onChange={handleInputChange}
-                    className="min-w-[6rem] w-[20vw] max-w-[20rem] py-1 pl-5 pr-3 bg-transparent focus:outline-none focus:border-gray-700 placeholder-gray-500"
-                    placeholder="Search..."
-                  />
-                </form>
-              )}
             </div>
           </div>
 
@@ -148,12 +183,13 @@ const router = useRouter();
           {/* Mobile Title (to be switched for regular title soon) */}
           <div className="block md:hidden">
             <Link href="/">
-              <div className="flex flex-row gap-4 items-center mb-4">
+              <div className="relative flex flex-row gap-4 items-center mb-4">
                 <Image
                   src="/gazelle.svg"
                   alt="logo"
                   height="40"
                   width="40"
+                  unoptimized
                 />
                 <p className="text-3xl font-normal font-lora tracking-wide">The Gazelle</p>
               </div>
@@ -182,7 +218,6 @@ const router = useRouter();
                 fill
                 unoptimized
                 className="z-10 object-contain"
-                sizes="64px"
               />
             </Link>
           </div>
@@ -202,7 +237,9 @@ const router = useRouter();
         </div>
 
         {/* Mobile Menu */}
-        <Menu show={showMenu} closeMenu={() => setShowMenu(false)} />
+        <Menu show={showMenu} closeMenu={() => setShowMenu(false)} showSearch={() => setShowSearch(!showSearch)}/>
+        <Search show={showSearch} closeSearch={() => setShowSearch(false)}/>
+
 
       </div>
     </nav>
