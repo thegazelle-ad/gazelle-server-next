@@ -68,7 +68,7 @@ const Menu = ({ show, closeMenu, showSearch }: { show: boolean, closeMenu: Mouse
 }
 
 // Search component
-const Search = ({ show, closeSearch }: { show: boolean, closeSearch: MouseEventHandler }) => {
+const Search = ({ show, closeSearch, closeMenu }: { show: boolean, closeSearch: MouseEventHandler, closeMenu: Function }) => {
   const [searchText, setSearchText] = useState<string>('');
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -92,9 +92,13 @@ const Search = ({ show, closeSearch }: { show: boolean, closeSearch: MouseEventH
   const callSearch = () => {
     if (searchText === '')
       return;
-    
+
     //@ts-ignore
     closeSearch();
+    closeMenu();
+
+    // clear the search text
+    setSearchText('');
 
     router.push(`/search?q=${searchText}`);
   }
@@ -115,7 +119,7 @@ const Search = ({ show, closeSearch }: { show: boolean, closeSearch: MouseEventH
               placeholder="Search..."
             />
           </form>
-          <button onClick={() => callSearch()} type="submit" className="bg-blue-400 text-white text-lg font-semibold h-12 px-6 ml-4">Go</button>
+          <button onClick={() => { callSearch()}} type="submit" className="bg-blue-400 text-white text-lg font-semibold h-12 px-6 ml-4">Go</button>
           </div> 
           <div className="flex items-center border-b-2 border-gray-600 w-full"/>
         </div>
@@ -134,7 +138,6 @@ const { published_at, issueNumber } = navigationData;
 
   // Whether to show the search bar 
   const [showSearch, setShowSearch] = useState<boolean>(false);
-  const [searchText, setSearchText] = useState<string>('');
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
   // Render the categories
@@ -238,7 +241,7 @@ const { published_at, issueNumber } = navigationData;
 
         {/* Mobile Menu */}
         <Menu show={showMenu} closeMenu={() => setShowMenu(false)} showSearch={() => setShowSearch(!showSearch)}/>
-        <Search show={showSearch} closeSearch={() => setShowSearch(false)}/>
+        <Search show={showSearch} closeSearch={() => setShowSearch(false)} closeMenu={() => setShowMenu(false)}/>
 
 
       </div>

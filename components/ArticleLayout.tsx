@@ -155,6 +155,7 @@ export default async function Article({ articleSlug }: { articleSlug: string }) 
                     <Image
                         src="/gazelle.svg"
                         alt="gazelle logo"
+                        fill
                         unoptimized
                         className="object-contain"
                     />
