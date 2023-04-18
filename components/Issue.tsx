@@ -22,10 +22,12 @@ export default function Issue({ issue }: { issue: IssueArticles}) {
         <div className="">
           <Divider text="editor's picks"/>
           {/* Editors Picks div */}
-          <div className="shrink flex flex-row flex-wrap gap-1 justify-between mr-4 pl-6">
+          <div className="shrink flex flex-row flex-wrap gap-1 justify-between px-3 md:mr-4 md:pl-6">
             {editorsPicks.map((article) => {
               return (
-                <StandardArticle key={article.slug} article={article} minWidth='md:min-w-[20%]' maxWidth='md:max-w-[49%]'/>
+                <div key={article.slug} className="my-4 md:my-0">
+                  <StandardArticle article={article} minWidth='md:min-w-[20%]' maxWidth='md:max-w-[49%]'/>
+                </div>
               );
             })}
           </div>
@@ -50,12 +52,12 @@ export default function Issue({ issue }: { issue: IssueArticles}) {
           return (
             <div key={section[0].category.name}>
               <Divider text={section[0].category.name} />
-              <div className="flex justify-center w-full px-6">
+              <div className="flex justify-center w-full px-3 md:px-6">
                 <div className="flex flex-row flex-wrap gap-3 justify-start flex-grow align-center">
                   {
                     section.map((article) => {
                       return (
-                        <div key={article.slug} className="my-2 md:my-0 w-full md:min-w-[44%] md:max-w-[48%] lg:min-w-[27%] lg:max-w-[32.5%]">
+                        <div key={article.slug} className="my-4 md:my-0 w-full md:min-w-[44%] md:max-w-[48%] lg:min-w-[27%] lg:max-w-[32.5%]">
                           <StandardArticle article={article} minWidth="w-full" maxWidth="max-w-full"/>
                         </div>
                       )
