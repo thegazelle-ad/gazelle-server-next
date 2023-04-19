@@ -106,7 +106,7 @@ const Search = ({ show, closeSearch, closeMenu }: { show: boolean, closeSearch: 
   return (
     <div className={`${show ? 'block' : 'hidden'}`}>
       {/* Search box */}
-      <div className="absolute top-[20vh] left-1/2 transform -translate-x-1/2 -translate-y-1/3 z-[60] bg-white placeholder-gray-500 w-4/5 md:w-[700px]">
+      <div className="absolute top-[20vh] left-1/2 transform -translate-x-1/2 -translate-y-1/3 z-[60] placeholder-gray-500 w-4/5 md:w-[700px]">
         <div className="flex flex-col items-center justify-center">
           <div className="flex flex-row items-center justify-center w-full px-4">
             <form onSubmit={handleSearch} className="w-full">
@@ -115,18 +115,18 @@ const Search = ({ show, closeSearch, closeMenu }: { show: boolean, closeSearch: 
               type="text"
               value={searchText}
               onChange={handleInputChange}
-              className="w-full text-2xl bg-white focus:outline-none border-gray-300 shadow-sm p-4"
-              placeholder="Search..."
+              className="w-full text-2xl bg-transparent focus:outline-none border-gray-300 shadow-sm p-4 font-light"
+              placeholder="Search articles and authors..."
             />
           </form>
-          <button onClick={() => { callSearch()}} type="submit" className="bg-blue-400 text-white text-lg font-semibold h-12 px-6 ml-4">Go</button>
+          <button onClick={() => { callSearch()}} type="submit" className="bg-gray-700 text-white text-lg font-semibold h-12 px-6 ml-4">Go</button>
           </div> 
-          <div className="flex items-center border-b-2 border-gray-600 w-full"/>
+          <div className="flex items-center border-b-2 border-gray-800 w-full"/>
         </div>
       </div>
       {/* White Background */}
       <div
-        className={`${show ? 'block' : 'hidden'} fixed inset-0 opacity-75 bg-white z-60`}
+        className={`${show ? 'block' : 'hidden'} fixed inset-0 opacity-90 bg-white z-60`}
         onClick={closeSearch}
       />
     </div>
@@ -153,7 +153,7 @@ const { published_at, issueNumber } = navigationData;
   });
 
   return (
-    <nav className="mt-2 pt-5 sticky top-0 z-50 bg-white flex justify-center">
+    <nav className="mt-2 pt-5 sticky top-0 z-50 bg-white flex justify-center font-roboto">
       <div className="container max-w-screen-lg">
 
         {/* Search and Social */}
