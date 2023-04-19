@@ -1,14 +1,19 @@
-import '../styles/globals.css'
+import '../../styles/globals.css'
 
 import React from 'react';
-import Navigation from '../components/Navigation';
-import Footer from '../components/Footer';
+import { cache } from 'react';
+import Navigation from '../../components/Navigation';
+import Footer from '../../components/Footer';
 
 import { Lora, Roboto } from 'next/font/google';
 
+import { getLatestPublishedIssue } from '../../db';
+
 import {
   DEFAULT_SITE_TITLE,
-} from '../env';
+} from '../../env';
+
+const cacheGetLatestPublishedIssue = cache(getLatestPublishedIssue);
 
 const lora = Lora({
   variable: '--font-lora',
@@ -32,11 +37,15 @@ export const metadata = {
   }
 };
 
-export default function RootLayout ({ children }: { children: React.ReactNode }) {  
+export default async function RootLayout ({ children }: { children: React.ReactNode }) {  
+  const { categories, publishedAt, issueNumber } = await cacheGetLatestPublishedIssue();
+
+  //@ts-ignore
   return (
     <html lang="en" className={`${lora.variable} ${roboto.variable}`}>
       <body>
-        <Navigation navigationData={{published_at: 1676210107, issueNumber: 100}}/>
+        {/* @ts-ignore */}
+        <Navigation issueNumber={issueNumber} categories={categories} publishedAt={publishedAt}/>
         <div className="container max-w-screen-lg min-h-screen mx-auto flex flex-col flex-nowrap font-roboto scrollbar-hide my-2">
           {/* Nav Bar */}
           {children}

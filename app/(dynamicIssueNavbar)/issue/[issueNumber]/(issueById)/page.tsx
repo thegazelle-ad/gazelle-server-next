@@ -3,8 +3,8 @@ export const config = {
     regions :  [ 'fra1' ] ,   // only execute this function on iad1
 };
 
-import { getIssue, getIssueArticles } from '../../../../db';
-import Issue from '../../../../components/Issue';
+import { getIssue, getIssueArticles } from '../../../../../db';
+import Issue from '../../../../../components/Issue';
 
 export default async function IssuePage({ params: { issueNumber }}: { params: { issueNumber: number }}) {
   // Fetch latest article data
