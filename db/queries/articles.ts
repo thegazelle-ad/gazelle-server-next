@@ -20,7 +20,7 @@ import {
     ARTICLE_DEFAULT_IMAGE,
     ARTICLE_DEFAULT_PUBLISHED_AT,
     ARTICLE_DEFAULT_TEASER,
-    DATE_TIME_FORMAT,
+    DATABASE_DATE_TIME_FORMAT,
 } from "../../env";
 import { 
     UnwrapPromise,
@@ -284,7 +284,7 @@ export async function getGlobalTrendingArticles() {
         slug: Articles.slug,
     })
         .from(Articles)
-        .where(gte(Articles.publishedAt, format(new Date(Date.now() - (1000 * 60 * 60 * 24 * 180)), DATE_TIME_FORMAT)))
+        .where(gte(Articles.publishedAt, format(new Date(Date.now() - (1000 * 60 * 60 * 24 * 180)), DATABASE_DATE_TIME_FORMAT)))
         .innerJoin(IssuesArticlesOrder, eq(Articles.id, IssuesArticlesOrder.articleId))
         .innerJoin(Issues, eq(IssuesArticlesOrder.issueId, Issues.id))
         .orderBy(desc(Articles.views))
