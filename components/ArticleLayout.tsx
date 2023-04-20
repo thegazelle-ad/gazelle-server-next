@@ -12,10 +12,11 @@ import {
     DEFAULT_BROKEN_LINK,
     ARTICLE_DATE_FORMAT,
 } from '../env';
-import { getAuthorsText } from "./articles";
+import { ArticlePage, getAuthorsText } from "./articles";
 import { Divider } from "./layout";
 import StackedArticle from "./articles/Stacked";
 import ListArticle from "./articles/List";
+import StyledLink from "./StyledLink";
 
 type MarkdownImage = {
     src?: string;
@@ -62,7 +63,7 @@ const imageRender = ((props: MarkdownImage) => {
 // render links
 const linkRender = (props: Link) => (
     <>
-        <Link href={props.href || DEFAULT_BROKEN_LINK} className="text-blue-500 underline visited:text-purple-600" >{props.children}</Link>
+        <StyledLink href={props.href || DEFAULT_BROKEN_LINK} className="py-2" >{props.children}</StyledLink>
     </>
 );
 
@@ -87,7 +88,7 @@ const RelatedArticles = (async ({ articleCategoryId, articleSlug, articlePublish
         <>
             {
                 relatedArticles.map((article) => (
-                    <ListArticle key={article.slug} article={article} imageHeight={"h-[150px]"}/>
+                    <ListArticle key={article.slug} article={article} imageHeight={"h-[250px]"}/>
                 ))
             }
         </>
@@ -102,7 +103,7 @@ const TrendingArticles = (async () => {
             {
                 trendingArticles.map((article) => (
                     <div key={article.slug} >
-                        <StackedArticle article={article} titleStyle={"text-xl leading-5 font-semibold uppercase"} authorStyle={"text-sm text-gray-600 font-light leading-5"} />
+                        <StackedArticle article={article} titleStyleAppend="md:text-xl" />
                     </div>
                 ))
             }
@@ -111,26 +112,24 @@ const TrendingArticles = (async () => {
 });
 
 
-export default async function Article({ articleSlug }: { articleSlug: string }) {
-    const article = await getArticle(articleSlug);
-
+export default async function Article({ article, slug }: { article: ArticlePage, slug: string }) {
     return (
         <>
             {/* Head */}
             <header className='flex flex-col mx-auto w-4/5 gap-3'>
                 {/* Title */}
-                <h1 className='text-left font-bold uppercase text-4xl'>
+                <h1 className='text-left font-lora font-bold capitalize text-4xl'>
                     {article.title}
                 </h1>
                 {/* Teaser */}
-                <p className="font-normal text-gray-600">
+                <p className="font-light text-lg md:text-base text-gray-600">
                     {article.teaser}
                 </p>
                 {/* Metadata */}
                 <div className="flex flex-row gap-3 algin-center items-center">
                     {getAuthorsText(article, "text-base text-gray-600 font-medium -my-1 leading-4")}
                     <div className="border-l-[2px] border-gray-400 h-4"/>
-                    <p className="text-sm text-gray-600 font-normal">{format(parseISO(article.publishedAt), ARTICLE_DATE_FORMAT)}</p>
+                    <p className="text-base md:text-sm text-gray-600 font-normal">{format(parseISO(article.publishedAt), ARTICLE_DATE_FORMAT)}</p>
                 </div>
                 {/* Divider */}
                 <div className="border-b border-gray-300 w-full pt-2"/>
@@ -138,7 +137,7 @@ export default async function Article({ articleSlug }: { articleSlug: string }) 
             {/* Article */}
             <div className='flex flex-col min-h-screen w-full md:max-w-[600px] mx-auto px-8 md:px-0'>
                 <ReactMarkdown 
-                    className="font-lora text-lg leading-relaxed"
+                    className="font-lora text-xl md:text-lg leading-relaxed"
                     rehypePlugins={[rehypeRaw]}
                     components={{
                     img: imageRender,
@@ -163,17 +162,17 @@ export default async function Article({ articleSlug }: { articleSlug: string }) 
             </div>
             {/* Related and trending */}
             <div className="flex justify-center items-center">
-                <div className="flex flex-row w-4/5 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-3 w-4/5 gap-4">
                     {/* Related */}
-                    <div className="grow">
+                    <div className="col-span-2">
                         <Divider text="related" />
                         <Suspense fallback={<p>Loading related articles...</p>}>
                             {/* @ts-expect-error Server Component - https://github.com/vercel/next.js/issues/42292 */}
-                            <RelatedArticles articleCategoryId={article.categoryId} articleSlug={articleSlug} articlePublishedAt={article.publishedAt} />
+                            <RelatedArticles articleCategoryId={article.categoryId} articleSlug={slug} articlePublishedAt={article.publishedAt} />
                         </Suspense>
                     </div>
                     {/* Trending */}
-                    <div className="hidden md:block w-2/5">
+                    <div className="hidden md:block">
                         <Divider text="trending" />
                         <Suspense fallback={<p>Loading trending articles...</p>}>
                             {/* @ts-expect-error Server Component - https://github.com/vercel/next.js/issues/42292 */}

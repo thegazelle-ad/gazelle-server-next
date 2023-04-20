@@ -65,8 +65,8 @@ const Categories = ({ categories, publishedAt, issueNumber }: { categories: Cate
           {
             categories.map(category => {
               return (
-                <li key={category.slug} className="px-1">
-                  <Link href={category.slug === 'team' ? '/team' : `/category/${category.slug}`}>
+                <li key={category.slug} className="px-2">
+                  <Link href={category.slug === 'team' ? '/team' : `/category/${category.slug}`} className="hover:text-sky-600">
                     {category.name}
                   </Link>
                 </li>
@@ -74,7 +74,7 @@ const Categories = ({ categories, publishedAt, issueNumber }: { categories: Cate
             })
           }
         </ul>
-        <Link href="/archives" className="">
+        <Link href="/archives" className="hover:text-sky-600">
           {`Issue ${displayIssueNumber}`}
         </Link>
       </div>
@@ -218,9 +218,9 @@ const Navigation = ({ issueNumber, categories, publishedAt }: { issueNumber: num
       <div className="container max-w-screen-lg">
 
         {/* Search and Social */}
-         <div className="flex flex-row w-full justify-between items-center">
+         <div className="flex flex-row w-full justify-between items-center px-2 sm:px-4 lg:px-0">
 
-          {/* Mobile Title (to be switched for regular title soon) */}
+          {/* Title / Logo */}
           <div className="">
             <Link href="/">
               <div className="flex flex-row gap-4 items-center mb-4">

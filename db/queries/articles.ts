@@ -156,7 +156,7 @@ export async function getIssueArticles(issue: UnwrapPromise<ReturnType<typeof ge
     return {
         allCategories: Array.from(articlesInCategories.values()),
         featured,
-        trending: trendingArticles.slice(0,6),
+        trending: trendingArticles.slice(0,4),
         editorsPicks,
     }
 };

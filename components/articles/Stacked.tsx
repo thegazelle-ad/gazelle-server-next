@@ -2,14 +2,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArticlePreview, ArticleList, getAuthorsText, getArticleUrl } from './common';
 
-const Stacked = ({ article, titleStyle, authorStyle }: { article: ArticlePreview | ArticleList, titleStyle?: string, authorStyle?: string }) => {
-  titleStyle = titleStyle || "text-base leading-5 font-semibold uppercase";
-  authorStyle = authorStyle || "text-xs text-gray-600 font-normal leading-3";
+const Stacked = ({ article, titleStyleAppend, authorStyle }: { article: ArticlePreview | ArticleList, titleStyleAppend?: string, authorStyle?: string }) => {
+  const titleStyle = `text-3xl leading-9 md:text-lg md:leading-6 font-semibold font-lora capitalize hover:text-sky-600 ${titleStyleAppend || ""}`;
+  authorStyle = authorStyle || "text-xl md:text-sm text-gray-600 font-normal leading-8 md:leading-5";
 
   return (
-    <div className="flex flex-col max-w-full min-w-[18rem] min-h-fit">
+    <div className="flex flex-col w-full pb-2">
         {/* Title */}
-        <Link href={getArticleUrl(article)}>
+        <Link href={getArticleUrl(article)} className="pt-1 pb-3 md:pb-0">
           <h1 className={titleStyle}>{article.title}</h1>
         </Link>
         {/* Authors */}

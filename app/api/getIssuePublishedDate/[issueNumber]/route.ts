@@ -8,7 +8,20 @@ export async function GET(request: NextRequest, { params }: { params: { issueNum
         return new NextResponse('Invalid issue number', { status: 400 });
     }
 
-    const issue = await getIssue(issueNumber);
+    let issue;
+    try {
+        issue = await getIssue(issueNumber);
+    } catch(e) {
+        return new NextResponse('Issue not found', { status: 500 });
+    }
 
-    return NextResponse.json({ publishedAt: issue.publishedAt });
+    return NextResponse.json(
+        { publishedAt: issue.publishedAt }, 
+        { 
+            status: 200,
+            headers: {
+                'Cache-Control': 'max-age=3600, s-maxage=3600, stale-while-revalidate',
+            }
+        },
+    );
 }
