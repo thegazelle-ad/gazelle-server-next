@@ -5,9 +5,9 @@ export const config = {
 
 import { Suspense } from "react";
 
-import { searchArticles } from "../../../db";
-import { ArticleList } from "../../../components/articles";
-import ListArticle from "../../../components/articles/List";
+import { searchArticles } from "../../db";
+import { ArticleList } from "../../components/articles";
+import ListArticle from "../../components/articles/List";
 
 const SearchResults = (async({ query }: { query: string }) => {
     let articles: ArticleList[] = [];

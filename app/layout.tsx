@@ -2,16 +2,16 @@ import '../../styles/globals.css'
 
 import React from 'react';
 import { cache } from 'react';
-import Navigation from '../../components/Navigation';
-import Footer from '../../components/Footer';
+import Navigation from '../components/Navigation';
+import Footer from '../components/Footer';
 
 import { Lora, Roboto } from 'next/font/google';
 
-import { getLatestPublishedIssue } from '../../db';
+import { getLatestPublishedIssue } from '../db';
 
 import {
   DEFAULT_SITE_TITLE,
-} from '../../env';
+} from '../env';
 
 const cacheGetLatestPublishedIssue = cache(getLatestPublishedIssue);
 
