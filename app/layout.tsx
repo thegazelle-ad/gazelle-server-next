@@ -1,4 +1,4 @@
-import '../../styles/globals.css'
+import '../styles/globals.css'
 
 import React from 'react';
 import { cache } from 'react';
@@ -43,7 +43,7 @@ export default async function RootLayout ({ children }: { children: React.ReactN
   //@ts-ignore
   return (
     <html lang="en" className={`${lora.variable} ${roboto.variable}`}>
-      <body>
+      <body className="px-2 sm:px-4 lg:px-0">
         {/* @ts-ignore */}
         <Navigation issueNumber={issueNumber} categories={categories} publishedAt={publishedAt}/>
         <div className="container max-w-screen-lg min-h-screen mx-auto flex flex-col flex-nowrap font-roboto scrollbar-hide my-2">

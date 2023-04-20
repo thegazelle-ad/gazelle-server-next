@@ -1,10 +1,10 @@
 "use client"
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { format, parse } from 'date-fns';
 import Image from 'next/image';
-import { useEffect, useRef, useState, FormEvent, ChangeEvent, MouseEventHandler, cache } from 'react';
+import { useEffect, useRef, useState, FormEvent, ChangeEvent, MouseEventHandler } from 'react';
 
 
 // Icons
@@ -30,12 +30,36 @@ type MenuCategory = {
 }
 
 const Categories = ({ categories, publishedAt, issueNumber }: { categories: Category[], publishedAt: string, issueNumber: number }) => {
+  const params = useParams();
+  const [displayIssueNumber, setDisplayIssueNumber] = useState<number | string>(issueNumber);
+  const [displayDate, setDisplayDate] = useState<string>(format(parse(publishedAt || DEFAULT_ISSUE_DATE, DATABASE_DATE_FORMAT, new Date()), ARTICLE_DATE_FORMAT));
+
+  useEffect(() => {
+    if (params.issueNumber) {
+      setDisplayIssueNumber(params.issueNumber);
+
+      // Maybe not the best way to fetch the date, but it works for now
+      try {
+        fetch('/api/getIssuePublishedDate/' + params.issueNumber).then(res => res.json()).then(date => {
+          // @ts-ignore
+          setDisplayDate(format(parse(date.publishedAt, DATABASE_DATE_FORMAT, new Date()), ARTICLE_DATE_FORMAT));
+        });
+      } catch(e) {
+        console.log("Couldn't fetch issue date");
+      };
+    } else {
+      // default to the latest issue if no issue number is in the url
+      setDisplayIssueNumber(issueNumber);
+      setDisplayDate(format(parse(publishedAt || DEFAULT_ISSUE_DATE, DATABASE_DATE_FORMAT, new Date()), ARTICLE_DATE_FORMAT));
+    }
+  }, [params]);
+
   // Render the categories
   return (
     <div className="hidden md:block font-normal text-sm uppercase">
-      <div className="flex flex-row justify-between items-center px-4">
+      <div className="flex flex-row justify-between items-center">
         <p>
-          {format(parse(publishedAt || DEFAULT_ISSUE_DATE, DATABASE_DATE_FORMAT, new Date()), ARTICLE_DATE_FORMAT)}
+          {displayDate}
         </p>
         <ul className="flex justify-center items-center m-2">
           {
@@ -51,7 +75,7 @@ const Categories = ({ categories, publishedAt, issueNumber }: { categories: Cate
           }
         </ul>
         <Link href="/archives" className="">
-          {`Issue ${issueNumber}`}
+          {`Issue ${displayIssueNumber}`}
         </Link>
       </div>
   </div>
@@ -194,19 +218,20 @@ const Navigation = ({ issueNumber, categories, publishedAt }: { issueNumber: num
       <div className="container max-w-screen-lg">
 
         {/* Search and Social */}
-         <div className="flex flex-row w-full justify-between items-center px-4">
+         <div className="flex flex-row w-full justify-between items-center">
 
           {/* Mobile Title (to be switched for regular title soon) */}
           <div className="">
             <Link href="/">
-              <div className="relative flex flex-row gap-4 items-center mb-4">
-                <Image
-                  src="/gazelle.svg"
-                  alt="logo"
-                  height="40"
-                  width="40"
-                  unoptimized
-                />
+              <div className="flex flex-row gap-4 items-center mb-4">
+                <div className="relative w-[40px] h-[40px]">
+                  <Image
+                    src="/gazelle.svg"
+                    alt="logo"
+                    fill
+                    unoptimized
+                  />
+                </div>
                 <p className="text-3xl font-normal font-lora tracking-wide">The Gazelle</p>
               </div>
             </Link>
