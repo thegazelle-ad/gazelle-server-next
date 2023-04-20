@@ -2,6 +2,7 @@ import '../styles/globals.css'
 
 import React from 'react';
 import { cache } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 
@@ -43,16 +44,18 @@ export default async function RootLayout ({ children }: { children: React.ReactN
   //@ts-ignore
   return (
     <html lang="en" className={`${lora.variable} ${roboto.variable}`}>
-      <body className="px-2 sm:px-4 lg:px-0">
+      <body>
         {/* @ts-ignore */}
         <Navigation issueNumber={issueNumber} categories={categories} publishedAt={publishedAt}/>
-        <div className="container max-w-screen-lg min-h-screen mx-auto flex flex-col flex-nowrap font-roboto scrollbar-hide my-2">
+        <div className="container max-w-screen-lg min-h-screen mx-auto flex flex-col flex-nowrap font-roboto scrollbar-hide my-2 px-2 sm:px-4 lg:px-0">
           {/* Nav Bar */}
           {children}
           {/* Footer */}
           <Footer />
         </div>
       </body>
+      {/* Analytics */}
+      <Analytics/>
     </html>
   );
 };

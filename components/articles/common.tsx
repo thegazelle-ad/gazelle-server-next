@@ -96,7 +96,7 @@ export function getAuthorsText(article: ArticlePreview | ArticlePage | ArticleLi
             <li key={index} className="inline-flex">
               {/* And before last author */}
               {showAnd && <span className='mr-1'> and </span>}
-              <Link href={`/staff-member/${author.slug}`}>
+              <Link href={`/staff-member/${author.slug}`} className="hover:text-sky-600">
                   <p>{author.name}</p>
               </Link>
               {/* Comma after authors */}
@@ -111,4 +111,13 @@ export function getAuthorsText(article: ArticlePreview | ArticlePage | ArticleLi
 
 export function getArticleUrl(article: ArticlePreview | ArticleList) {
     return `/issue/${article.issue}/${article.slug}`
+}
+
+export function capitalizeSentence(sentence: string) {
+  return sentence
+    .split(/[\s-]+/)
+    .map(function (word) {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
+    .join(' ');
 }
