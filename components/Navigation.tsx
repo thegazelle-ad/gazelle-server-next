@@ -2,9 +2,10 @@
 
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { format } from 'date-fns';
+import { format, parse } from 'date-fns';
 import Image from 'next/image';
-import { useEffect, useRef, useState, FormEvent, ChangeEvent, MouseEventHandler } from 'react';
+import { useEffect, useRef, useState, FormEvent, ChangeEvent, MouseEventHandler, cache } from 'react';
+
 
 // Icons
 import Twitter from '../public/icons/twitter.svg';
@@ -14,29 +15,51 @@ import MagnifyingGlass from '../public/icons/magnifying-glass-solid.svg';
 import Hamburger from '../public/icons/hamburger.svg';
 
 import {
+  DATABASE_DATE_FORMAT,
+  DEFAULT_ISSUE_DATE,
   ARTICLE_DATE_FORMAT,
 } from '../env';
 
-type NavigationData = {
-  published_at: number;
-  issueNumber: number;
+import {
+  Category
+} from './articles';
+
+type MenuCategory = {
+  name: string,
+  slug: string,
 }
 
-const categories = [
-  { name: 'news', slug: 'news' },
-  { name: 'features', slug: 'features' },
-  { name: 'opinion', slug: 'opinion' },
-  { name: 'multimedia', slug: 'media' },
-  { name: 'team', slug: 'team' },
-];
-
-const mobileDropdown = [
-  ...categories,
-  { name: 'archives', slug: 'archives' },
-]
+const Categories = ({ categories, publishedAt, issueNumber }: { categories: Category[], publishedAt: string, issueNumber: number }) => {
+  // Render the categories
+  return (
+    <div className="hidden md:block font-normal text-sm uppercase">
+      <div className="flex flex-row justify-between items-center px-4">
+        <p>
+          {format(parse(publishedAt || DEFAULT_ISSUE_DATE, DATABASE_DATE_FORMAT, new Date()), ARTICLE_DATE_FORMAT)}
+        </p>
+        <ul className="flex justify-center items-center m-2">
+          {
+            categories.map(category => {
+              return (
+                <li key={category.slug} className="px-1">
+                  <Link href={category.slug === 'team' ? '/team' : `/category/${category.slug}`}>
+                    {category.name}
+                  </Link>
+                </li>
+              )
+            })
+          }
+        </ul>
+        <Link href="/archives" className="">
+          {`Issue ${issueNumber}`}
+        </Link>
+      </div>
+  </div>
+  )
+}
 
 // Menu component
-const Menu = ({ show, closeMenu, showSearch }: { show: boolean, closeMenu: MouseEventHandler, showSearch: MouseEventHandler }) => {
+const Menu = ({ show, mobileDropdown, closeMenu, showSearch }: { show: boolean, mobileDropdown: MenuCategory[], closeMenu: MouseEventHandler, showSearch: MouseEventHandler }) => {
   return (
     <div className={`${show ? 'block' : 'hidden'}`}>
       {/* Menu */}
@@ -56,7 +79,7 @@ const Menu = ({ show, closeMenu, showSearch }: { show: boolean, closeMenu: Mouse
           }
         </ul>
         {/* Border */}
-        <div className="pt-4 border-b border-gray-300"/>
+        <div className="pt-4 border-b border-gray-500"/>
       </div>
       {/* White Background */}
       <div
@@ -65,6 +88,23 @@ const Menu = ({ show, closeMenu, showSearch }: { show: boolean, closeMenu: Mouse
       />
     </div>
   );
+}
+
+const SocialMedia = () => {
+  {/* Social Media Icons */}
+  <div className="hidden md:block">
+    <div className="flex flex-row gap-2 m-2">
+      <Link href="/" className="w-5 h-5 relative">
+        <Image src={Facebook} alt="fb" fill unoptimized className="object-contain" sizes="20px"/>
+      </Link>
+      <Link href="/" className="w-5 h-5 relative">
+        <Image src={Twitter} alt="twitter" fill unoptimized className="object-contain" sizes="20px"/>
+      </Link>
+      <Link href="/" className="w-5 h-5 relative">
+        <Image src={Instagram} alt="insta" fill unoptimized className="object-contain" sizes="20px"/>
+      </Link>
+    </div>
+  </div>
 }
 
 // Search component
@@ -119,72 +159,45 @@ const Search = ({ show, closeSearch, closeMenu }: { show: boolean, closeSearch: 
               placeholder="Search articles and authors..."
             />
           </form>
-          <button onClick={() => { callSearch()}} type="submit" className="bg-gray-700 text-white text-lg font-semibold h-12 px-6 ml-4">Go</button>
+          <button onClick={(e) => { callSearch()}} type="submit" className="bg-gray-700 text-white text-lg font-semibold h-12 px-6 ml-4">Go</button>
           </div> 
           <div className="flex items-center border-b-2 border-gray-800 w-full"/>
         </div>
       </div>
       {/* White Background */}
       <div
-        className={`${show ? 'block' : 'hidden'} fixed inset-0 opacity-90 bg-white z-60`}
+        className={`${show ? 'block' : 'hidden'} fixed inset-1 opacity-95 bg-white z-60`}
         onClick={closeSearch}
       />
     </div>
   );
 }
 
-const Navigation = ({ navigationData }: { navigationData: NavigationData }) => {
-const { published_at, issueNumber } = navigationData;
+const Navigation = ({ issueNumber, categories, publishedAt }: { issueNumber: number, categories: Category[], publishedAt: string }) => {
+  const menuCategories = [
+    ...categories.map(category => ({ name: category.name, slug: category.slug })),
+    { name: 'team', slug: 'team' },
+  ]
+
+  const mobileDropdown = [
+    ...categories.map(category => ({ name: category.name, slug: category.slug })),
+    { name: 'team', slug: 'team' },
+    { name: 'archives', slug: 'archives' },
+  ]
 
   // Whether to show the search bar 
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
-
-  // Render the categories
-  const renderCategories = categories.map(category => {
-    const { name, slug } = category;
-    return (
-      <li key={slug} className="px-1 font-light">
-        <Link href={slug === 'team' ? '/team' : `/category/${slug}`}>
-          {name}
-        </Link>
-      </li>
-    );
-  });
 
   return (
     <nav className="mt-2 pt-5 sticky top-0 z-50 bg-white flex justify-center font-roboto">
       <div className="container max-w-screen-lg">
 
         {/* Search and Social */}
-         <div className="flex flex-row w-full justify-between px-4">
-
-          {/* Search */}
-          <div className="hidden md:block">
-            <div className="flex flex-row gap-2 items-center">
-              <button className="cursor-pointer" onClick={() => setShowSearch(!showSearch)}>
-                <Image src={MagnifyingGlass} alt="search" unoptimized height={18} width={18} className="object-contain" sizes="16px"/>
-              </button>
-            </div>
-          </div>
-
-          {/* Social Media Icons */}
-          <div className="hidden md:block">
-            <div className="flex flex-row gap-2 m-2">
-              <Link href="/" className="w-5 h-5 relative">
-                <Image src={Facebook} alt="fb" fill unoptimized className="object-contain" sizes="20px"/>
-              </Link>
-              <Link href="/" className="w-5 h-5 relative">
-                <Image src={Twitter} alt="twitter" fill unoptimized className="object-contain" sizes="20px"/>
-              </Link>
-              <Link href="/" className="w-5 h-5 relative">
-                <Image src={Instagram} alt="insta" fill unoptimized className="object-contain" sizes="20px"/>
-              </Link>
-            </div>
-          </div>
+         <div className="flex flex-row w-full justify-between items-center px-4">
 
           {/* Mobile Title (to be switched for regular title soon) */}
-          <div className="block md:hidden">
+          <div className="">
             <Link href="/">
               <div className="relative flex flex-row gap-4 items-center mb-4">
                 <Image
@@ -199,8 +212,17 @@ const { published_at, issueNumber } = navigationData;
             </Link>
           </div>
 
+          {/* Search */}
+          <div className="hidden md:block">
+            <div className="flex flex-row gap-2 items-center">
+              <button className="cursor-pointer" onClick={(e) => {e.stopPropagation(); setShowSearch(!showSearch)}}>
+                <Image src={MagnifyingGlass} alt="search" unoptimized height={18} width={18} className="object-contain" sizes="16px"/>
+              </button>
+            </div>
+          </div>
+
           {/* Hamburger Menu (mobile only) */}
-          <div className="block md:hidden" onClick={() => setShowMenu(!showMenu)}>
+          <div className="block md:hidden" onClick={(e) => { e.stopPropagation(); setShowMenu(!showMenu)}}>
               <div className="relative w-7 h-7 mt-1 mr-2 mb-4">
                 <Image src={Hamburger} alt="menu" fill unoptimized className="object-contain" sizes="20px" />
               </div>
@@ -208,41 +230,17 @@ const { published_at, issueNumber } = navigationData;
 
         </div>
 
-        <div className="border-b border-gray-300"/>
-        {/* Logo and Line */}
-        <div className="relative hidden md:block">
-          <div className="border-b-[0px] border-gray-300 absolute inset-0 z-10"/>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-[80%] z-20 w-[4rem] h-[4rem]">
-            <div className="absolute inset-0 bg-white z-10 w-1/2 left-1/2 transform -translate-x-1/2"/>
-            <Link href="/">
-              <Image
-                src="/gazelle.svg"
-                alt="logo"
-                fill
-                unoptimized
-                className="z-10 object-contain"
-              />
-            </Link>
-          </div>
-        </div> 
+        {/* Line */}
+        <div className="border-b border-gray-500"/>
 
         {/* Categories */}
-        <div className="hidden md:block">
-          <div className="flex flex-row justify-between items-center font-light text-sm uppercase px-4">
-            <p>
-              {format(new Date(), ARTICLE_DATE_FORMAT)}
-            </p>
-            <ul className="flex justify-center items-center m-4">{renderCategories}</ul>
-            <Link href="/archives" className="">
-              {`Issue ${issueNumber}`}
-            </Link>
-          </div>
-        </div>
+        <Categories issueNumber={issueNumber} categories={categories} publishedAt={publishedAt}/>
 
         {/* Mobile Menu */}
-        <Menu show={showMenu} closeMenu={() => setShowMenu(false)} showSearch={() => setShowSearch(!showSearch)}/>
-        <Search show={showSearch} closeSearch={() => setShowSearch(false)} closeMenu={() => setShowMenu(false)}/>
+        <Menu show={showMenu} mobileDropdown={mobileDropdown} closeMenu={() => setShowMenu(false)} showSearch={() => setShowSearch(!showSearch)}/>
 
+        {/* Search */}
+        <Search show={showSearch} closeSearch={() => setShowSearch(false)} closeMenu={() => setShowMenu(false)}/>
 
       </div>
     </nav>

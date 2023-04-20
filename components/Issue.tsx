@@ -10,19 +10,19 @@ export default function Issue({ issue }: { issue: IssueArticles}) {
   const { allCategories, featured, trending, editorsPicks } = issue;
 
   return (
-    <div className="flex flex-col justify-center gap-2 md:gap-0">
+    <div className="flex flex-col justify-center gap-2 md:gap-0 sm:px-4">
       {/* Featured Article */}
       <div>
         <FeaturedArticle article={featured} />
       </div>
 
       {/* Editors picks (this layout is hardcoded for now) */}
-      <div className="flex flex-row">
+      <div className="flex flex-row gap-4">
         {/* editors picks */}
         <div className="">
           <Divider text="editor's picks"/>
           {/* Editors Picks div */}
-          <div className="shrink flex flex-row flex-wrap gap-1 justify-between px-3 md:mr-4 md:pl-6">
+          <div className="shrink flex flex-row flex-wrap gap-1 justify-between px-3 md:pl-0 md:pr-4">
             {editorsPicks.map((article) => {
               return (
                 <div key={article.slug} className="my-4 md:my-0 md:max-w-[49%] md:min-w-[20%]">
@@ -35,7 +35,7 @@ export default function Issue({ issue }: { issue: IssueArticles}) {
         {/* Trending */}
         <div className="hidden md:block">
           <Divider text="trending" />
-          <div className="flex flex-col justify-start gap-2 w-1/3 border-l-[1.5px] border-bgGray pl-4">
+          <div className="flex flex-col justify-start gap-2 w-1/3">
             {trending.map((article) => {
               return (
                 <div key={article.slug} className="my-2 md:my-0">
@@ -52,12 +52,12 @@ export default function Issue({ issue }: { issue: IssueArticles}) {
           return (
             <div key={section[0].category.name}>
               <Divider text={section[0].category.name} />
-              <div className="flex justify-center w-full px-3 md:px-6">
+              <div className="flex justify-center w-full px-3 md:px-0">
                 <div className="flex flex-row flex-wrap gap-3 justify-start flex-grow align-center">
                   {
                     section.map((article) => {
                       return (
-                        <div key={article.slug} className="my-4 md:my-0 w-full md:min-w-[44%] md:max-w-[48%] lg:min-w-[27%] lg:max-w-[32.5%]">
+                        <div key={article.slug} className="my-4 md:my-0 w-full md:min-w-[44%] md:max-w-[49%] lg:min-w-[27%] lg:max-w-[32.5%]">
                           <StandardArticle article={article} minWidth="w-full" maxWidth="max-w-full"/>
                         </div>
                       )
