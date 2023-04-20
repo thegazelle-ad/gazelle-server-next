@@ -10,7 +10,7 @@ export default function Issue({ issue }: { issue: IssueArticles}) {
   const { allCategories, featured, trending, editorsPicks } = issue;
 
   return (
-    <div className="flex flex-col justify-center gap-2 md:gap-0 sm:px-4">
+    <div className="flex flex-col justify-center gap-2 md:gap-0">
       {/* Featured Article */}
       <div>
         <FeaturedArticle article={featured} />
