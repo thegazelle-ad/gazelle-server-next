@@ -5,9 +5,9 @@ export const config = {
 
 import { cache } from 'react';
 import Image from "next/image";
-import ProfileArticle from '../../../../components/articles/List'
-import { getStaff } from "../../../../db";
-import { AuthorProfile } from "../../../../components/articles";
+import ProfileArticle from '../../../components/articles/List'
+import { getStaff } from "../../../db";
+import { AuthorProfile } from "../../../components/articles";
 
 // when we implement this actually, we will use fetch
 // this works for now though to deduplicate requests
