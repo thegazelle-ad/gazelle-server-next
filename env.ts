@@ -24,7 +24,9 @@ export const ARTICLE_DEFAULT_TEASER = '';
 export const ARTICLE_DEFAULT_PUBLISHED_AT = '1970-01-01 00:00:00';
 export const ARTICLE_DATE_FORMAT = 'MMM d, yyyy';
 
+export const DEFAULT_ISSUE_DATE = '1970-01-01';
 export const DEFAULT_BROKEN_LINK = 'https://thegazelle.org/404';
 export const DEFAULT_SITE_TITLE = 'The Gazelle | NYU Abu Dhabi News';
 
-export const DATE_TIME_FORMAT = 'yyyy-MM-dd HH:mm:ss';
+export const DATABASE_DATE_TIME_FORMAT = 'yyyy-MM-dd HH:mm:ss';
+export const DATABASE_DATE_FORMAT = 'yyyy-MM-dd';

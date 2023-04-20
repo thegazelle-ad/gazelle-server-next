@@ -5,7 +5,7 @@ import { ArticlePreview, getAuthorsText, getArticleUrl } from './common';
 const Featured = ({ article }: { article: ArticlePreview }) => {
 
   return (
-    <div className="flex flex-row flex-wrap px-3 md:px-8 pb-4 gap-4 md:gap-6">
+    <div className="flex flex-row flex-wrap px-3 pb-4 gap-4 md:px-0 md:gap-6">
         {/* Image */}
         <Link href={getArticleUrl(article)} className="relative h-[350px] w-full md:w-[65%]">
           <Image 
