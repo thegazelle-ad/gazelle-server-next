@@ -121,3 +121,18 @@ export function capitalizeSentence(sentence: string) {
     })
     .join(' ');
 }
+
+export function ellipsis(text: string, length: number) {
+  if (text.length <= length) {
+    return text;
+  }
+
+  let shortenedText = text.substring(0, length);
+  const lastSpaceIndex = shortenedText.lastIndexOf(" ");
+
+  if (lastSpaceIndex !== -1) {
+    shortenedText = shortenedText.substring(0, lastSpaceIndex);
+  }
+
+  return shortenedText + "...";
+}

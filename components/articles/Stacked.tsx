@@ -9,7 +9,7 @@ const Stacked = ({ article, titleStyleAppend, authorStyle }: { article: ArticleP
   return (
     <div className="flex flex-col w-full pb-2">
         {/* Title */}
-        <Link href={getArticleUrl(article)} className="pt-1 pb-3 md:pb-0">
+        <Link href={getArticleUrl(article)} className="pt-1 pb-3 md:pb-1">
           <h1 className={titleStyle}>{article.title}</h1>
         </Link>
         {/* Authors */}

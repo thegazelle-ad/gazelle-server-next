@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArticlePreview, getAuthorsText, getArticleUrl } from './common';
+import { ArticlePreview, getAuthorsText, getArticleUrl, ellipsis } from './common';
+import { TEASER_ELLIPSIS_LENGTH } from '../../env';
 
 const Standard = ({ article, maxWidth, minWidth, large }: { article: ArticlePreview, maxWidth: string, minWidth: string, large?: boolean }) => {
   const imageHeight = large ? "h-[300px] md:h-[170px] lg:h-[300px]" : "h-[300px] md:h-[170px]";
@@ -10,7 +11,7 @@ const Standard = ({ article, maxWidth, minWidth, large }: { article: ArticlePrev
   return (
     <div className={`flex flex-col flex-wrap w-full gap-4 md:gap-2 ${minWidth} ${maxWidth}`}>
         {/* Image */}
-        <Link href={getArticleUrl(article)} className={`relative w-full md:w-auto mb-1 ${imageHeight}`}>
+        <Link href={getArticleUrl(article)} className={`peer relative w-full md:w-auto mb-1 ${imageHeight}`}>
           <Image 
             src={article.image} 
             alt={article.title} 
@@ -19,20 +20,13 @@ const Standard = ({ article, maxWidth, minWidth, large }: { article: ArticlePrev
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 450px, 325px"
           />
         </Link>
-        {/* Title and info */}
-        {/* Category */}
-        {/* <Link href={`/category/${article.category.slug}`} >
-        <p className="text-sm font-light text-gray-600">{article.category.name}</p>
-        </Link> */}
         {/* Title */}
-        <Link href={getArticleUrl(article)}>
-          <h1 className={`${titleSize} font-semibold capitalize font-lora leading-snug hover:text-sky-600`}>{article.title}</h1>
-        </Link>
+        <h1 className={`${titleSize} font-semibold capitalize font-lora peer-hover:text-sky-600 hover:text-sky-600 leading-snug ${large ? "md:leading-7" : "md:leading-6"}`}>{article.title}</h1>
         {/* Authors */}
         {getAuthorsText(article, `${authorSize} text-gray-600 font-normal -my-1 py-1 leading-9 md:leading-5`)}
         {/* Teaser */}
         <Link href={getArticleUrl(article)}>
-        <p className={`${authorSize} font-light text-gray-600`}>{article.teaser}</p>
+          <p className={`${authorSize} font-light text-gray-600 hover:text-sky-600`}>{ellipsis(article.teaser, TEASER_ELLIPSIS_LENGTH)}</p>
         </Link>
     </div>
 );

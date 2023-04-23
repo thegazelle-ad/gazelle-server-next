@@ -1,34 +1,38 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { ArticleList, getAuthorsText, getArticleUrl } from "./common";
+import { ellipsis, ArticleList, getAuthorsText, getArticleUrl } from "./common";
+import { TEASER_ELLIPSIS_LENGTH } from "../../env";
 
 // single article
-const ListArticle = ( {article, imageHeight } : { article: ArticleList, imageHeight?: string }) => {
+const ListArticle = ( {article, imageHeight, ellipsisTeaser, className } : { article: ArticleList, imageHeight?: string, ellipsisTeaser?: boolean, className?: string }) => {
   imageHeight = imageHeight || "h-[250px]";
 
   return (
-    <div className="flex justify-center items-center max-w-[100%]
-                    mb-[1.5rem] pb-[1.25rem] px-[0.75rem] flex-shrink border-b border-evenLighterGray border-1">
-      {/* Image */}
-      <Link href={getArticleUrl(article)} className={`relative ${imageHeight} w-full min-w-[50%]`}>
-          <Image 
-            src={article.image} 
-            alt={article.title} 
-            fill 
-            className="object-cover pb-[0.5rem]" 
-            sizes="430px"
-          />
-      </Link>
-      {/* Title and teaser */}
-      <div className="flex flex-col pl-[1.3rem] gap-4">
-        <Link href={getArticleUrl(article)}>
-            <h1 className="text-xl leading-[1.5rem] font-bold capitalize font-lora">{article.title}</h1>
+    <div className={className || ""}>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-center items-center w-full">
+        {/* Image */}
+        <Link href={getArticleUrl(article)} className={`peer relative ${imageHeight} w-full md:col-span-1 col-span-2`}>
+            <Image 
+              src={article.image} 
+              alt={article.title} 
+              fill 
+              className="object-cover" 
+              sizes="430px"
+            />
         </Link>
-        {/* Authors */}
-        {getAuthorsText(article, "text-sm text-gray-600 font-medium -my-1 leading-4")}
-        {/* Teaser */}
-        <p className="text-sm font-light mb-[0.8rem] text-lightGray leading-5">{article.teaser}</p>
+        {/* Title and teaser */}
+        <div className="flex flex-col gap-4 peer-hover:text-sky-600">
+          <Link href={getArticleUrl(article)}>
+              <h1 className="text-2xl md:text-xl leading-[1.5rem] font-bold capitalize font-lora hover:text-sky-600">{article.title}</h1>
+          </Link>
+          {/* Authors */}
+          {getAuthorsText(article, "text-lg md:text-sm text-gray-600 font-medium -my-1 leading-4")}
+          {/* Teaser */}
+          <Link href={getArticleUrl(article)}>
+            <p className="text-lg md:text-sm font-light text-lightGray leading-6 md:leading-5 hover:text-sky-600">{ellipsisTeaser ? ellipsis(article.teaser, TEASER_ELLIPSIS_LENGTH) : article.teaser}</p>
+          </Link>
+        </div>
       </div>
     </div>
   );

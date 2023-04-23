@@ -29,7 +29,7 @@ type MenuCategory = {
   slug: string,
 }
 
-const Categories = ({ categories, publishedAt, issueNumber }: { categories: Category[], publishedAt: string, issueNumber: number }) => {
+const Categories = ({ categories, publishedAt, issueNumber }: { categories: MenuCategory[], publishedAt: string, issueNumber: number }) => {
   const params = useParams();
   const [displayIssueNumber, setDisplayIssueNumber] = useState<number | string>(issueNumber);
   const [displayDate, setDisplayDate] = useState<string>(format(parse(publishedAt || DEFAULT_ISSUE_DATE, DATABASE_DATE_FORMAT, new Date()), ARTICLE_DATE_FORMAT));
@@ -217,55 +217,58 @@ const Navigation = ({ issueNumber, categories, publishedAt }: { issueNumber: num
     <nav className="mt-2 pt-5 sticky top-0 z-50 bg-white flex justify-center font-roboto">
       <div className="container max-w-screen-lg">
 
-        {/* Search and Social */}
-         <div className="flex flex-row w-full justify-between items-center px-2 sm:px-4 lg:px-0">
+        <div className="px-8 md:px-4 lg:px-2">
 
-          {/* Title / Logo */}
-          <div className="">
-            <Link href="/">
-              <div className="flex flex-row gap-4 items-center mb-4">
-                <div className="relative w-[40px] h-[40px]">
-                  <Image
-                    src="/gazelle.svg"
-                    alt="logo"
-                    fill
-                    unoptimized
-                  />
+          {/* Search and Social */}
+          <div className="flex flex-row w-full justify-between items-center px-2">
+
+            {/* Title / Logo */}
+            <div className="">
+              <Link href="/" onClick={() => setShowMenu(false)} >
+                <div className="flex flex-row gap-4 items-center mb-4">
+                  <div className="relative w-[40px] h-[40px]">
+                    <Image
+                      src="/gazelle.svg"
+                      alt="logo"
+                      fill
+                      unoptimized
+                    />
+                  </div>
+                  <p className="text-3xl font-medium font-lora tracking-tight">The Gazelle</p>
                 </div>
-                <p className="text-3xl font-normal font-lora tracking-wide">The Gazelle</p>
+              </Link>
+            </div>
+
+            {/* Search */}
+            <div className="hidden md:block">
+              <div className="flex flex-row gap-2 items-center">
+                <button className="cursor-pointer" onClick={(e) => {e.stopPropagation(); setShowSearch(!showSearch)}}>
+                  <Image src={MagnifyingGlass} alt="search" unoptimized height={18} width={18} className="object-contain" sizes="16px"/>
+                </button>
               </div>
-            </Link>
+            </div>
+
+            {/* Hamburger Menu (mobile only) */}
+            <div className="block md:hidden" onClick={(e) => { e.stopPropagation(); setShowMenu(!showMenu)}}>
+                <div className="relative w-7 h-7 mt-1 mr-2 mb-4">
+                  <Image src={Hamburger} alt="menu" fill unoptimized className="object-contain" sizes="20px" />
+                </div>
+            </div>
+
           </div>
+
+          {/* Line */}
+          <div className="border-b border-gray-500"/>
+
+          {/* Categories */}
+          <Categories issueNumber={issueNumber} categories={menuCategories} publishedAt={publishedAt}/>
+
+          {/* Mobile Menu */}
+          <Menu show={showMenu} mobileDropdown={mobileDropdown} closeMenu={() => setShowMenu(false)} showSearch={() => setShowSearch(!showSearch)}/>
 
           {/* Search */}
-          <div className="hidden md:block">
-            <div className="flex flex-row gap-2 items-center">
-              <button className="cursor-pointer" onClick={(e) => {e.stopPropagation(); setShowSearch(!showSearch)}}>
-                <Image src={MagnifyingGlass} alt="search" unoptimized height={18} width={18} className="object-contain" sizes="16px"/>
-              </button>
-            </div>
-          </div>
-
-          {/* Hamburger Menu (mobile only) */}
-          <div className="block md:hidden" onClick={(e) => { e.stopPropagation(); setShowMenu(!showMenu)}}>
-              <div className="relative w-7 h-7 mt-1 mr-2 mb-4">
-                <Image src={Hamburger} alt="menu" fill unoptimized className="object-contain" sizes="20px" />
-              </div>
-          </div>
-
-        </div>
-
-        {/* Line */}
-        <div className="border-b border-gray-500"/>
-
-        {/* Categories */}
-        <Categories issueNumber={issueNumber} categories={categories} publishedAt={publishedAt}/>
-
-        {/* Mobile Menu */}
-        <Menu show={showMenu} mobileDropdown={mobileDropdown} closeMenu={() => setShowMenu(false)} showSearch={() => setShowSearch(!showSearch)}/>
-
-        {/* Search */}
         <Search show={showSearch} closeSearch={() => setShowSearch(false)} closeMenu={() => setShowMenu(false)}/>
+        </div>
 
       </div>
     </nav>

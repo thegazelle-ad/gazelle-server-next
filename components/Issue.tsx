@@ -17,10 +17,12 @@ export default function Issue({ issue }: { issue: IssueArticles }) {
       </div>
 
       {/* Editors picks (this layout is hardcoded for now) */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 w-full gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 w-full gap-x-4">
+        
+        <Divider text="editor's picks" href={"/editors-picks"} className="py-2 col-span-2"/>
+        <Divider text="trending" href={"/trending"} className="py-2 col-span-1" />
         {/* editors picks */}
         <div className="grid col-span-2">
-          <Divider text="editor's picks" className="py-2"/>
           {/* Editors Picks div */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {editorsPicks.map((article) => {
@@ -34,7 +36,6 @@ export default function Issue({ issue }: { issue: IssueArticles }) {
         </div>
         {/* Trending */}
         <div className="">
-          <Divider text="trending" className="py-2" />
           <div className="grid grid-cols-1 gap-4">
             {trending.map((article) => {
               return (
@@ -54,7 +55,7 @@ export default function Issue({ issue }: { issue: IssueArticles }) {
 
           return (
             <div key={section[0].category.name}>
-              <Divider text={section[0].category.name} className="py-2" />
+              <Divider text={section[0].category.name} href={`/category/${section[0].category.name}`} className="py-2" />
               <div className={`grid ${numColumns} auto-rows-auto gap-4`}>
                 {section.map((article) => {
                   return (

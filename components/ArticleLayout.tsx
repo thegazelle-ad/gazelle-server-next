@@ -45,7 +45,7 @@ const imageRender = ((props: MarkdownImage) => {
     return (
         <>
             <div className="flex justify-center items-center my-4">
-                <div className="relative xl:h-[800px] lg:h-[600px] md:h-[400px] h-[350px] min-w-[100vw] w-[100vw]">
+                <div className="relative xl:h-[800px] lg:h-[600px] md:h-[400px] h-[350px] min-w-[90vw] w-[90vw]">
                     <Image
                         fill
                         priority={priority}
@@ -87,8 +87,11 @@ const RelatedArticles = (async ({ articleCategoryId, articleSlug, articlePublish
     return (
         <>
             {
-                relatedArticles.map((article) => (
-                    <ListArticle key={article.slug} article={article} imageHeight={"h-[250px]"}/>
+                relatedArticles.map((article, index) => (
+                    <div key={article.slug}>
+                        {index > 0 && <div className="h-[1px] bg-gray-500"/> }
+                        <ListArticle article={article} imageHeight={"h-[300px] md:h-[250px]"} ellipsisTeaser={true} className="my-6"/>
+                    </div>  
                 ))
             }
         </>
@@ -103,7 +106,7 @@ const TrendingArticles = (async () => {
             {
                 trendingArticles.map((article) => (
                     <div key={article.slug} >
-                        <StackedArticle article={article} titleStyleAppend="md:text-xl" />
+                        <StackedArticle article={article} titleStyleAppend="text-2xl md:text-xl" />
                     </div>
                 ))
             }
@@ -113,6 +116,7 @@ const TrendingArticles = (async () => {
 
 
 export default async function Article({ article, slug }: { article: ArticlePage, slug: string }) {
+    const articleContainer = "md:max-w-[600px] px-8 md:px-0"
     return (
         <>
             {/* Head */}
@@ -135,7 +139,7 @@ export default async function Article({ article, slug }: { article: ArticlePage,
                 <div className="border-b border-gray-300 w-full pt-2"/>
             </header>
             {/* Article */}
-            <div className='flex flex-col min-h-screen w-full md:max-w-[600px] mx-auto px-8 md:px-0'>
+            <div className={`flex flex-col min-h-screen w-full mx-auto ${articleContainer}`}>
                 <ReactMarkdown 
                     className="font-lora text-xl md:text-lg leading-relaxed"
                     rehypePlugins={[rehypeRaw]}
@@ -162,18 +166,18 @@ export default async function Article({ article, slug }: { article: ArticlePage,
             </div>
             {/* Related and trending */}
             <div className="flex justify-center items-center">
-                <div className="grid grid-cols-2 md:grid-cols-3 w-4/5 gap-4">
+                <div className={`grid grid-cols-1 md:grid-cols-3 gap-4 ${articleContainer} md:max-w-[740px] lg:max-w-[800px]`}>
                     {/* Related */}
-                    <div className="col-span-2">
-                        <Divider text="related" />
+                    <div className="md:col-span-2">
+                        <Divider text="related" className="" />
                         <Suspense fallback={<p>Loading related articles...</p>}>
                             {/* @ts-expect-error Server Component - https://github.com/vercel/next.js/issues/42292 */}
                             <RelatedArticles articleCategoryId={article.categoryId} articleSlug={slug} articlePublishedAt={article.publishedAt} />
                         </Suspense>
                     </div>
                     {/* Trending */}
-                    <div className="hidden md:block">
-                        <Divider text="trending" />
+                    <div className="">
+                        <Divider text="trending" className="pb-6"/>
                         <Suspense fallback={<p>Loading trending articles...</p>}>
                             {/* @ts-expect-error Server Component - https://github.com/vercel/next.js/issues/42292 */}
                             <TrendingArticles /> 
