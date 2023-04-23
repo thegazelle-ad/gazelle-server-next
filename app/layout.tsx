@@ -47,7 +47,7 @@ export default async function RootLayout ({ children }: { children: React.ReactN
       <body>
         {/* @ts-ignore */}
         <Navigation issueNumber={issueNumber} categories={categories} publishedAt={publishedAt}/>
-        <div className="container max-w-screen-lg min-h-screen mx-auto flex flex-col flex-nowrap font-roboto scrollbar-hide my-2 px-2 sm:px-4 lg:px-0">
+        <div className="container max-w-screen-lg min-h-screen mx-auto flex flex-col flex-nowrap font-roboto scrollbar-hide my-2 px-8 md:px-4 lg:px-2">
           {/* Nav Bar */}
           {children}
           {/* Footer */}

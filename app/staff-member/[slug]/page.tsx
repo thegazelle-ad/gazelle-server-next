@@ -38,10 +38,9 @@ const ProfileCard = ({ person }: { person: AuthorProfile }) => {
           className="object-contain"
         />
       </div>
-      <div className="flex justify-center flex-col max-w-[50%]">
-        <h1 className="uppercase font-bold text-[2em] leading-[1.2em]
-                      block m-0">{person.name}</h1>
-        <h2 className="m-0 block text-[1rem] text-lightGray font-bold leading-[1em]">{person.title}</h2>
+      <div className="flex justify-center flex-col max-w-[50%] gap-2">
+        <h1 className="capitalize font-bold text-[2em] leading-[1.2em] font-lora block m-0">{person.name}</h1>
+        <h2 className="m-0 block text-[1rem] text-lightGray font-normal leading-[1em]">{person.title}</h2>
         <p className="block mt-[0.5rem] leading-5 font-normal">{person.bio}</p>
       </div>
     </div>
@@ -55,7 +54,7 @@ const ArticleList = ({ staffProfile }: { staffProfile: AuthorProfile }) => {
     <div className="flex justify-center items-center w-full">
       <div className="flex flex-col justify-center items-center max-w-[70%] min-w-[20%]">
         {staffProfile.articles.map((article) => (
-          <ProfileArticle key={article.title} article={article} />
+          <ProfileArticle key={article.title} article={article} className="my-4" />
         ))}
       </div>
     </div>

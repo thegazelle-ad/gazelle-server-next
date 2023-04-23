@@ -30,3 +30,5 @@ export const DEFAULT_SITE_TITLE = 'The Gazelle | NYU Abu Dhabi News';
 
 export const DATABASE_DATE_TIME_FORMAT = 'yyyy-MM-dd HH:mm:ss';
 export const DATABASE_DATE_FORMAT = 'yyyy-MM-dd';
+
+export const TEASER_ELLIPSIS_LENGTH = 150;
