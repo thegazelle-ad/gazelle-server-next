@@ -9,7 +9,7 @@ const Standard = ({ article, maxWidth, minWidth, large }: { article: ArticlePrev
   const authorSize = large ? "text-2xl md:text-base" : "text-xl md:text-sm";
 
   return (
-    <div className={`flex flex-col flex-wrap w-full gap-4 md:gap-2 ${minWidth} ${maxWidth}`}>
+    <div className={`flex flex-col flex-wrap w-full gap-4 md:gap-2 hover:cursor-pointer ${minWidth} ${maxWidth}`}>
         {/* Image */}
         <Link href={getArticleUrl(article)} className={`peer relative w-full md:w-auto mb-1 ${imageHeight}`}>
           <Image 

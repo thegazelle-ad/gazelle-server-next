@@ -1,11 +1,11 @@
-import { Suspense, ReactNode } from "react";
+import { Suspense, ReactNode, createElement } from "react";
+import ReactDom from 'react-dom';
 import Image from "next/image";
-import Link from "next/link";
 import { format, parseISO } from 'date-fns';
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from "rehype-raw";
 
-import { getArticle, getRelatedArticles, getGlobalTrendingArticles } from '../db';
+import { getRelatedArticles, getGlobalTrendingArticles } from '../db';
 import { 
     ARTICLE_DEFAULT_IMAGE,
     ARTICLE_DEFAULT_IMAGE_ALT,
@@ -17,6 +17,7 @@ import { Divider } from "./layout";
 import StackedArticle from "./articles/Stacked";
 import ListArticle from "./articles/List";
 import StyledLink from "./StyledLink";
+import ResizingImage from "./ResizingImage";
 
 type MarkdownImage = {
     src?: string;
@@ -30,31 +31,26 @@ type Link = {
 }
 
 let renderedFeaturedArticle = false;
+let renderedIllustrator = false;
 let renderedFirstLetter = true; // set to false to enable first letter styling
 
-// TODO - refactor out to a common file
+// TODO - experiment with this and client components!
+let image_alt: string[] = [];
+let image_illustrator: string | undefined = undefined;
+
 // render markdown images with the next/image component
 const imageRender = ((props: MarkdownImage) => {
-    // Only mark first image as priority
-    let priority = false;
-    if (!renderedFeaturedArticle) {
-        priority = true;
-        renderedFeaturedArticle = true;
-    }
-
     return (
         <>
             <div className="flex justify-center items-center my-4">
-                <div className="relative xl:h-[800px] lg:h-[600px] md:h-[400px] h-[350px] min-w-[90vw] w-[90vw]">
-                    <Image
-                        fill
-                        priority={priority}
-                        src={props.src || ARTICLE_DEFAULT_IMAGE}
-                        alt={props.alt || ARTICLE_DEFAULT_IMAGE_ALT}
-                        className="object-contain"
-                        sizes="80vw"
-                    />
-                </div>
+                <Image
+                    fill
+                    priority={false}
+                    src={props.src || ARTICLE_DEFAULT_IMAGE}
+                    alt={props.alt || ARTICLE_DEFAULT_IMAGE_ALT}
+                    className="object-contain"
+                    sizes="80vw"
+                />
             </div>
         </>
     )
@@ -116,11 +112,29 @@ const TrendingArticles = (async () => {
 
 
 export default async function Article({ article, slug }: { article: ArticlePage, slug: string }) {
-    const articleContainer = "md:max-w-[600px] px-8 md:px-0"
+    const articleContainer = "w-full md:max-w-[740px] lg:max-w-[650px] px-8 md:px-0"
+
+    // skip rendering the first image (we will get it by article.image)
+    renderedFeaturedArticle = false;
+    renderedIllustrator = false;
+
     return (
         <>
+            <div className="pt-4 pb-6">
+                {
+                    article.image && (
+                        <ResizingImage 
+                            className="relative w-full flex items-center justify-center"
+                            src={article.image || ARTICLE_DEFAULT_IMAGE}
+                            alt={image_alt[0] || ARTICLE_DEFAULT_IMAGE_ALT}
+                            sizes="(max-width: 1024px) 90vw, 1024px"
+                            priority={true}                
+                        />                    
+                    )
+                }
+            </div>
             {/* Head */}
-            <header className='flex flex-col mx-auto w-4/5 gap-3'>
+            <header className='flex flex-col mx-auto w-4/5 gap-3 pb-4'>
                 {/* Title */}
                 <h1 className='text-left font-lora font-bold capitalize text-4xl'>
                     {article.title}
@@ -136,19 +150,37 @@ export default async function Article({ article, slug }: { article: ArticlePage,
                     <p className="text-base md:text-sm text-gray-600 font-normal">{format(parseISO(article.publishedAt), ARTICLE_DATE_FORMAT)}</p>
                 </div>
                 {/* Divider */}
-                <div className="border-b border-gray-300 w-full pt-2"/>
+                <div className="border-b border-gray-500 w-full pt-2"/>
             </header>
             {/* Article */}
             <div className={`flex flex-col min-h-screen w-full mx-auto ${articleContainer}`}>
-                <ReactMarkdown 
+                <ReactMarkdown
                     className="font-lora text-xl md:text-lg leading-relaxed"
                     rehypePlugins={[rehypeRaw]}
                     components={{
-                    img: imageRender,
-                    a: linkRender,
-                    // remove the wrapping <p> tag - https://github.com/remarkjs/react-markdown/issues/731
-                    p: textRender,
-                }}>
+                        img: (props: MarkdownImage) => {
+                            if (!renderedFeaturedArticle) {
+                                renderedFeaturedArticle = true;
+                                image_alt.push(props.alt || ARTICLE_DEFAULT_IMAGE_ALT)
+                                return (<></>);
+                            }
+
+                            return imageRender(props);
+                        },
+                        a: linkRender,
+                        // remove the wrapping <p> tag - https://github.com/remarkjs/react-markdown/issues/731
+                        p: textRender,
+                        // em:  ({ children }: { children: ReactNode | ReactNode[] }) => {
+                        //     if (!renderedIllustrator) {
+                        //         renderedIllustrator = true;
+                        //         image_illustrator = (children as string);
+                        //         return (<></>);
+                        //     }
+
+                        //     return <em>{children}</em>;
+                        // }
+                    }}
+                >
                     {article.markdown}
                 </ReactMarkdown>
             </div>
