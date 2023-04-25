@@ -11,6 +11,7 @@
   "dependencies": {
     "@planetscale/database": "^1.6.0",
     "@vercel/analytics": "^1.0.0",
+    "commonmark": "^0.30.0",
     "date-fns": "^2.29.3",
     "drizzle-orm": "^0.23.12",
     "next": "13.2.5-canary.28",
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "@prisma/client": "^4.12.0",
+    "@types/commonmark": "^0.27.6",
     "@types/lodash": "^4.14.191",
     "@types/node": "18.15.5",
     "@types/react": "18.0.28",

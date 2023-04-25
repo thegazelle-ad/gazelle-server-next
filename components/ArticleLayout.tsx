@@ -4,6 +4,7 @@ import Image from "next/image";
 import { format, parseISO } from 'date-fns';
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from "rehype-raw";
+import { Parser } from "commonmark";
 
 import { getRelatedArticles, getGlobalTrendingArticles } from '../db';
 import { 
@@ -42,19 +43,16 @@ let image_illustrator: string | undefined = undefined;
 const imageRender = ((props: MarkdownImage) => {
     return (
         <>
-            <div className="flex justify-center items-center my-4">
-                <Image
-                    fill
-                    priority={false}
-                    src={props.src || ARTICLE_DEFAULT_IMAGE}
-                    alt={props.alt || ARTICLE_DEFAULT_IMAGE_ALT}
-                    className="object-contain"
-                    sizes="80vw"
-                />
-            </div>
+            <ResizingImage
+                priority={false}
+                src={props.src || ARTICLE_DEFAULT_IMAGE}
+                alt={props.alt || ARTICLE_DEFAULT_IMAGE_ALT}
+                className="relative w-full flex items-center justify-center"
+                sizes="600px"
+            />
         </>
     )
-    });
+});
 
 // render links
 const linkRender = (props: Link) => (
@@ -114,9 +112,39 @@ const TrendingArticles = (async () => {
 export default async function Article({ article, slug }: { article: ArticlePage, slug: string }) {
     const articleContainer = "w-full md:max-w-[740px] lg:max-w-[650px] px-8 md:px-0"
 
+    const reader = new Parser();
+    const parsed = reader.parse(article.markdown);
+    const walker = parsed.walker()
+
+    let featuredImage: { src?: string, alt?: string } = { src: article.image };
+    let illustrator: string | null = null;
+
+    // Only check the first 10 nodes from the md
+    for (let index = 0; index < 10; index++) {
+        let event = walker.next()
+        if (!event) break;
+        let node = event.node;
+
+        // Take the first image
+        if (node.type == 'image') {
+            featuredImage.src = node.destination || ARTICLE_DEFAULT_IMAGE;
+            featuredImage.alt = node.title || ARTICLE_DEFAULT_IMAGE_ALT;
+            // skip entering
+            walker.next();
+        }
+
+        // Take the first illustrator
+        if (node.type == 'text' && node.literal) {
+            illustrator = node.literal;
+        }
+
+        // Break if we have both
+        if (featuredImage.src && illustrator) break;
+    }
+
     // skip rendering the first image (we will get it by article.image)
-    renderedFeaturedArticle = false;
-    renderedIllustrator = false;
+    let renderedFeaturedArticle = false;
+    let renderedIllustrator = false;
 
     return (
         <>
@@ -125,16 +153,17 @@ export default async function Article({ article, slug }: { article: ArticlePage,
                     article.image && (
                         <ResizingImage 
                             className="relative w-full flex items-center justify-center"
-                            src={article.image || ARTICLE_DEFAULT_IMAGE}
-                            alt={image_alt[0] || ARTICLE_DEFAULT_IMAGE_ALT}
+                            src={featuredImage.src || ARTICLE_DEFAULT_IMAGE}
+                            alt={featuredImage.alt || ARTICLE_DEFAULT_IMAGE_ALT}
                             sizes="(max-width: 1024px) 90vw, 1024px"
                             priority={true}                
                         />                    
                     )
                 }
+                <div className="font-lora text-base py-1">{illustrator}</div>
             </div>
             {/* Head */}
-            <header className='flex flex-col mx-auto w-4/5 gap-3 pb-4'>
+            <header className='flex flex-col mx-auto w-4/5 gap-3'>
                 {/* Title */}
                 <h1 className='text-left font-lora font-bold capitalize text-4xl'>
                     {article.title}
@@ -144,7 +173,7 @@ export default async function Article({ article, slug }: { article: ArticlePage,
                     {article.teaser}
                 </p>
                 {/* Metadata */}
-                <div className="flex flex-row gap-3 algin-center items-center">
+                <div className="flex flex-row gap-3 align-center items-center">
                     {getAuthorsText(article, "text-base text-gray-600 font-medium -my-1 leading-4")}
                     <div className="border-l-[2px] border-gray-400 h-4"/>
                     <p className="text-base md:text-sm text-gray-600 font-normal">{format(parseISO(article.publishedAt), ARTICLE_DATE_FORMAT)}</p>
@@ -161,7 +190,6 @@ export default async function Article({ article, slug }: { article: ArticlePage,
                         img: (props: MarkdownImage) => {
                             if (!renderedFeaturedArticle) {
                                 renderedFeaturedArticle = true;
-                                image_alt.push(props.alt || ARTICLE_DEFAULT_IMAGE_ALT)
                                 return (<></>);
                             }
 
@@ -170,15 +198,14 @@ export default async function Article({ article, slug }: { article: ArticlePage,
                         a: linkRender,
                         // remove the wrapping <p> tag - https://github.com/remarkjs/react-markdown/issues/731
                         p: textRender,
-                        // em:  ({ children }: { children: ReactNode | ReactNode[] }) => {
-                        //     if (!renderedIllustrator) {
-                        //         renderedIllustrator = true;
-                        //         image_illustrator = (children as string);
-                        //         return (<></>);
-                        //     }
+                        em:  ({ children }: { children: ReactNode | ReactNode[] }) => {
+                            if (!renderedIllustrator) {
+                                renderedIllustrator = true;
+                                return (<></>);
+                            }
 
-                        //     return <em>{children}</em>;
-                        // }
+                            return <em>{children}</em>;
+                        }
                     }}
                 >
                     {article.markdown}
