@@ -1,4 +1,4 @@
-import { eq, ne, desc, inArray, gte, like } from 'drizzle-orm/expressions';
+import { eq, ne, desc, inArray, gte, like, and } from 'drizzle-orm/expressions';
 import { sql } from 'drizzle-orm';
 import { 
     ArticlePreview,
@@ -25,11 +25,12 @@ import {
 import { 
     UnwrapPromise,
     Articles,
-    Issues,
     IssuesArticlesOrder,
     AuthorsArticles,
     Staff,
     db,
+    Issues,
+    Categories,
 } from "../common";
 import { format } from 'date-fns';
 
@@ -363,4 +364,38 @@ export async function addAuthorsToArticles<T extends { id: number }>(articles: T
     });
 
     return Array.from(articlesWithAuthors.values());
+}
+// TODO:
+// 1. get latest Issue ID
+// 2. get articles for that issue: where issueId = latestIssueId: where categoryId = 2 (features)
+
+export async function getCategoryArticles( category: string ) {
+    // get latest Issue ID
+    const latestIssueId = await db.select({
+        id: Issues.id,
+        number: Issues.issueNumber,
+    })
+        .from(Issues)
+        .orderBy(desc(Issues.id))
+        .limit(1);
+    
+    // get articles for that issue: where issueId = latestIssueId: where categoryId = 2 (features)
+    const articles = await db.select({
+        title: Articles.title,
+        slug: Articles.slug,
+        teaser: Articles.teaser,
+        imageUrl: Articles.imageUrl,
+        author_name: Staff.name,
+        author_slug: Staff.slug,
+    })
+        .from(IssuesArticlesOrder)
+        .innerJoin(Articles, eq(Articles.id, IssuesArticlesOrder.articleId))
+        // .innerJoin(IssuesArticlesOrder, eq(Articles.id, IssuesArticlesOrder.articleId))
+        .innerJoin(AuthorsArticles, eq(AuthorsArticles.articleId, Articles.id))
+        .innerJoin(Staff, eq(Staff.id, AuthorsArticles.authorId))
+        // .innerJoin(Issues, eq(Issues.id, IssuesArticlesOrder.issueId))
+        .innerJoin(Categories, eq(Categories.id, Articles.categoryId))
+        .where(and(eq(IssuesArticlesOrder.issueId, latestIssueId[0].id), eq(Categories.slug, category)))
+    
+    return articles;
 }
