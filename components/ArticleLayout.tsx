@@ -19,6 +19,7 @@ import StackedArticle from "./articles/Stacked";
 import ListArticle from "./articles/List";
 import StyledLink from "./StyledLink";
 import ResizingImage from "./ResizingImage";
+import Link from "next/link";
 
 type MarkdownImage = {
     src?: string;
@@ -31,13 +32,7 @@ type Link = {
     children: any;
 }
 
-let renderedFeaturedArticle = false;
-let renderedIllustrator = false;
 let renderedFirstLetter = true; // set to false to enable first letter styling
-
-// TODO - experiment with this and client components!
-let image_alt: string[] = [];
-let image_illustrator: string | undefined = undefined;
 
 // render markdown images with the next/image component
 const imageRender = ((props: MarkdownImage) => {
@@ -71,7 +66,8 @@ const textRender = (({ children }: { children: ReactNode | ReactNode[] }) => {
     }
 
     return (
-        <div className={`mb-6${firstLetter ? " first-letter:text-5xl first-letter:font-medium" : ""}`}>{children}</div>
+        // place margin on divs so spacees (newlines) are rendered
+        <div className={`mb-4 md:mb-6 ${firstLetter ? " first-letter:text-5xl first-letter:font-medium" : ""}`}>{children}</div>
     );
 });
 
@@ -110,7 +106,7 @@ const TrendingArticles = (async () => {
 
 
 export default async function Article({ article, slug }: { article: ArticlePage, slug: string }) {
-    const articleContainer = "w-full md:max-w-[740px] lg:max-w-[650px] px-8 md:px-0"
+    const articleContainer = "w-full md:max-w-[700px] lg:max-w-[700px]"
 
     const reader = new Parser();
     const parsed = reader.parse(article.markdown);
@@ -148,7 +144,7 @@ export default async function Article({ article, slug }: { article: ArticlePage,
 
     return (
         <>
-            <div className="pt-4 pb-6">
+            <div className="md:pt-4 pb-2 md:pb-6">
                 {
                     article.image && (
                         <ResizingImage 
@@ -163,13 +159,13 @@ export default async function Article({ article, slug }: { article: ArticlePage,
                 <div className="font-lora text-base py-1">{illustrator}</div>
             </div>
             {/* Head */}
-            <header className='flex flex-col mx-auto w-4/5 gap-3'>
+            <header className='flex flex-col mx-auto w-full max-w-[700px] gap-4 md:gap-3'>
                 {/* Title */}
-                <h1 className='text-left font-lora font-bold capitalize text-4xl'>
+                <h1 className='text-left font-lora font-bold capitalize text-3xl md:text-4xl'>
                     {article.title}
                 </h1>
                 {/* Teaser */}
-                <p className="font-light text-lg md:text-base text-gray-600">
+                <p className="font-light font-lora text-lg md:text-base text-gray-600 leading-normal">
                     {article.teaser}
                 </p>
                 {/* Metadata */}
@@ -179,12 +175,12 @@ export default async function Article({ article, slug }: { article: ArticlePage,
                     <p className="text-base md:text-sm text-gray-600 font-normal">{format(parseISO(article.publishedAt), ARTICLE_DATE_FORMAT)}</p>
                 </div>
                 {/* Divider */}
-                <div className="border-b border-gray-500 w-full pt-2"/>
+                <div className="border-b border-gray-500 w-full md:pt-2"/>
             </header>
             {/* Article */}
             <div className={`flex flex-col min-h-screen w-full mx-auto ${articleContainer}`}>
                 <ReactMarkdown
-                    className="font-lora text-xl md:text-lg leading-relaxed"
+                    className="font-lora text-lg md:text-lg leading-normal md:leading-relaxed"
                     rehypePlugins={[rehypeRaw]}
                     components={{
                         img: (props: MarkdownImage) => {
@@ -213,7 +209,7 @@ export default async function Article({ article, slug }: { article: ArticlePage,
             </div>
             {/* Gazelle Image */}
             <div className="flex flex-row items-center justify-center mb-4">
-                <div className="relative h-12 w-full">
+                <Link href="/" className="relative h-12 w-full">
                     <Image
                         src="/gazelle.svg"
                         alt="gazelle logo"
@@ -221,7 +217,7 @@ export default async function Article({ article, slug }: { article: ArticlePage,
                         unoptimized
                         className="object-contain"
                     />
-                </div>
+                </Link>
             </div>
             {/* Related and trending */}
             <div className="flex justify-center items-center">
