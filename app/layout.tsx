@@ -41,13 +41,17 @@ export const metadata = {
 export default async function RootLayout ({ children }: { children: React.ReactNode }) {  
   const { categories, publishedAt, issueNumber } = await cacheGetLatestPublishedIssue();
 
+  // Borders
+  const containerClass = "px-5 md:px-4 lg:px-2";
+
   //@ts-ignore
   return (
     <html lang="en" className={`${lora.variable} ${roboto.variable}`}>
       <body>
         {/* @ts-ignore */}
-        <Navigation issueNumber={issueNumber} categories={categories} publishedAt={publishedAt}/>
-        <div className="container max-w-screen-lg min-h-screen mx-auto flex flex-col flex-nowrap font-roboto scrollbar-hide my-2 px-8 md:px-4 lg:px-2">
+        <Navigation issueNumber={issueNumber} categories={categories} publishedAt={publishedAt} className={containerClass}/>
+        {/* Main content */}
+        <div className={`container max-w-screen-lg min-h-screen mx-auto flex flex-col flex-nowrap font-roboto scrollbar-hide md:my-2 ${containerClass}`}>
           {/* Nav Bar */}
           {children}
           {/* Footer */}

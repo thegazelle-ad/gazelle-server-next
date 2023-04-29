@@ -52,7 +52,7 @@ const Categories = ({ categories, publishedAt, issueNumber }: { categories: Menu
       setDisplayIssueNumber(issueNumber);
       setDisplayDate(format(parse(publishedAt || DEFAULT_ISSUE_DATE, DATABASE_DATE_FORMAT, new Date()), ARTICLE_DATE_FORMAT));
     }
-  }, [params]);
+  }, [params.issueNumber, issueNumber, publishedAt]);
 
   // Render the categories
   return (
@@ -83,14 +83,14 @@ const Categories = ({ categories, publishedAt, issueNumber }: { categories: Menu
 }
 
 // Menu component
-const Menu = ({ show, mobileDropdown, closeMenu, showSearch }: { show: boolean, mobileDropdown: MenuCategory[], closeMenu: MouseEventHandler, showSearch: MouseEventHandler }) => {
+const MobileMenu = ({ show, mobileDropdown, closeMenu, showSearch }: { show: boolean, mobileDropdown: MenuCategory[], closeMenu: MouseEventHandler, showSearch: MouseEventHandler }) => {
   return (
     <div className={`${show ? 'block' : 'hidden'}`}>
       {/* Menu */}
-      <div className="bg-white p-4 absolute top-full left-0 w-full" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-white absolute top-full left-0 w-full pt-4" onClick={(e) => e.stopPropagation()}>
         <ul className="pl-4 space-y-6 text-2xl">
           <div>
-            <li className="font-light capitalize" onClick={showSearch}>Search</li>
+            <li className="font-light capitalize" onClick={(e) => { closeMenu(e); showSearch(e); }}>Search</li>
           </div>
           {
             mobileDropdown.map(category => 
@@ -107,7 +107,7 @@ const Menu = ({ show, mobileDropdown, closeMenu, showSearch }: { show: boolean, 
       </div>
       {/* White Background */}
       <div
-        className="fixed inset-0 -z-10 opacity-75 bg-white"
+        className="fixed inset-0 opacity-75 bg-white"
         onClick={closeMenu}
       />
     </div>
@@ -132,7 +132,7 @@ const SocialMedia = () => {
 }
 
 // Search component
-const Search = ({ show, closeSearch, closeMenu }: { show: boolean, closeSearch: MouseEventHandler, closeMenu: Function }) => {
+const Search = ({ show, closeSearch }: { show: boolean, closeSearch: MouseEventHandler }) => {
   const [searchText, setSearchText] = useState<string>('');
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -159,7 +159,6 @@ const Search = ({ show, closeSearch, closeMenu }: { show: boolean, closeSearch: 
 
     //@ts-ignore
     closeSearch();
-    closeMenu();
 
     // clear the search text
     setSearchText('');
@@ -197,7 +196,7 @@ const Search = ({ show, closeSearch, closeMenu }: { show: boolean, closeSearch: 
   );
 }
 
-const Navigation = ({ issueNumber, categories, publishedAt }: { issueNumber: number, categories: Category[], publishedAt: string }) => {
+const Navigation = ({ issueNumber, categories, publishedAt, className }: { issueNumber: number, categories: Category[], publishedAt: string, className: string }) => {
   const menuCategories = [
     ...categories.map(category => ({ name: category.name, slug: category.slug })),
     { name: 'team', slug: 'team' },
@@ -214,18 +213,18 @@ const Navigation = ({ issueNumber, categories, publishedAt }: { issueNumber: num
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
   return (
-    <nav className="mt-2 pt-5 sticky top-0 z-50 bg-white flex justify-center font-roboto">
+    <nav className="pt-2 md:pt-5 sticky top-0 z-50 bg-white flex justify-center font-roboto drop-shadow-sm md:drop-shadow-none">
       <div className="container max-w-screen-lg">
 
-        <div className="px-8 md:px-4 lg:px-2">
+        <div className={className}>
 
           {/* Search and Social */}
-          <div className="flex flex-row w-full justify-between items-center px-2">
+          <div className="flex flex-row w-full justify-between items-center px-2 mb-2 md:mb-4">
 
             {/* Title / Logo */}
             <div className="">
               <Link href="/" onClick={() => setShowMenu(false)} >
-                <div className="flex flex-row gap-4 items-center mb-4">
+                <div className="flex flex-row gap-4 items-center">
                   <div className="relative w-[40px] h-[40px]">
                     <Image
                       src="/gazelle.svg"
@@ -250,7 +249,7 @@ const Navigation = ({ issueNumber, categories, publishedAt }: { issueNumber: num
 
             {/* Hamburger Menu (mobile only) */}
             <div className="block md:hidden" onClick={(e) => { e.stopPropagation(); setShowMenu(!showMenu)}}>
-                <div className="relative w-7 h-7 mt-1 mr-2 mb-4">
+                <div className="relative w-7 h-7 mt-1 mr-2">
                   <Image src={Hamburger} alt="menu" fill unoptimized className="object-contain" sizes="20px" />
                 </div>
             </div>
@@ -258,17 +257,21 @@ const Navigation = ({ issueNumber, categories, publishedAt }: { issueNumber: num
           </div>
 
           {/* Line */}
-          <div className="border-b border-gray-500"/>
+          {/* Placed in /layout.app for mobile, so spans full width */}
+          <div className="border-b border-gray-500 hidden md:block"/>
 
           {/* Categories */}
           <Categories issueNumber={issueNumber} categories={menuCategories} publishedAt={publishedAt}/>
 
           {/* Mobile Menu */}
-          <Menu show={showMenu} mobileDropdown={mobileDropdown} closeMenu={() => setShowMenu(false)} showSearch={() => setShowSearch(!showSearch)}/>
+          <MobileMenu show={showMenu} mobileDropdown={mobileDropdown} closeMenu={() => setShowMenu(false)} showSearch={() => setShowSearch(!showSearch)}/>
 
           {/* Search */}
-        <Search show={showSearch} closeSearch={() => setShowSearch(false)} closeMenu={() => setShowMenu(false)}/>
+        <Search show={showSearch} closeSearch={() => setShowSearch(false)} />
         </div>
+
+        {/* Mobile line */}
+        <div className="border-b border-gray-500 z-50 md:hidden"/>
 
       </div>
     </nav>
