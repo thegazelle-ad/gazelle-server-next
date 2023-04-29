@@ -12,7 +12,7 @@ export default function Issue({ issue }: { issue: IssueArticles }) {
   return (
     <div className="flex flex-col justify-center gap-2 md:gap-0">
       {/* Featured Article */}
-      <div>
+      <div className="pt-6 md:pt-0">
         <FeaturedArticle article={featured} />
       </div>
 
@@ -20,7 +20,9 @@ export default function Issue({ issue }: { issue: IssueArticles }) {
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 w-full gap-x-4">
         
         <Divider text="editor's picks" href={"/editors-picks"} className="py-2 col-span-2"/>
-        <Divider text="trending" href={"/trending"} className="py-2 col-span-1" />
+        {/* Trending - hidden on mobile */}
+        <Divider text="trending" href={"/trending"} className="py-2 col-span-1 hidden md:flex" />
+
         {/* editors picks */}
         <div className="grid col-span-2">
           {/* Editors Picks div */}
@@ -34,8 +36,10 @@ export default function Issue({ issue }: { issue: IssueArticles }) {
             })}
           </div>
         </div>
-        {/* Trending */}
-        <div className="">
+        {/* Trending (mobile) */}
+        <Divider text="trending" href={"/trending"} className="py-2 pt-4 col-span-2 block md:hidden" />
+        {/* <Divider text="trending" href={"/trending"} className="py-2 col-span-1 block" /> */}
+        <div className="col-span-1">
           <div className="grid grid-cols-1 gap-4">
             {trending.map((article) => {
               return (
