@@ -107,7 +107,7 @@ const MobileMenu = ({ show, mobileDropdown, closeMenu, showSearch }: { show: boo
       </div>
       {/* White Background */}
       <div
-        className="fixed inset-0 opacity-75 bg-white"
+        className="fixed inset-0 -z-10 opacity-75 bg-white"
         onClick={closeMenu}
       />
     </div>
@@ -173,13 +173,23 @@ const Search = ({ show, closeSearch }: { show: boolean, closeSearch: MouseEventH
         <div className="flex flex-col items-center justify-center">
           <div className="flex flex-row items-center justify-center w-full px-4">
             <form onSubmit={handleSearch} className="w-full">
+            {/* Full "Search articles and authors..." */}
             <input
               ref={inputRef}
               type="text"
               value={searchText}
               onChange={handleInputChange}
-              className="w-full text-2xl bg-transparent focus:outline-none border-gray-300 shadow-sm p-4 font-light"
+              className="w-full text-2xl bg-transparent focus:outline-none border-gray-300 shadow-sm p-4 font-light hidden sm:block"
               placeholder="Search articles and authors..."
+            />
+            {/* Clipped "Search" */}
+            <input
+              ref={inputRef}
+              type="text"
+              value={searchText}
+              onChange={handleInputChange}
+              className="w-full text-2xl bg-transparent focus:outline-none border-gray-300 shadow-sm p-4 font-light block sm:hidden"
+              placeholder="Search"
             />
           </form>
           <button onClick={(e) => { callSearch()}} type="submit" className="bg-gray-700 text-white text-lg font-semibold h-12 px-6 ml-4">Go</button>
@@ -189,7 +199,7 @@ const Search = ({ show, closeSearch }: { show: boolean, closeSearch: MouseEventH
       </div>
       {/* White Background */}
       <div
-        className={`${show ? 'block' : 'hidden'} fixed inset-1 opacity-95 bg-white z-60`}
+        className={`${show ? 'block' : 'hidden'} fixed inset-0 opacity-95 bg-white h-screen`}
         onClick={closeSearch}
       />
     </div>
@@ -267,7 +277,8 @@ const Navigation = ({ issueNumber, categories, publishedAt, className }: { issue
           <MobileMenu show={showMenu} mobileDropdown={mobileDropdown} closeMenu={() => setShowMenu(false)} showSearch={() => setShowSearch(!showSearch)}/>
 
           {/* Search */}
-        <Search show={showSearch} closeSearch={() => setShowSearch(false)} />
+          <Search show={showSearch} closeSearch={() => setShowSearch(false)} />
+
         </div>
 
         {/* Mobile line */}

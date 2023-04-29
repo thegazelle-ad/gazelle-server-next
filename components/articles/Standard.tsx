@@ -4,12 +4,13 @@ import { ArticlePreview, getAuthorsText, getArticleUrl, ellipsis } from './commo
 import { TEASER_ELLIPSIS_LENGTH } from '../../env';
 
 const Standard = ({ article, maxWidth, minWidth, large }: { article: ArticlePreview, maxWidth: string, minWidth: string, large?: boolean }) => {
-  const imageHeight = large ? "h-[300px] md:h-[170px] lg:h-[300px]" : "h-[300px] md:h-[170px]";
-  const titleSize = large ? "text-3xl md:text-2xl" : "text-3xl md:text-xl";
-  const authorSize = large ? "text-2xl md:text-base" : "text-xl md:text-sm";
+  const imageHeight = large ? "h-[240px] sm:h-[300px] md:h-[170px] lg:h-[300px]" : "h-[240px] sm:h-[350px] md:h-[170px]";
+  const titleSize = large ? "text-2xl sm:text-3xl md:text-2xl" : "text-2xl sm:text-3xl md:text-xl";
+  const authorSize = large ? "text-base" : "text-base md:text-sm";
+  const teaserSize = large ? "text-base" : "text-base md:text-sm";
 
   return (
-    <div className={`flex flex-col flex-wrap w-full gap-4 md:gap-2 hover:cursor-pointer ${minWidth} ${maxWidth}`}>
+    <div className={`flex flex-col flex-wrap w-full gap-3 md:gap-2 hover:cursor-pointer ${minWidth} ${maxWidth}`}>
         {/* Image */}
         <Link href={getArticleUrl(article)} className={`peer relative w-full md:w-auto mb-1 ${imageHeight}`}>
           <Image 
@@ -26,7 +27,7 @@ const Standard = ({ article, maxWidth, minWidth, large }: { article: ArticlePrev
         {getAuthorsText(article, `${authorSize} text-gray-600 font-normal -my-1 py-1 leading-9 md:leading-5`)}
         {/* Teaser */}
         <Link href={getArticleUrl(article)}>
-          <p className={`${authorSize} font-light text-gray-600 hover:text-sky-600`}>{ellipsis(article.teaser, TEASER_ELLIPSIS_LENGTH)}</p>
+          <p className={`${teaserSize} font-light text-gray-600 hover:text-sky-600`}>{ellipsis(article.teaser, TEASER_ELLIPSIS_LENGTH)}</p>
         </Link>
     </div>
 );
