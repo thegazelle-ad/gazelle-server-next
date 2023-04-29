@@ -144,7 +144,7 @@ export default async function Article({ article, slug }: { article: ArticlePage,
 
     return (
         <>
-            <div className="md:pt-4 pb-2 md:pb-6">
+            <div className="pt-4 pb-2 md:pb-6">
                 {
                     article.image && (
                         <ResizingImage 
