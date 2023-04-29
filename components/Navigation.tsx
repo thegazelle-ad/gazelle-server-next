@@ -107,7 +107,7 @@ const MobileMenu = ({ show, mobileDropdown, closeMenu, showSearch }: { show: boo
       </div>
       {/* White Background */}
       <div
-        className="fixed inset-0 -z-10 opacity-75 bg-white"
+        className="fixed inset-0 -z-10 opacity-75 bg-white h-screen"
         onClick={closeMenu}
       />
     </div>
