@@ -40,3 +40,4 @@ next-env.d.ts
 # db introspection
 migrations/**
 dist/**
+static/**
