@@ -84,7 +84,7 @@ export type IssueArticles = {
     editorsPicks: ArticlePreview[];
 }
 
-export function getAuthorsText(article: ArticlePreview | ArticlePage | ArticleList, style="text-sm text-gray-600 font-normal -my-1 leading-4") {
+export function getAuthorsText(article: ArticlePreview | ArticlePage | ArticleList | ArticleStack, style="text-sm text-gray-600 font-normal -my-1 leading-4") {
   return (
     <div>
       <ul className={style}>
@@ -110,7 +110,7 @@ export function getAuthorsText(article: ArticlePreview | ArticlePage | ArticleLi
   );
 }
 
-export function getArticleUrl(article: ArticlePreview | ArticleList) {
+export function getArticleUrl(article: ArticlePreview | ArticleList | ArticleStack) {
     return `/issue/${article.issue}/${article.slug}`
 }
 
