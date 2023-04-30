@@ -1,5 +1,4 @@
 import { Suspense, ReactNode, createElement } from "react";
-import ReactDom from 'react-dom';
 import Image from "next/image";
 import { format, parseISO } from 'date-fns';
 import ReactMarkdown from 'react-markdown'
@@ -12,6 +11,7 @@ import {
     ARTICLE_DEFAULT_IMAGE_ALT,
     DEFAULT_BROKEN_LINK,
     ARTICLE_DATE_FORMAT,
+    SHOW_ARTICLE_CAPTION_SINCE,
 } from '../env';
 import { ArticlePage, getAuthorsText } from "./articles";
 import { Divider } from "./layout";
@@ -142,6 +142,10 @@ export default async function Article({ article, slug }: { article: ArticlePage,
     let renderedFeaturedArticle = false;
     let renderedIllustrator = false;
 
+    let featuredImageCaption = '';
+    if (article.publishedAt > SHOW_ARTICLE_CAPTION_SINCE && featuredImage.alt)
+        featuredImageCaption = featuredImage.alt;
+
     return (
         <>
             <div className="pt-4 pb-2 md:pb-6">
@@ -156,7 +160,7 @@ export default async function Article({ article, slug }: { article: ArticlePage,
                         />                    
                     )
                 }
-                <div className="font-lora text-base py-1">{illustrator}</div>
+                <div className="font-lora text-base py-1">{featuredImageCaption} <p className="text-sm inline">{illustrator}</p></div>
             </div>
             {/* Head */}
             <header className='flex flex-col mx-auto w-full max-w-[700px] gap-4 md:gap-3'>
