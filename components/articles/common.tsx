@@ -33,6 +33,7 @@ export type AuthorProfile = {
     image: string;
     bio: string;
     articles: ArticleList[];
+    illustrations: ArticleList[];
 }
 
 // Used on a profile page

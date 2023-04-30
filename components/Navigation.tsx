@@ -134,14 +134,25 @@ const SocialMedia = () => {
 // Search component
 const Search = ({ show, closeSearch }: { show: boolean, closeSearch: MouseEventHandler }) => {
   const [searchText, setSearchText] = useState<string>('');
+  const [placeHolderText, setPlaceHolderText] = useState<string>('Search...');
+
   const router = useRouter();
+
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const windowSize = useRef([window.innerWidth, window.innerHeight]);
 
   useEffect(() => {
     if (show && inputRef.current) {
       inputRef.current.focus();
     }
+
+    if (windowSize.current[0] > 400) {
+      setPlaceHolderText('Search articles and authors...');
+    }
   }, [show]);
+
+
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchText(event.target.value);
@@ -179,17 +190,8 @@ const Search = ({ show, closeSearch }: { show: boolean, closeSearch: MouseEventH
               type="text"
               value={searchText}
               onChange={handleInputChange}
-              className="w-full text-2xl bg-transparent focus:outline-none border-gray-300 shadow-sm p-4 font-light hidden sm:block"
-              placeholder="Search articles and authors..."
-            />
-            {/* Clipped "Search" */}
-            <input
-              ref={inputRef}
-              type="text"
-              value={searchText}
-              onChange={handleInputChange}
-              className="w-full text-2xl bg-transparent focus:outline-none border-gray-300 shadow-sm p-4 font-light block sm:hidden"
-              placeholder="Search"
+              className="w-full text-2xl bg-transparent focus:outline-none border-gray-300 shadow-sm p-4 font-light"
+              placeholder={placeHolderText}
             />
           </form>
           <button onClick={(e) => { callSearch()}} type="submit" className="bg-gray-700 text-white text-lg font-semibold h-12 px-6 ml-4">Go</button>

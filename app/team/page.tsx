@@ -26,8 +26,8 @@ const TeamMember = ({ staff }: { staff: AuthorPreview }) => {
                 alt="team-member-image"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
-              <h2 className="text-[1.3rem] font-lora font-normal leading-tight peer-hover:text-sky-600 hover:text-sky-600 pt-4">{staff.staffName}</h2>
-              <h3 className="text-[1rem] font-lora font-[300] text-gray-500 hover:text-sky-600 pt-1">{staff.staffTitle}</h3>
+              <h2 className="text-xl font-lora font-medium leading-tight peer-hover:text-sky-600 hover:text-sky-600 pt-4">{staff.staffName}</h2>
+              <h3 className="text-base font-lora font-light text-gray-500 hover:text-sky-600 pt-1">{staff.staffTitle}</h3>
             </div>
         </Link>
       </>

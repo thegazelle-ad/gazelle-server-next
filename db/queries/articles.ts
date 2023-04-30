@@ -182,7 +182,6 @@ export async function getArticle(slug: string): Promise<ArticlePage> {
     if (!article[0].markdown)
         throw new Error('Article missing content!');    
 
-
     // get authors
     const authors = await db.select({
         name: Staff.name,
@@ -190,8 +189,7 @@ export async function getArticle(slug: string): Promise<ArticlePage> {
     })
         .from(AuthorsArticles)
         .where(eq(AuthorsArticles.articleId, article[0].id))
-        .innerJoin(Staff, eq(AuthorsArticles.authorId, Staff.id))
-        .limit(1);
+        .innerJoin(Staff, eq(AuthorsArticles.authorId, Staff.id));
     
     if (!authors)
         throw new Error('Article missing authors');
@@ -239,39 +237,7 @@ export async function getRelatedArticles(articleCategoryId: number, articleSlug:
         .orderBy(desc(Articles.publishedAt))
         .limit(2);
 
-    // fetch the authors
-    const authors = await db.select({
-        articleId: AuthorsArticles.articleId,
-        name: Staff.name,
-        slug: Staff.slug,
-    })
-        .from(AuthorsArticles)
-        .innerJoin(Staff, eq(AuthorsArticles.authorId, Staff.id))
-        .where(inArray(AuthorsArticles.articleId, relatedArticles.map((a) => a.id)));
-    
-    // combine articles and authors
-    // we can probably do this better in the future
-    const articlesWithAuthors = new Map<number, ArticleList>();
-    relatedArticles.forEach((article) => {
-        articlesWithAuthors.set(article.id, {
-            issue: article.issue,
-            title: article.title,
-            slug: article.slug,
-            image: article.image || ARTICLE_DEFAULT_IMAGE,
-            teaser: article.teaser || ARTICLE_DEFAULT_TEASER,
-            authors: [],
-        });
-    });
-    authors.forEach((author) => {
-        const article = articlesWithAuthors.get(author.articleId);
-        if (!article)
-            return;
-
-        article.authors.push({
-            name: author.name,
-            slug: author.slug,
-        } as Author);
-    });
+    const articlesWithAuthors = await addAuthorsToArticles(relatedArticles);
 
     return Array.from(articlesWithAuthors.values()) as ArticleList[];
 }
@@ -293,39 +259,9 @@ export async function getGlobalTrendingArticles() {
     if (!trendingArticles || trendingArticles.length === 0)
         throw new Error('No trending articles found!');
 
-    // fetch the authors
-    const authors = await db.select({
-        articleId: AuthorsArticles.articleId,
-        name: Staff.name,
-        slug: Staff.slug,
-    })
-        .from(AuthorsArticles)
-        .innerJoin(Staff, eq(AuthorsArticles.authorId, Staff.id))
-        .where(inArray(AuthorsArticles.articleId, trendingArticles.map((a) => a.id)));
-    
-    // combine articles and authors
-    // we can probably do this better in the future
-    const articlesWithAuthors = new Map<number, ArticleStack>();
-    trendingArticles.forEach((article) => {
-        articlesWithAuthors.set(article.id, {
-            issue: article.issue,
-            title: article.title,
-            slug: article.slug,
-            authors: [],
-        });
-    });
-    authors.forEach((author) => {
-        const article = articlesWithAuthors.get(author.articleId);
-        if (!article)
-            return;
+    const articlesWithAuthors = await addAuthorsToArticles(trendingArticles);
 
-        article.authors.push({
-            name: author.name,
-            slug: author.slug,
-        } as Author);
-    });
-
-    return Array.from(articlesWithAuthors.values()) as ArticleList[];
+    return Array.from(articlesWithAuthors.values()) as ArticleStack[];
 }
 
 export async function searchArticles(query: string): Promise<ArticleList[]> {
@@ -386,7 +322,18 @@ export async function searchArticles(query: string): Promise<ArticleList[]> {
         .where(inArray(Articles.id, resultIds))
         .orderBy(desc(Articles.publishedAt));
 
-    // Fetch the authors
+    // fetch the authors
+    const articlesWithAuthors = await addAuthorsToArticles(results);
+
+    return Array.from(articlesWithAuthors) as ArticleList[];
+}
+
+export async function addAuthorsToArticles<T extends { id: number }>(articles: T[]): Promise<(T & { authors: Author[] })[]> {
+    // If there are no articles, return an empty array
+    if (articles.length === 0)
+        return [];
+
+    // Make a request for the authors
     const authors = await db.select({
         articleId: AuthorsArticles.articleId,
         name: Staff.name,
@@ -394,25 +341,20 @@ export async function searchArticles(query: string): Promise<ArticleList[]> {
     })
         .from(AuthorsArticles)
         .innerJoin(Staff, eq(AuthorsArticles.authorId, Staff.id))
-        .where(inArray(AuthorsArticles.articleId, resultIds));
+        .where(inArray(AuthorsArticles.articleId, articles.map((a) => a.id)));
 
-    // Combine articles and authors
-    // we can probably do this better in the future
-    const articlesWithAuthors = new Map<number, ArticleList>();
-    results.forEach((article) => {
+    // Combine articles and authors (de-duplicating by id)
+    const articlesWithAuthors = new Map<number, T & { authors: Author[] }>();
+    articles.forEach((article) => {
         articlesWithAuthors.set(article.id, {
-            issue: article.issue,
-            title: article.title,
-            slug: article.slug,
-            image: article.image || ARTICLE_DEFAULT_IMAGE,
-            teaser: article.teaser || ARTICLE_DEFAULT_TEASER,
+            ...article,
             authors: [],
         });
     });
     authors.forEach((author) => {
         const article = articlesWithAuthors.get(author.articleId);
         if (!article)
-            return;
+            throw new Error("Something went wrong when adding authors to articles!");
 
         article.authors.push({
             name: author.name,
@@ -420,5 +362,5 @@ export async function searchArticles(query: string): Promise<ArticleList[]> {
         } as Author);
     });
 
-    return Array.from(articlesWithAuthors.values()) as ArticleList[];
+    return Array.from(articlesWithAuthors.values());
 }

@@ -15,11 +15,14 @@ const SearchResults = (async({ query }: { query: string }) => {
         articles = await searchArticles(query);
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-6 pt-6">
             {
                 articles.map((article, index) => (
                     <ListArticle key={index} article={article} />
                 ))
+            }
+            {
+                articles.length === 0 && <p className="pt-4 pb-8">No results found!</p>
             }
         </div>
     )
