@@ -3,15 +3,18 @@ import '../styles/globals.css'
 import React from 'react';
 import { cache } from 'react';
 import { Analytics } from '@vercel/analytics/react';
+
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 
 import { Lora, Roboto } from 'next/font/google';
+import Script from 'next/script'
 
 import { getLatestPublishedIssue } from '../db';
 
 import {
   DEFAULT_SITE_TITLE,
+  GA_MEASUREMENT_ID,
 } from '../env';
 
 const cacheGetLatestPublishedIssue = cache(getLatestPublishedIssue);
@@ -58,8 +61,22 @@ export default async function RootLayout ({ children }: { children: React.ReactN
           <Footer />
         </div>
       </body>
-      {/* Analytics */}
+      {/* Vercel Analytics */}
       <Analytics/>
+      {/* Google Analytics */}
+      <Script
+        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){window.dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', '${GA_MEASUREMENT_ID}');
+        `}
+      </Script>
     </html>
   );
 };
