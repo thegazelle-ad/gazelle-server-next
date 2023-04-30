@@ -48,14 +48,8 @@ const ProfileCard = ({ person }: { person: AuthorProfile }) => {
   );
 }
 
-
-
-
 export default async function Page({ params: { slug }}: { params: { slug: string } }) {
   const staffProfile = await getStaffCache(slug);
-  const githmiStaffProfile = await getStaffCache('githmi-rabel');
-  // spotfil articles
-  staffProfile.articles = githmiStaffProfile.articles;
 
   return (
     // main div containing the team member's profile
