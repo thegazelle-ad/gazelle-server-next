@@ -143,8 +143,8 @@ export default async function Article({ article, slug }: { article: ArticlePage,
     let renderedIllustrator = false;
 
     let featuredImageCaption = '';
-    if (article.publishedAt > SHOW_ARTICLE_CAPTION_SINCE && featuredImage.alt)
-        featuredImageCaption = featuredImage.alt;
+    // if (article.publishedAt > SHOW_ARTICLE_CAPTION_SINCE && featuredImage.alt)
+    //     featuredImageCaption = featuredImage.alt;
 
     return (
         <>
