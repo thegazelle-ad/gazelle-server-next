@@ -365,37 +365,44 @@ export async function addAuthorsToArticles<T extends { id: number }>(articles: T
 
     return Array.from(articlesWithAuthors.values());
 }
-// TODO:
-// 1. get latest Issue ID
-// 2. get articles for that issue: where issueId = latestIssueId: where categoryId = 2 (features)
 
-export async function getCategoryArticles( category: string ) {
+export async function getCategoryArticles(categorySlug: string ) {
     // get latest Issue ID
     const latestIssueId = await db.select({
         id: Issues.id,
-        number: Issues.issueNumber,
     })
         .from(Issues)
         .orderBy(desc(Issues.id))
         .limit(1);
+
+    if (!latestIssueId || latestIssueId.length === 0)
+        throw new Error('No issues found!');
     
     // get articles for that issue: where issueId = latestIssueId: where categoryId = 2 (features)
     const articles = await db.select({
+        id: Articles.id,
         title: Articles.title,
+        issue: Issues.issueNumber,
         slug: Articles.slug,
         teaser: Articles.teaser,
-        imageUrl: Articles.imageUrl,
-        author_name: Staff.name,
-        author_slug: Staff.slug,
+        image: Articles.imageUrl,
+        categoryName: Categories.name,
     })
         .from(IssuesArticlesOrder)
         .innerJoin(Articles, eq(Articles.id, IssuesArticlesOrder.articleId))
-        // .innerJoin(IssuesArticlesOrder, eq(Articles.id, IssuesArticlesOrder.articleId))
-        .innerJoin(AuthorsArticles, eq(AuthorsArticles.articleId, Articles.id))
-        .innerJoin(Staff, eq(Staff.id, AuthorsArticles.authorId))
-        // .innerJoin(Issues, eq(Issues.id, IssuesArticlesOrder.issueId))
         .innerJoin(Categories, eq(Categories.id, Articles.categoryId))
-        .where(and(eq(IssuesArticlesOrder.issueId, latestIssueId[0].id), eq(Categories.slug, category)))
+        .innerJoin(Issues, eq(Issues.id, IssuesArticlesOrder.issueId))
+        .where(
+            and(eq(IssuesArticlesOrder.issueId, latestIssueId[0].id), eq(Categories.slug, categorySlug))
+        );
     
-    return articles;
+    // add authors
+    const articlesWithAuthors = await addAuthorsToArticles(articles);
+    // fill in image, teaser
+    articlesWithAuthors.forEach((article) => {
+        article.image = article.image ? article.image : '/images/placeholder.png';
+        article.teaser = article.teaser ? article.teaser : '';
+    });        
+    
+    return Array.from(articlesWithAuthors) as ArticleList[] & { categoryName: string }[];
 }
