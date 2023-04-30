@@ -5,7 +5,7 @@ export const UNCATEGORIZED_CATEGORY_SLUG = process.env.UNCATEGORIZED_CATEGORY_SL
 export const DEV = process.env.NODE_ENV !== 'production';
 
 export const DEFAULT_STAFF_TITLE = 'Contributing Writer';
-export const DEFAULT_STAFF_IMAGE = 'https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/githmi-rabel.jpg';
+export const DEFAULT_STAFF_IMAGE = '/icons/no-profile.svg';
 export const DEFAULT_STAFF_BIO = '';
 export const DEFAULT_STAFF_ORDER = 0;
 
@@ -18,7 +18,7 @@ export const ARTICLE_TYPE_FEATURED = 1;
 export const ARTICLE_TYPE_EDITORS_PICKS = 2;
 export type ARTICLE_TYPES = typeof ARTICLE_TYPE_NORMAL | typeof ARTICLE_TYPE_FEATURED | typeof ARTICLE_TYPE_EDITORS_PICKS;
 
-export const ARTICLE_DEFAULT_IMAGE = 'https://cdn.thegazelle.org/gazelle/2022/Fall_Staff_Bios/githmi-rabel.jpg';
+export const ARTICLE_DEFAULT_IMAGE = 'https://cdn.thegazelle.org/gazelle/2016/02/saadiyat-reflection.jpg';
 export const ARTICLE_DEFAULT_IMAGE_ALT = 'image';
 export const ARTICLE_DEFAULT_TEASER = '';
 export const ARTICLE_DEFAULT_PUBLISHED_AT = '1970-01-01 00:00:00';
@@ -33,6 +33,7 @@ export const DATABASE_DATE_FORMAT = 'yyyy-MM-dd';
 
 export const TEASER_ELLIPSIS_LENGTH = 150;
 
-export const SUBMIT_A_TIP_URL = 'https://thegazelle.org/submit-a-tip';
-export const MAILING_LIST = 'https://mailinglist.org'
 export const GA_MEASUREMENT_ID = process.env.GA_MEASUREMENT_ID;
+
+export const SUBMIT_A_TIP_URL = process.env.SUBMIT_A_TIP_URL || '';
+export const MAILING_LIST = process.env.MAILING_LIST || '';
