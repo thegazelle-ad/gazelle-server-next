@@ -35,7 +35,7 @@ async function addStaffIllustrationsBySlug(slug: string, stringSearch: string) {
     }));
 
     // insert these in article_illustrations
-    // await db.insert(ArticleIllustrations).values(additions);
+    await db.insert(ArticleIllustrations).values(additions);
     console.log("Made additions: ", additions.length);
 }
 

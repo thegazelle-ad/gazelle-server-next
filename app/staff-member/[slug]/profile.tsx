@@ -11,7 +11,7 @@ export const UserContent = ({ staffProfile }: { staffProfile: AuthorProfile }) =
     const params = useSearchParams();
     const path = usePathname();
 
-    const [contentType, setContentType] = useState<"articles" | "illustrations">("articles");
+    const [contentType, setContentType] = useState<"articles" | "illustrations">(staffProfile.illustrations.length > 0 ? "illustrations" : "articles");
 
     // set content type based on query param
     useEffect(() => {
