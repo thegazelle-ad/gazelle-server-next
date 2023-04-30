@@ -5,7 +5,7 @@ import { TEASER_ELLIPSIS_LENGTH } from '../../env';
 
 const Standard = ({ article, maxWidth, minWidth, large }: { article: ArticlePreview, maxWidth: string, minWidth: string, large?: boolean }) => {
   const imageHeight = large ? "h-[240px] sm:h-[300px] md:h-[170px] lg:h-[300px]" : "h-[240px] sm:h-[350px] md:h-[170px]";
-  const titleSize = large ? "text-2xl sm:text-3xl md:text-2xl" : "text-2xl sm:text-3xl md:text-xl";
+  const titleSize = large ? "text-2xl sm:text-3xl md:text-xl lg:text-2xl" : "text-2xl sm:text-3xl md:text-xl";
   const authorSize = large ? "text-base" : "text-base md:text-sm";
   const teaserSize = large ? "text-base" : "text-base md:text-sm";
 

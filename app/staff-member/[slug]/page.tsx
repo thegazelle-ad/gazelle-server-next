@@ -5,9 +5,9 @@ export const config = {
 
 import { cache } from 'react';
 import Image from "next/image";
-import ProfileArticle from '../../../components/articles/List'
 import { getStaff } from "../../../db";
 import { AuthorProfile } from "../../../components/articles";
+import { UserContent } from './profile';
 
 // when we implement this actually, we will use fetch
 // this works for now though to deduplicate requests
@@ -26,9 +26,8 @@ export async function generateMetadata({ params: { slug }}: { params: { slug: st
 // the profile of the team member
 const ProfileCard = ({ person }: { person: AuthorProfile }) => {
   return (
-    <div className="flex justify-center pb-[1.5rem] mb-[1.5rem] 
-                    border-b border-lightestGray border-1 gap-8">
-      <div className="aspect-square h-[300px] w-[300px] pr-[1.5rem] relative">
+    <div className="flex flex-col sm:flex-row items-center justify-center pb-6 mb-6 border-b border-lightestGray border-1 gap-8 pt-8 md:pt-0">
+      <div className="aspect-square h-[300px] w-[300px] relative">
         <Image 
           priority={true} 
           src={person.image} 
@@ -38,36 +37,31 @@ const ProfileCard = ({ person }: { person: AuthorProfile }) => {
           className="object-contain"
         />
       </div>
-      <div className="flex justify-center flex-col max-w-[50%] gap-2">
-        <h1 className="capitalize font-bold text-[2em] leading-[1.2em] font-lora block m-0">{person.name}</h1>
-        <h2 className="m-0 block text-[1rem] text-lightGray font-normal leading-[1em]">{person.title}</h2>
-        <p className="block mt-[0.5rem] leading-5 font-normal">{person.bio}</p>
+      <div className="flex justify-center flex-col w-4/5 min-w-[300px] max-w-[300px] md:max-w-[500px] gap-4">
+        <div>
+          <h1 className="capitalize font-semibold text-4xl font-lora">{person.name}</h1>
+          <h2 className="text-lg text-lightGray font-normal font-lora">{person.title}</h2>
+        </div>
+        <p className="leading-5 font-normal">{person.bio}</p>
       </div>
     </div>
   );
 }
 
 
-// list of articles
-const ArticleList = ({ staffProfile }: { staffProfile: AuthorProfile }) => {
-  return (
-    <div className="flex justify-center items-center w-full">
-      <div className="flex flex-col justify-center items-center max-w-[70%] min-w-[20%]">
-        {staffProfile.articles.map((article) => (
-          <ProfileArticle key={article.title} article={article} className="my-4" />
-        ))}
-      </div>
-    </div>
-  );
-}
+
 
 export default async function Page({ params: { slug }}: { params: { slug: string } }) {
   const staffProfile = await getStaffCache(slug);
+  const githmiStaffProfile = await getStaffCache('githmi-rabel');
+  // spotfil articles
+  staffProfile.articles = githmiStaffProfile.articles;
+
   return (
     // main div containing the team member's profile
-    <div className="block mx-auto my-0">
+    <div className="">
       <ProfileCard person={staffProfile} />
-      <ArticleList staffProfile={staffProfile}/>
+      <UserContent staffProfile={staffProfile} />
     </div>
   );
 }

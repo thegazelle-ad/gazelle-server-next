@@ -11,6 +11,7 @@ export {
     semesters as Semesters,
     teams as Teams,
     teamsStaff as TeamsStaff,
+    articleIllustrations as ArticleIllustrations,
 } from './schema';
 import {
     DATABASE_HOST,

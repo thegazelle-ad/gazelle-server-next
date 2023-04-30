@@ -8,6 +8,7 @@ import {
     Issues,
     Articles,
     AuthorsArticles,
+    ArticleIllustrations,
     IssuesArticlesOrder,
     Teams,
     TeamsStaff,
@@ -23,13 +24,9 @@ import {
     DEFAULT_STAFF_ORDER,
     DEFAULT_STAFF_TITLE,
 } from '../../env';
-
-// Used to fetch other authors for the staff profile (not the staff member themselves)
-type ArticleAuthorMap = {
-    articleId: number;
-    name: string;
-    slug: string;
-}
+import {
+    addAuthorsToArticles,
+} from './articles';
 
 export async function getStaffArticles(slug: string): Promise<AuthorProfile> {
     // This is an expensive query, so we will cache the result for at least 1 hour
@@ -57,88 +54,44 @@ export async function getStaffArticles(slug: string): Promise<AuthorProfile> {
         title: Articles.title,
         slug: Articles.slug,
         teaser: Articles.teaser,
-        imageUrl: Articles.imageUrl,
+        image: Articles.imageUrl,
     })
         .from(AuthorsArticles)
         .where(eq(AuthorsArticles.authorId, staff[0].id))
         .innerJoin(Articles, eq(AuthorsArticles.articleId, Articles.id))
         .innerJoin(IssuesArticlesOrder, eq(AuthorsArticles.articleId, IssuesArticlesOrder.articleId))
         .innerJoin(Issues, eq(IssuesArticlesOrder.issueId, Issues.id))
+        .orderBy(desc(Articles.id)); // most recent articles first
+
+    const staffArticlesWithAuthors = await addAuthorsToArticles(staffArticles);
+    // Fill in default article image
+    staffArticlesWithAuthors.forEach((article) => {
+        article.image = article.image || ARTICLE_DEFAULT_IMAGE;
+        article.teaser = article.teaser || ARTICLE_DEFAULT_TEASER;
+    });
+
+    // fetch all the articles they have written
+    const staffIllustrations = await db.select({
+        issue: Issues.issueNumber,
+        id: Articles.id,
+        title: Articles.title,
+        slug: Articles.slug,
+        teaser: Articles.teaser,
+        image: Articles.imageUrl,
+    })
+        .from(ArticleIllustrations)
+        .where(eq(ArticleIllustrations.staffId, staff[0].id))
+        .innerJoin(Articles, eq(ArticleIllustrations.articleId, Articles.id))
+        .innerJoin(IssuesArticlesOrder, eq(ArticleIllustrations.articleId, IssuesArticlesOrder.articleId))
+        .innerJoin(Issues, eq(IssuesArticlesOrder.issueId, Issues.id))
         .orderBy(desc(Articles.id));
 
-    // also grab the other authors for these articles
-    let otherAuthors: ArticleAuthorMap[] = [];
-    if (staffArticles.length > 0) {
-        const staffArticleIds = staffArticles.map(article => article.id);
-
-        otherAuthors = await db.select({
-            articleId: AuthorsArticles.articleId,
-            name: Staff.name,
-            slug: Staff.slug,
-        })
-            .from(AuthorsArticles)
-            .where(
-                and(
-                    inArray(AuthorsArticles.articleId, staffArticleIds), 
-                    ne(Staff.id, staff[0].id)
-                )
-            )
-            .innerJoin(Staff, eq(AuthorsArticles.authorId, Staff.id))
-            .orderBy(desc(AuthorsArticles.articleId));
-    }
-
-    // combine both author arrays
-    const articleReturn: ArticleList[] = [];
-    // index of the other author we are currently on - allows O(n) instead of O(n^2)
-    let otherAuthorIndex = 0; 
-    // loop through all the staff articles
-    for (const article of staffArticles) {
-        // print article id 
-        const authors = [{
-            name: staff[0].name,
-            slug: staff[0].slug,
-        }];
-        // check if the other author is also for this article
-        // print whether or not the other author is for this 
-        while (otherAuthors[otherAuthorIndex]?.articleId === article.id) {
-            authors.push({
-                name: otherAuthors[otherAuthorIndex].name,
-                slug: otherAuthors[otherAuthorIndex].slug,
-            });
-            otherAuthorIndex++;
-        }
-        // add the article to the return array
-        articleReturn.push({
-            issue: article.issue,
-            title: article.title,
-            slug: article.slug,
-            image: article.imageUrl || ARTICLE_DEFAULT_IMAGE,
-            teaser: article.teaser || ARTICLE_DEFAULT_TEASER,
-            authors,
-        });
-    }
-
-    // TODO - test if we can drop this!
-    // combine authors and 
-    // // dedup articles by id
-    // const dedupedArticles: ArticleList[] = [];
-    // const uniqueIds: Set<number> = new Set();
-    // for (const article of staffArticles) {
-    //     // check if article id in set
-    //     if (uniqueIds.has(article.id)) {
-    //         continue;
-    //     }
-    //     // otherwise add to set
-    //     uniqueIds.add(article.id);
-    //     // and add to array
-    //     dedupedArticles.push({
-    //         issue: article.issue,
-    //         title: article.title,
-    //         slug: article.slug,
-    //         image: article.imageUrl || ARTICLE_DEFAULT_IMAGE,
-    //         teaser: article.teaser || ARTICLE_DEFAULT_TEASER,
-    //     });
-    // }
+    const staffIllustrationsWithAuthors = await addAuthorsToArticles(staffIllustrations);
+    // Fill in default article image
+    staffIllustrationsWithAuthors.forEach((article) => {
+        article.image = article.image || ARTICLE_DEFAULT_IMAGE;
+        article.teaser = article.teaser || ARTICLE_DEFAULT_TEASER;
+    });    
 
     return {
         name: staff[0].name,
@@ -146,7 +99,8 @@ export async function getStaffArticles(slug: string): Promise<AuthorProfile> {
         title: staff[0].title || DEFAULT_STAFF_TITLE,
         image: staff[0].image || DEFAULT_STAFF_IMAGE,
         bio: staff[0].bio || DEFAULT_STAFF_BIO,
-        articles: articleReturn,
+        articles: staffArticlesWithAuthors as ArticleList[],
+        illustrations: staffIllustrationsWithAuthors as ArticleList[],
     } as const;
 };
 

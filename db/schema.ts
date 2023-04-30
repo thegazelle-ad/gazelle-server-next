@@ -1,6 +1,17 @@
 import { mysqlTable, mysqlSchema, AnyMySqlColumn, index, uniqueIndex, varchar, longtext, datetime, tinyint, char, timestamp, text, int, bigint, date } from "drizzle-orm/mysql-core"
 import { sql } from "drizzle-orm/sql"
 
+export const articleIllustrations = mysqlTable("article_illustrations", {
+	id: int("id").autoincrement().primaryKey().notNull(),
+	articleId: int("article_id").notNull(),
+	staffId: int("staff_id").notNull(),
+},
+	(table) => {
+		return {
+			idxArticleId: index("idx_article_id").on(table.articleId),
+			idxStaffId: index("idx_staff_id").on(table.staffId),
+		}
+});
 
 export const articles = mysqlTable("articles", {
 	id: int("id").autoincrement().primaryKey().notNull(),
