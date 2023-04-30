@@ -6,18 +6,21 @@ import { format, parse } from 'date-fns';
 import Image from 'next/image';
 import { useEffect, useRef, useState, FormEvent, ChangeEvent, MouseEventHandler } from 'react';
 
-
 // Icons
 import Twitter from '../public/icons/twitter.svg';
 import Facebook from '../public/icons/facebook-f.svg';
 import Instagram from '../public/icons/instagram.svg';
 import MagnifyingGlass from '../public/icons/magnifying-glass-solid.svg';
 import Hamburger from '../public/icons/hamburger.svg';
+import Lightbulb from '../public/icons/lightbulb.svg';
+import Mail from '../public/icons/mail.svg';
 
 import {
   DATABASE_DATE_FORMAT,
   DEFAULT_ISSUE_DATE,
   ARTICLE_DATE_FORMAT,
+  SUBMIT_A_TIP_URL,
+  MAILING_LIST,
 } from '../env';
 
 import {
@@ -101,6 +104,8 @@ const MobileMenu = ({ show, mobileDropdown, closeMenu, showSearch }: { show: boo
               </div>
             )
           }
+          <li className="font-light capitalize"><Link href={SUBMIT_A_TIP_URL}>Submit a tip</Link></li>
+          <li className="font-light capitalize"><Link href={MAILING_LIST}>Mailing list</Link></li>
         </ul>
         {/* Border */}
         <div className="pt-4 border-b border-gray-500"/>
@@ -252,7 +257,13 @@ const Navigation = ({ issueNumber, categories, publishedAt, className }: { issue
 
             {/* Search */}
             <div className="hidden md:block">
-              <div className="flex flex-row gap-2 items-center">
+              <div className="flex flex-row gap-4 items-center">
+                <Link href={SUBMIT_A_TIP_URL}>
+                  <Image src={Lightbulb} alt="submit a tip" unoptimized height={14} width={14} className="object-contain" sizes="16px"/>
+                </Link>
+                <Link href={MAILING_LIST}>
+                  <Image src={Mail} alt="mailing list" unoptimized height={20} width={20} className="object-contain" sizes="16px"/>
+                </Link>
                 <button className="cursor-pointer" onClick={(e) => {e.stopPropagation(); setShowSearch(!showSearch)}}>
                   <Image src={MagnifyingGlass} alt="search" unoptimized height={18} width={18} className="object-contain" sizes="16px"/>
                 </button>
