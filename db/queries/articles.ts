@@ -406,3 +406,51 @@ export async function getCategoryArticles(categorySlug: string ) {
     
     return Array.from(articlesWithAuthors) as ArticleList[] & { categoryName: string }[];
 }
+
+export async function getLatestTrendingArticles() {
+    const trendingArticles = await db.select({
+        id: Articles.id,
+        issue: Issues.issueNumber,
+        title: Articles.title,
+        slug: Articles.slug,
+        image: Articles.imageUrl,
+        teaser: Articles.teaser,
+    })
+        .from(Articles)
+        .where(gte(Articles.publishedAt, format(new Date(Date.now() - (1000 * 60 * 60 * 24 * 90)), DATABASE_DATE_TIME_FORMAT)))
+        .innerJoin(IssuesArticlesOrder, eq(Articles.id, IssuesArticlesOrder.articleId))
+        .innerJoin(Issues, eq(IssuesArticlesOrder.issueId, Issues.id))
+        .orderBy(desc(Articles.views))
+        .limit(10);
+
+    if (!trendingArticles || trendingArticles.length === 0)
+        throw new Error('No trending articles found!');
+
+    const articlesWithAuthors = await addAuthorsToArticles(trendingArticles);
+
+    return Array.from(articlesWithAuthors.values()) as ArticleList[];
+}
+
+export async function getEditorsPicksArticles() {
+    const editorsPicks = await db.select({
+        id: Articles.id,
+        issue: Issues.issueNumber,
+        title: Articles.title,
+        slug: Articles.slug,
+        image: Articles.imageUrl,
+        teaser: Articles.teaser,
+    })
+        .from(Articles)
+        .where(eq(IssuesArticlesOrder.type, ARTICLE_TYPE_EDITORS_PICKS))
+        .innerJoin(IssuesArticlesOrder, eq(Articles.id, IssuesArticlesOrder.articleId))
+        .innerJoin(Issues, eq(IssuesArticlesOrder.issueId, Issues.id))
+        .orderBy(desc(Articles.id))
+        .limit(10);
+
+    if (!editorsPicks || editorsPicks.length === 0)
+        throw new Error('No trending articles found!');
+
+    const articlesWithAuthors = await addAuthorsToArticles(editorsPicks);
+
+    return Array.from(articlesWithAuthors.values()) as ArticleList[];
+}
