@@ -3,43 +3,15 @@ export const config = {
     regions :  [ 'fra1' ] ,   // only execute this function on iad1
 };
 
-import Image from "next/image";
+import { getInfoPage } from "../../../db/queries/infopages";
 
-async function getData() {
-    const text = Array.from({ length: 10 }).map((_, i) => (
-        <p key={i}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Nullam euismod, nisl nec tincidunt lacinia, nunc est
-        tincidunt nunc, eget aliquam massa nisl eget dolor.
-        Nullam euismod, nisl nec tincidunt lacinia, nunc est
-        </p>
-    ));
-
-    return { title: 'About', body: text };
-}
-
-export default async function Page() {    
-    const { body, title } = await getData();
+export default async function Page() {
+    const page = await getInfoPage('about');
 
     return (
-        <div>
-         <header className='flex flex-col m-w-4xl mx-auto'>
-          <h1 className='text-center font-medium uppercase text-2xl'>
-            {title}
-          </h1>
-            <Image
-              priority
-              src="/images/placeholder-img.jpg"
-              height={1000}
-              width={1000}
-              // className={"rounded-xl w-64 h-64"}
-              alt="placeholder"
-            />
-        </header>
-        <main>
-          {/* create ten paragraph elements of lorem ipsum */}
-            {body}
-        </main>
-        </div>
-    );
+        <>
+            <h1 className="text-3xl font-lora capitalize pb-2 pt-4 font-medium">{page.title}</h1>
+            <div className="flex flex-col gap-4 text-lg font-lora" dangerouslySetInnerHTML={{ __html: page.html }} />
+        </>
+    )
 }

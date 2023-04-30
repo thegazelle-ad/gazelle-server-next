@@ -1,4 +1,4 @@
-import { eq, ne, desc, inArray, gte, like, and } from 'drizzle-orm/expressions';
+import { eq, ne, desc, inArray, gte, and } from 'drizzle-orm/expressions';
 import { sql } from 'drizzle-orm';
 import { 
     ArticlePreview,

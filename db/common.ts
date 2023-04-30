@@ -12,6 +12,7 @@ export {
     teams as Teams,
     teamsStaff as TeamsStaff,
     articleIllustrations as ArticleIllustrations,
+    infoPages as InfoPages,
 } from './schema';
 import {
     DATABASE_HOST,

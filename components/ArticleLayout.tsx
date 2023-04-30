@@ -180,7 +180,7 @@ export default async function Article({ article, slug }: { article: ArticlePage,
             {/* Article */}
             <div className={`flex flex-col min-h-screen w-full mx-auto ${articleContainer}`}>
                 <ReactMarkdown
-                    className="font-lora text-lg md:text-lg leading-normal md:leading-relaxed"
+                    className="font-lora text-lg leading-normal md:leading-relaxed"
                     rehypePlugins={[rehypeRaw]}
                     components={{
                         img: (props: MarkdownImage) => {
