@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "lib": [
       "dom",
       "dom.iterable",
@@ -29,8 +29,11 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "image-loader.js"  ],
+, "image-loader.js", "scripts/articleIllustrations/test.ts"  ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "ts-node": {
+    "experimentalSpecifierResolution": "node"
+  }
 }
