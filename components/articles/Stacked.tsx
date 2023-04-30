@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import { ArticlePreview, ArticleList, getAuthorsText, getArticleUrl } from './common';
+import { ArticlePreview, ArticleList, getAuthorsText, getArticleUrl, ArticleStack } from './common';
 
-const Stacked = ({ article, titleStyleAppend, authorStyle }: { article: ArticlePreview | ArticleList, titleStyleAppend?: string, authorStyle?: string }) => {
+const Stacked = ({ article, titleStyleAppend, authorStyle }: { article: ArticlePreview | ArticleList | ArticleStack, titleStyleAppend?: string, authorStyle?: string }) => {
   const titleStyle = `text-2xl sm:text-3xl md:text-xl leading-9 md:leading-6 font-semibold font-lora capitalize hover:text-sky-600 ${titleStyleAppend || ""}`;
   authorStyle = authorStyle || "text-base md:text-sm text-gray-600 font-normal leading-7 md:leading-5";
 
