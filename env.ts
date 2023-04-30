@@ -35,4 +35,4 @@ export const TEASER_ELLIPSIS_LENGTH = 150;
 
 export const SUBMIT_A_TIP_URL = 'https://thegazelle.org/submit-a-tip';
 export const MAILING_LIST = 'https://mailinglist.org'
-export const GA_MEASUREMENT_ID = process.env.GA_MEASUREMENT_ID || "";
+export const GA_MEASUREMENT_ID = process.env.GA_MEASUREMENT_ID;
