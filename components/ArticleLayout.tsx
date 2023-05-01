@@ -124,7 +124,8 @@ export default async function Article({ article, slug }: { article: ArticlePage,
         // Take the first image
         if (node.type == 'image') {
             featuredImage.src = node.destination || ARTICLE_DEFAULT_IMAGE;
-            featuredImage.alt = node.title || ARTICLE_DEFAULT_IMAGE_ALT;
+            featuredImage.alt = node.firstChild?.literal || ARTICLE_DEFAULT_IMAGE_ALT;
+            
             // skip entering
             walker.next();
         }
@@ -143,8 +144,8 @@ export default async function Article({ article, slug }: { article: ArticlePage,
     let renderedIllustrator = false;
 
     let featuredImageCaption = '';
-    // if (article.publishedAt > SHOW_ARTICLE_CAPTION_SINCE && featuredImage.alt)
-    //     featuredImageCaption = featuredImage.alt;
+    if (article.publishedAt > SHOW_ARTICLE_CAPTION_SINCE && featuredImage.alt)
+        featuredImageCaption = featuredImage.alt;
 
     return (
         <>
