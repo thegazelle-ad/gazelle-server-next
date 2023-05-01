@@ -1,5 +1,7 @@
-export const runtime = 'experimental-edge';
 export const revalidate = 300;
+export const runtime = 'experimental-edge';
+export const preferredRegion = 'fra1';
+export const dynamic = 'error';
 
 import { Suspense } from "react";
 

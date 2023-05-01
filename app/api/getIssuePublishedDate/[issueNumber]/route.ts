@@ -1,6 +1,9 @@
-export const runtime = 'edge';
+export const revalidate = 300;
+export const runtime = 'experimental-edge';
+export const preferredRegion = 'fra1';
+export const dynamic = 'error';
 
-import { type NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server'
 import { getIssue } from '../../../../db'
 
 export async function GET(request: NextRequest, { params }: { params: { issueNumber: string } }) {

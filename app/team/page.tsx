@@ -1,4 +1,6 @@
 export const runtime = 'experimental-edge';
+export const preferredRegion = 'fra1';
+export const dynamic = 'error';
 export const revalidate = 3600;
 
 import Image from "next/image";
