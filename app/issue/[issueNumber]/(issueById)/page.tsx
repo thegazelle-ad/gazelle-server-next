@@ -1,7 +1,4 @@
-export const config = {
-    runtime: 'experimental-edge',   // this is a pre-requisite   
-    regions :  [ 'fra1' ] ,   // only execute this function on iad1
-};
+export const runtime = 'experimental-edge';
 export const revalidate = 300;
 
 import { getIssue, getIssueArticles } from '../../../../db';

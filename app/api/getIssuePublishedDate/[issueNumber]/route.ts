@@ -1,7 +1,4 @@
-export const config = {
-    runtime: 'edge',   // this is a pre-requisite   
-    regions: ['fra1'],   // only execute this function on iad1
-};
+export const runtime = 'edge';
 
 import { type NextRequest, NextResponse } from 'next/server';
 import { getIssue } from '../../../../db'
