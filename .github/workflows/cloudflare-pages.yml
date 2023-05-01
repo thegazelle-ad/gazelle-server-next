@@ -15,8 +15,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'yarn'
-          cache-dependency-path: yarn.lock
       # Run your project's build step
       - name: Build
         run: yarn install && npx https://prerelease-registry.devprod.cloudflare.dev/next-on-pages/runs/4786008794/npm-package-next-on-pages-191
