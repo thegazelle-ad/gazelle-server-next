@@ -14,13 +14,15 @@ jobs:
         uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 16
+          cache: 'yarn'
+          cache-dependency-path: yarn.lock
       # Run your project's build step
       - name: Build
-        run: rm ./pnpm-lock.yaml; npm install && npx https://prerelease-registry.devprod.cloudflare.dev/next-on-pages/runs/4786008794/npm-package-next-on-pages-191
+        run: yarn install && npx https://prerelease-registry.devprod.cloudflare.dev/next-on-pages/runs/4786008794/npm-package-next-on-pages-191
       - name: Publish
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
-        run: npx https://prerelease-registry.devprod.cloudflare.dev/workers-sdk/prs/2966/npm-package-wrangler-2966 pages publish .vercel/output/static --project-name $PROJECT_NAME --commit-message "definitely succeed"
+        run: npx https://prerelease-registry.devprod.cloudflare.dev/workers-sdk/prs/2966/npm-package-wrangler-2966 pages publish .vercel/output/static --project-name=$PROJECT_NAME --branch=$GITHUB_REF_NAME --commit-message "definitely succeed"
