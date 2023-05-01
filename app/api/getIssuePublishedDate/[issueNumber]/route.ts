@@ -1,4 +1,9 @@
-import { type NextRequest, NextResponse } from 'next/server'
+export const config = {
+    runtime: 'edge',   // this is a pre-requisite   
+    regions: ['fra1'],   // only execute this function on iad1
+};
+
+import { type NextRequest, NextResponse } from 'next/server';
 import { getIssue } from '../../../../db'
 
 export async function GET(request: NextRequest, { params }: { params: { issueNumber: string } }) {

@@ -4,7 +4,7 @@ const nextConfig = {
   swcMinify: true,
   experimental: {
     appDir: true,
- },
+  },
   images: {
     loader: 'custom',
     loaderFile: './image-loader.tsx',
