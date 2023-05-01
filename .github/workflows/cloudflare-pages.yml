@@ -23,4 +23,4 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
-        run: npx https://prerelease-registry.devprod.cloudflare.dev/workers-sdk/prs/2966/npm-package-wrangler-2966 pages publish .vercel/output/static --project-name=$PROJECT_NAME --branch=$GITHUB_REF_NAME --commit-message "success"
+        run: npx https://prerelease-registry.devprod.cloudflare.dev/workers-sdk/prs/2966/npm-package-wrangler-2966 pages publish .vercel/output/static --project-name $PROJECT_NAME --commit-message "definitely succeed"
