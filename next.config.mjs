@@ -37,6 +37,28 @@ const nextConfig = {
       'i6.cims.nyu.edu',
     ],
   },
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'CDN-Cache-Control',
+            value: 'public, s-maxage=300, stale-while-revalidate=3600',
+          }
+        ]
+      },
+      {
+        source: '/:path*/',
+        headers: [
+          {
+            key: 'CDN-Cache-Control',
+            value: 'public, s-maxage=300, stale-while-revalidate=3600',
+          }
+        ]
+      }
+    ]
+  }
 }
 
 // module.exports = nextConfig

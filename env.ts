@@ -35,7 +35,7 @@ export const TEASER_ELLIPSIS_LENGTH = 150;
 
 export const GA_MEASUREMENT_ID = process.env.GA_MEASUREMENT_ID;
 
-export const SUBMIT_A_TIP_URL = process.env.SUBMIT_A_TIP_URL || '';
-export const MAILING_LIST = process.env.MAILING_LIST || '';
+export const SUBMIT_A_TIP_URL = process.env.NEXT_PUBLIC_SUBMIT_A_TIP_URL || '';
+export const MAILING_LIST = process.env.NEXT_PUBLIC_MAILING_LIST || '';
 
 export const SHOW_ARTICLE_CAPTION_SINCE = '2023-04-18 00:00:00';

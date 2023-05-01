@@ -2,7 +2,7 @@ import '../styles/globals.css'
 
 import React from 'react';
 import { cache } from 'react';
-import { Analytics } from '@vercel/analytics/react';
+// import { Analytics } from '@vercel/analytics/react';
 
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
@@ -62,7 +62,7 @@ export default async function RootLayout ({ children }: { children: React.ReactN
         </div>
       </body>
       {/* Vercel Analytics */}
-      <Analytics/>
+      {/* <Analytics/> */}
       {/* Google Analytics */}
       {GA_MEASUREMENT_ID && 
         <>
