@@ -16,7 +16,7 @@ async function getTitle() {
 const TeamMember = ({ staff }: { staff: AuthorPreview }) => {
     return (
       <>
-        <Link href={`/staff-member/${staff.staffSlug}`} className="m-4 my-8 text-center w-[200px]">
+        <Link href={`/staff-member/${staff.staffSlug}`} className="m-4 my-8 text-center w-[200px] uppercase">
             <div className="flex flex-col items-center justify-center">
               <Image
                 src={staff.staffImage}

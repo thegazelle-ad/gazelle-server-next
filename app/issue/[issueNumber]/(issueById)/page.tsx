@@ -3,13 +3,22 @@ export const runtime = 'experimental-edge';
 export const preferredRegion = 'fra1';
 export const dynamic = 'error';
 
-import { getIssue, getIssueArticles } from '../../../../db';
+import { getIssue, getIssueArticles, wrapUpstash } from '../../../../db';
 import Issue from '../../../../components/Issue';
+
+const getIssueDetails = wrapUpstash(async (issueNumber: number) => {
+  const issue = await getIssue(issueNumber);
+  const issueArticles = await getIssueArticles(issue);
+
+  return {
+    issue,
+    issueArticles,
+  };
+}, 'getIssueDetails');
 
 export default async function IssuePage({ params: { issueNumber }}: { params: { issueNumber: number }}) {
   // Fetch latest article data
-  const issue = await getIssue(issueNumber);
-  const issueArticles = await getIssueArticles(issue);
+  const { issueArticles } = await getIssueDetails(issueNumber);
 
   // Render the page
   return (

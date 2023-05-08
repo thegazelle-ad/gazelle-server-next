@@ -3,21 +3,27 @@ export const runtime = 'experimental-edge';
 export const preferredRegion = 'fra1';
 export const dynamic = 'error';
 
-import { cache } from 'react';
 import { Metadata } from 'next';
-import { getLatestPublishedIssue, getIssueArticles } from '../../db';
+import { getLatestPublishedIssue, getIssueArticles, wrapUpstash } from '../../db';
 import Issue from '../../components/Issue';
 
 export const metadata: Metadata = {
   description: 'The latest issue from The Gazelle team at NYU Abu Dhabi',
 };
 
-const latestIssues = cache(getLatestPublishedIssue);
+const getLatestIssueDetails = wrapUpstash(async () => {
+  const issue = await getLatestPublishedIssue();
+  const issueArticles = await getIssueArticles(issue);
+
+  return {
+    issue,
+    issueArticles,
+  };
+}, 'getLatestIssueDetails');
 
 export default async function Page() {
   // Fetch latest article data
-  const issue = await latestIssues();
-  const issueArticles = await getIssueArticles(issue);
+  const { issueArticles } = await getLatestIssueDetails();
 
   // Render the page
   return (
