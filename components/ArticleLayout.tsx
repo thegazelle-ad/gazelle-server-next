@@ -179,6 +179,15 @@ export default async function Article({ article, slug }: { article: ArticlePage,
                     <div className="border-l-[2px] border-gray-400 h-4"/>
                     <p className="text-base md:text-sm text-gray-600 font-normal">{format(parseISO(article.publishedAt), ARTICLE_DATE_FORMAT)}</p>
                 </div>
+                {/* Audio */}
+                {
+                    article.audioUri && (
+                        <audio controls>
+                            <source src={article.audioUri} type="audio/mp3" />
+                             Your browser does not support the audio tag.
+                        </audio>
+                    )
+                }
                 {/* Divider */}
                 <div className="border-b border-gray-500 w-full md:pt-2"/>
             </header>

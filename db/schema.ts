@@ -13,6 +13,12 @@ export const articleIllustrations = mysqlTable("article_illustrations", {
 		}
 });
 
+export const articlesAudio = mysqlTable("articles_audio", {
+	id: int("id").autoincrement().primaryKey().notNull(),
+	articleId: int("article_id").notNull(),
+	uri: varchar("uri", { length: 255 }).notNull(),
+});
+
 export const articles = mysqlTable("articles", {
 	id: int("id").autoincrement().primaryKey().notNull(),
 	slug: varchar("slug", { length: 255 }).notNull(),

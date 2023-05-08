@@ -30,7 +30,7 @@ export async function getLatestPublishedIssue() {
     })
         .from(Issues)
         .where(isNotNull(Issues.published_at))
-        .where(lte(Issues.published_at, (new Date()).toISOString()))
+        // .where(lte(Issues.published_at, (new Date()).toISOString()))
         .orderBy(desc(Issues.id))
         .limit(1)
 
