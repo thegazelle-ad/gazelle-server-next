@@ -35,8 +35,10 @@ export default function Page({ searchParams }: { searchParams: URLSearchParams }
     return (
         <div className="flex items-center justify-center">
             <div className="max-w-[700px]">
-                {/* @ts-ignore await bug (solved in the future) */}
-                <SearchResults query={query}/>
+                <Suspense fallback={"Loading results..."}>
+                    {/* @ts-ignore await bug (solved in the future) */}
+                    <SearchResults query={query}/>
+                </Suspense>
             </div>
         </div>
     )
