@@ -1,7 +1,6 @@
 import '../styles/globals.css'
 
 import React from 'react';
-import { cache } from 'react';
 // import { Analytics } from '@vercel/analytics/react';
 
 import Navigation from '../components/Navigation';

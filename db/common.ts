@@ -50,10 +50,10 @@ export function wrapUpstash<T extends (...args: any[]) => any>(fn: T, functionKe
             cached = await redis.get(cacheKey);
 
             if (cached) {
-                console.log("Cache hit: ", cacheKey);
+                // console.log("Cache hit: ", cacheKey);
                 return cached as UnwrapPromise<ReturnType<T>>;
             } else {
-                console.log("Cache miss: ", cacheKey);
+                // console.log("Cache miss: ", cacheKey);
             }
         } catch (e) {
             console.error("Unable to reach upstash: ", e);
