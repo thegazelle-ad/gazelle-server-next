@@ -12,7 +12,7 @@ import ListArticle from "../../components/articles/List";
 const SearchResults = (async({ query }: { query: string }) => {
     let articles: ArticleList[] = [];
     if (query)
-        articles = await searchArticles(query);
+        articles = await searchArticles(encodeURI(query));
 
     return (
         <div className="flex flex-col gap-6 pt-6">
@@ -35,10 +35,8 @@ export default function Page({ searchParams }: { searchParams: URLSearchParams }
     return (
         <div className="flex items-center justify-center">
             <div className="max-w-[700px]">
-                <Suspense fallback={"Loading search results..."}>
-                    {/* @ts-ignore await bug (solved in the future) */}
-                    <SearchResults query={query}/>
-                </Suspense>
+                {/* @ts-ignore await bug (solved in the future) */}
+                <SearchResults query={query}/>
             </div>
         </div>
     )
