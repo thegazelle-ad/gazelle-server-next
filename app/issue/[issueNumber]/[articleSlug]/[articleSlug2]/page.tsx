@@ -24,7 +24,7 @@ export async function generateMetadata({ params: { articleSlug2 }}: { params: { 
   };
 }
 
-export default async function Page({ params: { articleSlug2 }}: { params: { articleSlug2: string }}) {
+export default async function Page({ params: { issueNumber, articleSlug, articleSlug2 }}: { params: { issueNumber: string, articleSlug: string, articleSlug2: string }}) {
     const article = await cacheGetArticle(articleSlug2);
 
     return (
