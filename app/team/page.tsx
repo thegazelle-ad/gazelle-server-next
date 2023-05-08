@@ -39,7 +39,7 @@ const TeamDepartment = ({ teamMembers }: { teamMembers: AuthorPreview[] }) => {
     return (
       <div className="">
         <div id={teamMembers[0].teamName}>
-          <Divider text={teamMembers[0].teamName} href={`/team/#${teamMembers[0].teamName}`} capitalize/>
+          <Divider text={teamMembers[0].teamName} href={`/team/#${teamMembers[0].teamName}`}/>
         </div>
         <div className="flex flex-row flex-wrap justify-center">
           {teamMembers.map((member: AuthorPreview) => (
