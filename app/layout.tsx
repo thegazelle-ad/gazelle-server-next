@@ -17,8 +17,6 @@ import {
   GA_MEASUREMENT_ID,
 } from '../env';
 
-const cacheGetLatestPublishedIssue = cache(getLatestPublishedIssue);
-
 const lora = Lora({
   variable: '--font-lora',
   display: 'swap',
@@ -42,7 +40,7 @@ export const metadata = {
 };
 
 export default async function RootLayout ({ children }: { children: React.ReactNode }) {  
-  const { categories, publishedAt, issueNumber } = await cacheGetLatestPublishedIssue();
+  const { categories, publishedAt, issueNumber } = await getLatestPublishedIssue();
 
   // Borders
   const containerClass = "px-5 md:px-4 lg:px-2";

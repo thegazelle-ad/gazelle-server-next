@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@planetscale/database": "^1.6.0",
+    "@upstash/redis": "^1.20.6",
     "commonmark": "^0.30.0",
     "date-fns": "^2.29.3",
     "drizzle-orm": "^0.23.12",

@@ -32,12 +32,13 @@ import {
     Issues,
     Categories,
     ArticlesAudio,
+    wrapUpstash,
 } from "../common";
 import { format } from 'date-fns';
 
 export const UNCATEGORIZED_CATEGORY: Category = { id: UNCATEGORIZED_CATEGORY_ID, name: UNCATEGORIZED_CATEGORY_NAME, slug: UNCATEGORIZED_CATEGORY_SLUG };
 
-export async function getIssueArticles(issue: UnwrapPromise<ReturnType<typeof getLatestPublishedIssue>>): Promise<IssueArticles> {
+export const getIssueArticles = wrapUpstash(async (issue: UnwrapPromise<ReturnType<typeof getLatestPublishedIssue>>): Promise<IssueArticles> => {
     // Fetch authors and articles in separate queries to reduce payload size
     const latestIssueArticles = await db.select({
         id: Articles.id,
@@ -161,9 +162,10 @@ export async function getIssueArticles(issue: UnwrapPromise<ReturnType<typeof ge
         trending: trendingArticles.slice(0,4),
         editorsPicks,
     }
-};
+}, 'getIssueArticles');
 
-export async function getArticle(slug: string): Promise<ArticlePage> {
+// Intentionally not cached - markdown would take up a lot of space in redis
+export const getArticle = async(slug: string): Promise<ArticlePage> => {
     const article = await db.select({
         id: Articles.id,
         title: Articles.title,
@@ -225,10 +227,10 @@ export async function getArticle(slug: string): Promise<ArticlePage> {
         audioUri: Array.isArray(audioUri) && audioUri.length > 0 ? audioUri[0].uri : undefined,
     } as const;
 
-}
+};
 
 // TODO - to be replaced by a better algorithm with openai embeddings
-export async function getRelatedArticles(articleCategoryId: number, articleSlug: string, articlePublishedAt: string): Promise<ArticleList[]> {
+export const getRelatedArticles = wrapUpstash(async (articleCategoryId: number, articleSlug: string, articlePublishedAt: string): Promise<ArticleList[]> => {
     const relatedArticles = await db.select({
         id: Articles.id,
         issue: Issues.issueNumber,
@@ -251,9 +253,9 @@ export async function getRelatedArticles(articleCategoryId: number, articleSlug:
     const articlesWithAuthors = await addAuthorsToArticles(relatedArticles);
 
     return Array.from(articlesWithAuthors.values()) as ArticleList[];
-}
+}, 'getRelatedArticles');
 
-export async function getGlobalTrendingArticles() {
+export const getGlobalTrendingArticles = wrapUpstash(async () => {
     const trendingArticles = await db.select({
         id: Articles.id,
         issue: Issues.issueNumber,
@@ -273,8 +275,9 @@ export async function getGlobalTrendingArticles() {
     const articlesWithAuthors = await addAuthorsToArticles(trendingArticles);
 
     return Array.from(articlesWithAuthors.values()) as ArticleStack[];
-}
+}, 'getGlobalTrendingArticles');
 
+// article searching is intentionally not cached
 export async function searchArticles(query: string): Promise<ArticleList[]> {
     // Task 1 - Search for authors
     const relatedAuthors = await db.select({
@@ -376,18 +379,7 @@ export async function addAuthorsToArticles<T extends { id: number }>(articles: T
     return Array.from(articlesWithAuthors.values());
 }
 
-export async function getCategoryArticles(categorySlug: string ) {
-    // get latest Issue ID
-    const latestIssueId = await db.select({
-        id: Issues.id,
-    })
-        .from(Issues)
-        .orderBy(desc(Issues.id))
-        .limit(1);
-
-    if (!latestIssueId || latestIssueId.length === 0)
-        throw new Error('No issues found!');
-    
+export const getCategoryArticles = wrapUpstash(async (categorySlug: string) => {    
     // get articles for that issue: where issueId = latestIssueId: where categoryId = 2 (features)
     const articles = await db.select({
         id: Articles.id,
@@ -402,9 +394,9 @@ export async function getCategoryArticles(categorySlug: string ) {
         .innerJoin(Articles, eq(Articles.id, IssuesArticlesOrder.articleId))
         .innerJoin(Categories, eq(Categories.id, Articles.categoryId))
         .innerJoin(Issues, eq(Issues.id, IssuesArticlesOrder.issueId))
-        .where(
-            and(eq(IssuesArticlesOrder.issueId, latestIssueId[0].id), eq(Categories.slug, categorySlug))
-        );
+        .where(eq(Categories.slug, categorySlug))
+        .orderBy(desc(Articles.id))
+        .limit(15);
     
     // add authors
     const articlesWithAuthors = await addAuthorsToArticles(articles);
@@ -415,9 +407,9 @@ export async function getCategoryArticles(categorySlug: string ) {
     });        
     
     return Array.from(articlesWithAuthors) as ArticleList[] & { categoryName: string }[];
-}
+}, 'getCategoryArticles');
 
-export async function getLatestTrendingArticles() {
+export const getLatestTrendingArticles = wrapUpstash(async () => {
     const trendingArticles = await db.select({
         id: Articles.id,
         issue: Issues.issueNumber,
@@ -439,9 +431,9 @@ export async function getLatestTrendingArticles() {
     const articlesWithAuthors = await addAuthorsToArticles(trendingArticles);
 
     return Array.from(articlesWithAuthors.values()) as ArticleList[];
-}
+}, 'getLatestTrendingArticles');
 
-export async function getEditorsPicksArticles() {
+export const getEditorsPicksArticles = wrapUpstash(async () => {
     const editorsPicks = await db.select({
         id: Articles.id,
         issue: Issues.issueNumber,
@@ -463,4 +455,4 @@ export async function getEditorsPicksArticles() {
     const articlesWithAuthors = await addAuthorsToArticles(editorsPicks);
 
     return Array.from(articlesWithAuthors.values()) as ArticleList[];
-}
+}, 'getEditorsPicksArticles');

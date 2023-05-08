@@ -2,10 +2,11 @@ import {
     db,
     Issues,
     Categories,
-    IssuesCategoriesOrder
+    IssuesCategoriesOrder,
+    wrapUpstash,
 } from '../common';
 
-import { eq, isNotNull, desc, lte } from 'drizzle-orm/expressions';
+import { eq, isNotNull, desc } from 'drizzle-orm/expressions';
 
 type Issue = {
     id: number;
@@ -20,7 +21,7 @@ export type IssueArchive = {
     publishedAt: string | null; 
 }
 // NOTE - Caching is per request
-export async function getLatestPublishedIssue() {
+export const getLatestPublishedIssue = wrapUpstash(async () => {
     // get the latest issue id
     const issue = await db.select({
         id: Issues.id,
@@ -40,9 +41,11 @@ export async function getLatestPublishedIssue() {
     }
 
     return fetchCategories(issue[0]);
-}
+}, 'getLatestPublishedIssue');
 
-export async function getIssue(issueNumber: number) {
+export const getIssue = wrapUpstash(async (issueNumber: number) => {
+    console.log("getting issue", issueNumber);
+
     const issue = await db.select({
         id: Issues.id,
         issueNumber: Issues.issueNumber,
@@ -60,9 +63,9 @@ export async function getIssue(issueNumber: number) {
     }
 
     return fetchCategories(issue[0]);
-};
+}, 'getIssue', 3600);
 
-export async function fetchCategories(issue: Issue) {
+export const fetchCategories = wrapUpstash(async (issue: Issue) => {
     const issueCategories = await db.select({
         id: Categories.id,
         name: Categories.name,
@@ -81,9 +84,9 @@ export async function fetchCategories(issue: Issue) {
         publishedAt: issue.publishedAt,
         categories: issueCategories
     }
-}
+}, 'fetchCategories', 500);
 
-export async function getIssueArchive() {
+export const getIssueArchive = wrapUpstash(async () => {
     const issues = await db.select({
         issueNumber: Issues.issueNumber,
         issueName: Issues.name,
@@ -94,4 +97,4 @@ export async function getIssueArchive() {
         .orderBy(desc(Issues.id));
 
     return issues;
-}
+}, 'getIssueArchive', 500);
