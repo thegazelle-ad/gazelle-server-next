@@ -13,6 +13,7 @@ export {
     teamsStaff as TeamsStaff,
     articleIllustrations as ArticleIllustrations,
     infoPages as InfoPages,
+    articlesAudio as ArticlesAudio,
 } from './schema';
 import {
     DATABASE_HOST,

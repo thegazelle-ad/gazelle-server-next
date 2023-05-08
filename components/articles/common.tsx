@@ -68,6 +68,7 @@ export type ArticlePage = {
     markdown: string;
     publishedAt: string;
     categoryId: number;
+    audioUri?: string;
 }
 
 export type ArticleStack = {

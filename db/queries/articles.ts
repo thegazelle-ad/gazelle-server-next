@@ -31,6 +31,7 @@ import {
     db,
     Issues,
     Categories,
+    ArticlesAudio,
 } from "../common";
 import { format } from 'date-fns';
 
@@ -183,6 +184,14 @@ export async function getArticle(slug: string): Promise<ArticlePage> {
     if (!article[0].markdown)
         throw new Error('Article missing content!');    
 
+    // attempt to get audio
+    const audioUri = await db.select({
+        uri: ArticlesAudio.uri,
+    })
+        .from(ArticlesAudio)
+        .where(eq(ArticlesAudio.articleId, article[0].id))
+        .limit(1);
+
     // get authors
     const authors = await db.select({
         name: Staff.name,
@@ -213,6 +222,7 @@ export async function getArticle(slug: string): Promise<ArticlePage> {
         publishedAt: article[0].publishedAt || ARTICLE_DEFAULT_PUBLISHED_AT,
         authors: authors as Author[],
         categoryId: article[0].categoryId || UNCATEGORIZED_CATEGORY_ID,
+        audioUri: Array.isArray(audioUri) && audioUri.length > 0 ? audioUri[0].uri : undefined,
     } as const;
 
 }
