@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { ArticlePreview, getAuthorsText, getArticleUrl, ellipsis } from './common';
 import { TEASER_ELLIPSIS_LENGTH } from '../../env';
 
-const Standard = ({ article, maxWidth, minWidth, large }: { article: ArticlePreview, maxWidth: string, minWidth: string, large?: boolean }) => {
+const Standard = ({ article, maxWidth, minWidth, large, priorityImage, eagerImage }: { article: ArticlePreview, maxWidth: string, minWidth: string, large?: boolean, priorityImage?: boolean, eagerImage?: boolean }) => {
   const imageHeight = large ? "h-[240px] sm:h-[300px] md:h-[170px] lg:h-[300px]" : "h-[240px] sm:h-[350px] md:h-[170px]";
   const titleSize = large ? "text-2xl sm:text-3xl md:text-xl lg:text-2xl" : "text-2xl sm:text-3xl md:text-xl";
   const authorSize = large ? "text-base" : "text-base md:text-sm";
@@ -19,6 +19,8 @@ const Standard = ({ article, maxWidth, minWidth, large }: { article: ArticlePrev
             fill 
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 450px, 325px"
+            priority={priorityImage}
+            loading={eagerImage ? "eager" : "lazy"}
           />
         </Link>
         {/* Title */}

@@ -1,4 +1,4 @@
-export const runtime = 'experimental-edge';
+export const runtime = 'nodejs';
 export const preferredRegion = 'fra1';
 export const dynamic = 'error';
 export const revalidate = 300;
