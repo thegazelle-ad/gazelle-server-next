@@ -3,10 +3,10 @@ export const runtime = 'nodejs';
 export const preferredRegion = 'fra1';
 export const dynamic = 'force-static';
 
-import { getIssue, getIssueArticles, wrapUpstash } from '../../../../db';
+import { getIssue, getIssueArticles, wrapCache } from '../../../../db';
 import Issue from '../../../../components/Issue';
 
-const getIssueDetails = wrapUpstash(async (issueNumber: number) => {
+const getIssueDetails = wrapCache(async (issueNumber: number) => {
   const issue = await getIssue(issueNumber);
   const issueArticles = await getIssueArticles(issue);
 

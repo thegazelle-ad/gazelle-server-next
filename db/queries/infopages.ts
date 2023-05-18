@@ -2,10 +2,10 @@ import { eq } from 'drizzle-orm/expressions';
 import { 
     db,
     InfoPages,
-    wrapUpstash,
+    wrapCache,
 } from "../common";
 
-export const getInfoPage = wrapUpstash(async (slug: string) => {
+export const getInfoPage = wrapCache(async (slug: string) => {
     const infoPage = await db.select({
         title: InfoPages.title,
         html: InfoPages.html,
@@ -17,4 +17,4 @@ export const getInfoPage = wrapUpstash(async (slug: string) => {
         throw new Error(`Expected 1 info page with slug ${slug}, found ${infoPage.length} matches!`);
 
     return infoPage[0];
-}, 'getInfoPage', 3600);
+});

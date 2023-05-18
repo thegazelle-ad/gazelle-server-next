@@ -4,14 +4,14 @@ export const preferredRegion = 'fra1';
 export const dynamic = 'force-static';
 
 import { Metadata } from 'next';
-import { getLatestPublishedIssue, getIssueArticles, wrapUpstash } from '../../db';
+import { getLatestPublishedIssue, getIssueArticles, wrapCache } from '../../db';
 import Issue from '../../components/Issue';
 
 export const metadata: Metadata = {
   description: 'The latest issue from The Gazelle team at NYU Abu Dhabi',
 };
 
-const getLatestIssueDetails = wrapUpstash(async () => {
+const getLatestIssueDetails = wrapCache(async () => {
   const issue = await getLatestPublishedIssue();
   const issueArticles = await getIssueArticles(issue);
 

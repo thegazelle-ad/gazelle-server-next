@@ -14,5 +14,5 @@ export {
     searchArticles,
 } from './queries/articles';
 export {
-    wrapUpstash
+    wrapCache
 } from './common';
