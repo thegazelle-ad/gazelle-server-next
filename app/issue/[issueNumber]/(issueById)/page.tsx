@@ -14,7 +14,7 @@ const getIssueDetails = wrapCache(async (issueNumber: number) => {
     issue,
     issueArticles,
   };
-}, 'getIssueDetails');
+});
 
 export default async function IssuePage({ params: { issueNumber }}: { params: { issueNumber: number }}) {
   // Fetch latest article data

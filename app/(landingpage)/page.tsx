@@ -19,7 +19,7 @@ const getLatestIssueDetails = wrapCache(async () => {
     issue,
     issueArticles,
   };
-}, 'getLatestIssueDetails');
+});
 
 export default async function Page() {
   // Fetch latest article data
