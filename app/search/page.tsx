@@ -1,7 +1,4 @@
-export const revalidate = 300;
-export const runtime = 'nodejs';
 export const preferredRegion = 'fra1';
-export const dynamic = 'error';
 
 import { Suspense } from "react";
 
