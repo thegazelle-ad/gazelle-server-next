@@ -1,7 +1,7 @@
 export const revalidate = 300;
 export const runtime = 'nodejs';
 export const preferredRegion = 'fra1';
-export const dynamic = 'error';
+export const dynamic = 'force-static';
 
 import { getIssue, getIssueArticles, wrapUpstash } from '../../../../db';
 import Issue from '../../../../components/Issue';
