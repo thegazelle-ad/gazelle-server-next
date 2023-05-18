@@ -1,6 +1,6 @@
 export const runtime = 'nodejs';
 export const preferredRegion = 'fra1';
-export const dynamic = 'error';
+export const dynamic = 'force-static';
 export const revalidate = 300;
 
 import { cache } from 'react';

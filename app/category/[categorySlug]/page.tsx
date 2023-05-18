@@ -1,7 +1,7 @@
 export const revalidate = 300;
 export const runtime = 'nodejs';
 export const preferredRegion = 'fra1';
-export const dynamic = 'error';
+export const dynamic = 'force-static';
 
 import { getCategoryArticles } from "../../../db/queries/articles";
 import { ListOfArticles } from "../../../components/ListOfArticles";
