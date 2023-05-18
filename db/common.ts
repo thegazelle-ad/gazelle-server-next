@@ -28,7 +28,15 @@ import { cache } from 'react';
 // Utility type
 export type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
 
+// Create fetch-isr
+const fetchISR = (input: string, options?: RequestInit | undefined) => {
+    if (options)
+        options['cache'] = 'force-cache';
+    return fetch(input, options);
+};
+
 const connection = connect({
+    fetch: fetchISR,
     host: DATABASE_HOST,
     username: DATABASE_USERNAME,
     password: DATABASE_PASSWORD,
