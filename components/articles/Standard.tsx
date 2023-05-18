@@ -20,7 +20,6 @@ const Standard = ({ article, maxWidth, minWidth, large, priorityImage, eagerImag
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 450px, 325px"
             priority={priorityImage}
-            loading={eagerImage ? "eager" : "lazy"}
           />
         </Link>
         {/* Title */}
