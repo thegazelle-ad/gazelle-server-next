@@ -147,15 +147,15 @@ const Search = ({ show, closeSearch }: { show: boolean, closeSearch: MouseEventH
 
   // const windowSize = useRef([window.innerWidth, window.innerHeight]);
 
-  // useEffect(() => {
-  //   if (show && inputRef.current) {
-  //     inputRef.current.focus();
-  //   }
+  useEffect(() => {
+    if (show && inputRef.current) {
+      inputRef.current.focus();
+    }
 
   //   if (windowSize.current[0] > 400) {
   //     setPlaceHolderText('Search articles and authors...');
   //   }
-  // }, [show]);
+  }, [show]);
 
 
 
