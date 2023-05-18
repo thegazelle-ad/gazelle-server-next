@@ -32,13 +32,13 @@ import {
     Issues,
     Categories,
     ArticlesAudio,
-    wrapUpstash,
+    wrapCache,
 } from "../common";
 import { format } from 'date-fns';
 
 export const UNCATEGORIZED_CATEGORY: Category = { id: UNCATEGORIZED_CATEGORY_ID, name: UNCATEGORIZED_CATEGORY_NAME, slug: UNCATEGORIZED_CATEGORY_SLUG };
 
-export const getIssueArticles = wrapUpstash(async (issue: UnwrapPromise<ReturnType<typeof getLatestPublishedIssue>>): Promise<IssueArticles> => {
+export const getIssueArticles = wrapCache(async (issue: UnwrapPromise<ReturnType<typeof getLatestPublishedIssue>>): Promise<IssueArticles> => {
     // Fetch authors and articles in separate queries to reduce payload size
     const latestIssueArticles = await db.select({
         id: Articles.id,
@@ -162,7 +162,7 @@ export const getIssueArticles = wrapUpstash(async (issue: UnwrapPromise<ReturnTy
         trending: trendingArticles.slice(0,4),
         editorsPicks,
     }
-}, 'getIssueArticles');
+});
 
 // Intentionally not cached - markdown would take up a lot of space in redis
 export const getArticle = async(slug: string): Promise<ArticlePage> => {
@@ -230,7 +230,7 @@ export const getArticle = async(slug: string): Promise<ArticlePage> => {
 };
 
 // TODO - to be replaced by a better algorithm with openai embeddings
-export const getRelatedArticles = wrapUpstash(async (articleCategoryId: number, articleSlug: string, articlePublishedAt: string): Promise<ArticleList[]> => {
+export const getRelatedArticles = wrapCache(async (articleCategoryId: number, articleSlug: string, articlePublishedAt: string): Promise<ArticleList[]> => {
     const relatedArticles = await db.select({
         id: Articles.id,
         issue: Issues.issueNumber,
@@ -253,9 +253,9 @@ export const getRelatedArticles = wrapUpstash(async (articleCategoryId: number, 
     const articlesWithAuthors = await addAuthorsToArticles(relatedArticles);
 
     return Array.from(articlesWithAuthors.values()) as ArticleList[];
-}, 'getRelatedArticles');
+});
 
-export const getGlobalTrendingArticles = wrapUpstash(async () => {
+export const getGlobalTrendingArticles = wrapCache(async () => {
     const trendingArticles = await db.select({
         id: Articles.id,
         issue: Issues.issueNumber,
@@ -275,7 +275,7 @@ export const getGlobalTrendingArticles = wrapUpstash(async () => {
     const articlesWithAuthors = await addAuthorsToArticles(trendingArticles);
 
     return Array.from(articlesWithAuthors.values()) as ArticleStack[];
-}, 'getGlobalTrendingArticles');
+});
 
 // article searching is intentionally not cached
 export async function searchArticles(query: string): Promise<ArticleList[]> {
@@ -379,7 +379,7 @@ export async function addAuthorsToArticles<T extends { id: number }>(articles: T
     return Array.from(articlesWithAuthors.values());
 }
 
-export const getCategoryArticles = wrapUpstash(async (categorySlug: string) => {    
+export const getCategoryArticles = wrapCache(async (categorySlug: string) => {    
     // get articles for that issue: where issueId = latestIssueId: where categoryId = 2 (features)
     const articles = await db.select({
         id: Articles.id,
@@ -407,9 +407,9 @@ export const getCategoryArticles = wrapUpstash(async (categorySlug: string) => {
     });        
     
     return Array.from(articlesWithAuthors) as ArticleList[] & { categoryName: string }[];
-}, 'getCategoryArticles');
+});
 
-export const getLatestTrendingArticles = wrapUpstash(async () => {
+export const getLatestTrendingArticles = wrapCache(async () => {
     const trendingArticles = await db.select({
         id: Articles.id,
         issue: Issues.issueNumber,
@@ -431,9 +431,9 @@ export const getLatestTrendingArticles = wrapUpstash(async () => {
     const articlesWithAuthors = await addAuthorsToArticles(trendingArticles);
 
     return Array.from(articlesWithAuthors.values()) as ArticleList[];
-}, 'getLatestTrendingArticles');
+});
 
-export const getEditorsPicksArticles = wrapUpstash(async () => {
+export const getEditorsPicksArticles = wrapCache(async () => {
     const editorsPicks = await db.select({
         id: Articles.id,
         issue: Issues.issueNumber,
@@ -455,4 +455,4 @@ export const getEditorsPicksArticles = wrapUpstash(async () => {
     const articlesWithAuthors = await addAuthorsToArticles(editorsPicks);
 
     return Array.from(articlesWithAuthors.values()) as ArticleList[];
-}, 'getEditorsPicksArticles');
+});

@@ -15,7 +15,7 @@ import {
     Staff,
     Semesters,
     db,
-    wrapUpstash,
+    wrapCache,
 } from '../common';
 import {
     ARTICLE_DEFAULT_IMAGE,
@@ -29,7 +29,7 @@ import {
     addAuthorsToArticles,
 } from './articles';
 
-export const getStaffArticles = wrapUpstash(async (slug: string): Promise<AuthorProfile> => {
+export const getStaffArticles = wrapCache(async (slug: string): Promise<AuthorProfile> => {
     // This is an expensive query, so we will cache the result for at least 1 hour
     const staff = await db.select({
         id: Staff.id,
@@ -103,9 +103,9 @@ export const getStaffArticles = wrapUpstash(async (slug: string): Promise<Author
         articles: staffArticlesWithAuthors as ArticleList[],
         illustrations: staffIllustrationsWithAuthors as ArticleList[],
     } as const;
-}, 'getStaffArticles', 3600);
+});
 
-export const getLatestStaffRoster = wrapUpstash(async (): Promise<AuthorPreview[][]> => {
+export const getLatestStaffRoster = wrapCache(async (): Promise<AuthorPreview[][]> => {
     // get the latest semester
     const latestSemester = db.select({
         id: Semesters.id,
@@ -150,4 +150,4 @@ export const getLatestStaffRoster = wrapUpstash(async (): Promise<AuthorPreview[
     });
 
     return Array.from(teamToStaff.values());
-}, 'getLatestStaffRoster', 3600);
+});
