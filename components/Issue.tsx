@@ -30,7 +30,7 @@ export default function Issue({ issue }: { issue: IssueArticles }) {
             {editorsPicks.map((article) => {
               return (
                 <div key={article.slug}>
-                  <StandardArticle article={article} minWidth="w-full" maxWidth="m-w-full" />
+                  <StandardArticle article={article} minWidth="w-full" maxWidth="m-w-full" priorityImage />
                 </div>
               );
             })}

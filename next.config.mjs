@@ -9,7 +9,7 @@ const nextConfig = {
     loader: 'custom',
     loaderFile: './image-loader.tsx',
     // https://beta.nextjs.org/docs/api-reference/components/image#imagesizes
-    // imageSizes: [16, 32, 48, 64, 96, 128, 256, 384, 448, 512],
+    // imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     deviceSizes: [448, 512, 640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     remotePatterns: [
       {
@@ -43,7 +43,7 @@ const nextConfig = {
         source: '/:path*',
         headers: [
           {
-            key: 'CDN-Cache-Control',
+            key: 'Cache-Control',
             value: 'public, s-maxage=300, stale-while-revalidate=3600',
           }
         ]
@@ -52,7 +52,7 @@ const nextConfig = {
         source: '/:path*/',
         headers: [
           {
-            key: 'CDN-Cache-Control',
+            key: 'Cache-Control',
             value: 'public, s-maxage=300, stale-while-revalidate=3600',
           }
         ]
