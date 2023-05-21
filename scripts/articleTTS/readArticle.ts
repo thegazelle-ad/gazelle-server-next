@@ -2,7 +2,7 @@ import { TextToSpeechClient } from '@google-cloud/text-to-speech';
 import fs from 'fs';
 import util from 'util';
 import { eq } from 'drizzle-orm/expressions';
-import { db } from '../../db/common';
+import { db } from '../../db/conn';
 import {
     articles as Articles,
     articlesAudio as ArticlesAudio,
@@ -31,7 +31,7 @@ const S3 = new S3Client({
 function parseMarkdown(text: string) {
     // Create a CommonMark reader and writer
     const reader = new Parser();
-    const parsed = reader.parse(markdown);
+    const parsed = reader.parse(text);
 
     let walker = parsed.walker();
     let event, node;
@@ -57,7 +57,7 @@ function splitSentences(text: string) {
 async function synthesizeSpeech(text: string, outputFilename: string) {
     const request = {
         input: { text },
-        voice: { languageCode: 'en-US', ssmlGender: 'NEUTRAL' },
+        voice: { languageCode: 'en-US', name: 'en-US-Studio-O' },
         audioConfig: { audioEncoding: 'MP3' },
     };
 
@@ -158,7 +158,7 @@ async function uploadToS3(bucketName: string, key: string, filePath: string) {
 
 
 const bucketName = 'articles-audio';
-const slug = 'karl-lagerfeld-met-gala-2023';
+const slug = 'grandpa-dont-joke-personal-essay';
 const outputFilename = `${slug}.mp3`;
 
 console.log("Fetching content...");

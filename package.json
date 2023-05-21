@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "addStaffIllustrations": "npx ts-node-esm ./scripts/articleIllustrations/addStaff.ts"
+    "addStaffIllustrations": "npx ts-node-esm ./scripts/articleIllustrations/addStaff.ts",
+    "addTTS": "npx ts-node-esm scripts/articleTTS/main.ts"
   },
   "dependencies": {
     "@planetscale/database": "^1.6.0",
