@@ -14,7 +14,9 @@ import { getLatestPublishedIssue } from '../db';
 import {
   DEFAULT_SITE_TITLE,
   GA_MEASUREMENT_ID,
+  OPENGRAPH_DEFAULT_IMAGE,
 } from '../env';
+import { Metadata } from 'next';
 
 const lora = Lora({
   variable: '--font-lora',
@@ -31,10 +33,13 @@ const roboto = Roboto({
 });
 
 // Static metadata
-export const metadata = {
+export const metadata: Metadata = {
   title: DEFAULT_SITE_TITLE,
   robots: {
     index: true,
+  },
+  openGraph: {
+    images: OPENGRAPH_DEFAULT_IMAGE,
   }
 };
 

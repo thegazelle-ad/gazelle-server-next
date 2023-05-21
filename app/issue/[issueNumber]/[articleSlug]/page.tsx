@@ -14,10 +14,13 @@ const cacheGetArticle = cache(getArticle);
 // https://github.com/vercel/next.js/issues/48162
 
 export async function generateMetadata({ params: { articleSlug }}: { params: { articleSlug: string }}) {
-  const issue = await cacheGetArticle(articleSlug);
+  const article = await cacheGetArticle(articleSlug);
   return {
-    title: capitalizeSentence(issue.title),    
-    description: issue.teaser,
+    title: capitalizeSentence(article.title),    
+    description: article.teaser,
+    openGraph: {
+      images: article.image
+    }
   };
 }
 

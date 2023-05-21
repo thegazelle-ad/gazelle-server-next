@@ -42,3 +42,5 @@ export const SUBMIT_A_TIP_URL = process.env.NEXT_PUBLIC_SUBMIT_A_TIP_URL || '';
 export const MAILING_LIST = process.env.NEXT_PUBLIC_MAILING_LIST || '';
 
 export const SHOW_ARTICLE_CAPTION_SINCE = '2023-04-18 00:00:00';
+
+export const OPENGRAPH_DEFAULT_IMAGE = 'https://www.thegazelle.org/gazelle.svg';
