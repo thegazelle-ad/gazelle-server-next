@@ -14,6 +14,8 @@ import {
 import ffmpeg from 'fluent-ffmpeg';
 // Import the necessary modules
 import { Parser } from 'commonmark';
+// get article slugs
+import { getArticlesForIssueNoAudio } from './getArticles';
 
 const writeFile = util.promisify(fs.writeFile);
 
@@ -57,7 +59,8 @@ function splitSentences(text: string) {
 async function synthesizeSpeech(text: string, outputFilename: string) {
     const request = {
         input: { text },
-        voice: { languageCode: 'en-US', name: 'en-US-Studio-O' },
+        // voice: { languageCode: 'en-US', name: 'en-US-Studio-O' },
+        voice: { languageCode: 'en-US', ssmlGender: 'NEUTRAL' },
         audioConfig: { audioEncoding: 'MP3' },
     };
 
@@ -95,6 +98,12 @@ async function textToAudio(text: string, outputFile: string) {
     }
 
     await concatenateAudio(audioFiles, outputFile);
+
+    // Delete temporary audio files
+    audioFiles.forEach(file => {
+        fs.unlinkSync(file);
+    });
+
     console.log(`Concatenated audio file: ${outputFile}`);
 }
 
@@ -156,22 +165,44 @@ async function uploadToS3(bucketName: string, key: string, filePath: string) {
     }
 }
 
+const articles = await getArticlesForIssueNoAudio(248);
 
-const bucketName = 'articles-audio';
-const slug = 'grandpa-dont-joke-personal-essay';
-const outputFilename = `${slug}.mp3`;
+for (const article of articles) {
+    const bucketName = 'articles-audio';
+    const slug = article.slug;
+    const outputFilename = `${slug}.mp3`;
 
-console.log("Fetching content...");
-const { id, markdown, title, teaser } = await getArticleContent(slug);
+    console.log("Fetching content... for ", slug);
+    const { id, markdown, title, teaser } = await getArticleContent(slug);
 
-const content = `${title} ${teaser} ${parseMarkdown(markdown)}`;
+    const content = `${title} ${teaser} ${parseMarkdown(markdown)}`;
 
-console.log("Got content, synthesizing");
-await textToAudio(content, outputFilename);
+    console.log("Got content, synthesizing");
+    await textToAudio(content, outputFilename);
 
-console.log("synthesized, uploading....");
-await uploadToS3(bucketName, outputFilename, outputFilename);
+    console.log("synthesized, uploading....");
+    await uploadToS3(bucketName, outputFilename, outputFilename);
 
-console.log("Updating database...");
-await updateDB({ id, slug });
-console.log("updated db");
+    console.log("Updating database...");
+    await updateDB({ id, slug });
+    console.log("updated db");
+}
+
+// const bucketName = 'articles-audio';
+// const slug = 'grandpa-dont-joke-personal-essay';
+// const outputFilename = `${slug}.mp3`;
+
+// console.log("Fetching content...");
+// const { id, markdown, title, teaser } = await getArticleContent(slug);
+
+// const content = `${title} ${teaser} ${parseMarkdown(markdown)}`;
+
+// console.log("Got content, synthesizing");
+// await textToAudio(content, outputFilename);
+
+// console.log("synthesized, uploading....");
+// await uploadToS3(bucketName, outputFilename, outputFilename);
+
+// console.log("Updating database...");
+// await updateDB({ id, slug });
+// console.log("updated db");
