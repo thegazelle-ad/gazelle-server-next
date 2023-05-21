@@ -16,6 +16,13 @@ const getIssueDetails = wrapCache(async (issueNumber: number) => {
   };
 });
 
+export async function generateMetadata({ params: { issueNumber }}: { params: { issueNumber: number }}) {
+  const { issue } = await getIssueDetails(issueNumber);
+  return {
+    title: `Issue ${issue.issueNumber} | The Gazelle`,
+  }
+}
+
 export default async function IssuePage({ params: { issueNumber }}: { params: { issueNumber: number }}) {
   // Fetch latest article data
   const { issueArticles } = await getIssueDetails(issueNumber);

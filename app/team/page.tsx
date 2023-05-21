@@ -5,9 +5,16 @@ export const dynamic = 'error';
 
 import Image from "next/image";
 import Link from "next/link";
+import { Metadata } from "next";
+
 import { getLatestStaffRoster } from "../../db";
 import { AuthorPreview } from "../../components/articles";
 import { Divider } from "../../components/layout";
+
+export const metadata: Metadata = {
+  title: 'About | The Gazelle',
+  description: 'The latest issue from The Gazelle team at NYU Abu Dhabi',
+};
 
 async function getTitle() {
     return { title: 'Our Team'};

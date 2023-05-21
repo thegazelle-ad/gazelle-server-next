@@ -18,9 +18,6 @@ export async function generateMetadata({ params: { articleSlug }}: { params: { a
   return {
     title: capitalizeSentence(issue.title),    
     description: issue.teaser,
-    robots: {
-      index: true,
-    }
   };
 }
 
