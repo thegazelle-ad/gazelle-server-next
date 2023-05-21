@@ -9,6 +9,10 @@ import { getInfoPage } from "../../../db/queries/infopages";
 export const metadata: Metadata = {
     title: 'Ethics | The Gazelle',
     description: 'Ethics of The Gazelle team at NYU Abu Dhabi',
+    openGraph: {
+        title: 'Ethics | The Gazelle',
+        description: 'Ethics of The Gazelle team at NYU Abu Dhabi',
+    }
 };
 
 export default async function Page() {

@@ -20,6 +20,10 @@ import {
 export const metadata: Metadata = {
   title: 'Archives',
   description: 'Archive of all past issues for The Gazelle.',
+  openGraph: {
+    title: 'Archives | The Gazelle',
+    description: 'Archive of all past issues for The Gazelle.',
+  }
 };
 
 const IssueCard = ({ issue }: { issue: IssueArchive }) => {

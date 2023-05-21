@@ -12,6 +12,10 @@ import { ListOfArticles } from '../../../components/ListOfArticles';
 export const metadata: Metadata = {
     title: "Editor's Picks | The Gazelle",
     description: 'The latest editor picks from The Gazelle',
+    openGraph: {
+        title: "Editor's Picks | The Gazelle",
+        description: 'The latest editor picks from The Gazelle',
+    }
 };
 
 export default async function Page() {

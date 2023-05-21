@@ -6,7 +6,7 @@ export const dynamic = 'error';
 import { cache } from 'react';
 import ArticleLayout from '../../../../../components/ArticleLayout';
 import { getArticle } from '../../../../../db';
-import { capitalizeSentence } from '../../../../../components/articles';
+import { capitalizeSentence, ellipsis } from '../../../../../components/articles';
 
 const cacheGetArticle = cache(getArticle);
 
@@ -19,6 +19,8 @@ export async function generateMetadata({ params: { articleSlug2 }}: { params: { 
     title: capitalizeSentence(article.title),
     description: article.teaser,
     openGraph: {
+      title: capitalizeSentence(article.title),
+      description: ellipsis(article.teaser, 120),
       images: article.image
     }
   };

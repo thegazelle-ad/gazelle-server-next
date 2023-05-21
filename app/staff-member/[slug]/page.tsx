@@ -19,6 +19,8 @@ export async function generateMetadata({ params: { slug }}: { params: { slug: st
     title: `${staffProfile.name} | The Gazelle`,
     description: staffProfile.bio,
     openGraph: {
+      title: `${staffProfile.name} | The Gazelle`,
+      description: staffProfile.bio,
       images: staffProfile.image
     }
   };
