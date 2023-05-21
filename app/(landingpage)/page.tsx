@@ -1,4 +1,4 @@
-export const revalidate = 600;
+export const revalidate = 900;
 export const runtime = 'nodejs';
 export const preferredRegion = 'fra1';
 export const dynamic = 'force-static';
