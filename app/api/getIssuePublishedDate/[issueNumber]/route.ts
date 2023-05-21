@@ -1,4 +1,4 @@
-export const revalidate = 300;
+export const revalidate = 900;
 export const runtime = 'edge';
 export const preferredRegion = 'fra1';
 export const dynamic = 'force-static';
