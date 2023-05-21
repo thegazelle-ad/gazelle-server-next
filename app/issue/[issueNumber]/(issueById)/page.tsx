@@ -18,7 +18,7 @@ const getIssueDetails = wrapCache(async (issueNumber: number) => {
 
 export async function generateMetadata({ params: { issueNumber }}: { params: { issueNumber: number }}) {
   const { issue, issueArticles } = await getIssueDetails(issueNumber);
-  const images = [...issueArticles.featured.image, ...issueArticles.editorsPicks.map(article => article.image)]
+  const images = [issueArticles.featured.image, ...issueArticles.editorsPicks.map(article => article.image)]
 
   return {
     title: `Issue ${issue.issueNumber} | The Gazelle`,
