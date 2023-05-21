@@ -1,7 +1,6 @@
 export const revalidate = 900;
 export const runtime = 'edge';
 export const preferredRegion = 'fra1';
-export const dynamic = 'force-static';
 
 import { type NextRequest, NextResponse } from 'next/server'
 import { getIssue } from '../../../../db'
