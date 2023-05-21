@@ -1,10 +1,16 @@
 export const preferredRegion = 'fra1';
 
+import { Metadata } from 'next';
 import { Suspense } from "react";
 
 import { searchArticles } from "../../db";
 import { ArticleList } from "../../components/articles";
 import ListArticle from "../../components/articles/List";
+
+export const metadata: Metadata = {
+    title: 'About | The Gazelle',
+    description: 'The latest issue from The Gazelle team at NYU Abu Dhabi',
+};
 
 const SearchResults = (async({ query }: { query: string }) => {
     let articles: ArticleList[] = [];

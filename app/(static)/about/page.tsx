@@ -3,7 +3,13 @@ export const runtime = 'nodejs';
 export const preferredRegion = 'fra1';
 export const dynamic = 'error';
 
+import { Metadata } from 'next';
 import { getInfoPage } from "../../../db/queries/infopages";
+
+export const metadata: Metadata = {
+    title: 'About | The Gazelle',
+    description: 'The Gazelle is the independent student publication at NYU Abu Dhabi.',
+};
 
 export default async function Page() {
     const page = await getInfoPage('about');
