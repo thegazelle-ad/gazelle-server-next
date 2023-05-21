@@ -7,10 +7,6 @@ import { Metadata } from 'next';
 import { getLatestPublishedIssue, getIssueArticles, wrapCache } from '../../db';
 import Issue from '../../components/Issue';
 
-export const metadata: Metadata = {
-  description: 'The latest issue from The Gazelle team at NYU Abu Dhabi',
-};
-
 export const generateMetadata = async () => {
   const issue = await getLatestPublishedIssue();
   const issueArticles = await getIssueArticles(issue);
