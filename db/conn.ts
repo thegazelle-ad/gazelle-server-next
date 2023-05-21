@@ -9,8 +9,10 @@ import {
 
 // Create fetch-isr
 const fetchISR = (input: string, options?: RequestInit | undefined) => {
-    if (options)
-        options['cache'] = 'force-cache';
+    if (options) {
+        delete options['cache'];
+        options['next'] = { revalidate: 3600 };
+    }
     return fetch(input, options);
 };
 
