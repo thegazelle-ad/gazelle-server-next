@@ -1,6 +1,7 @@
 export const revalidate = 900;
 export const runtime = 'nodejs';
 export const preferredRegion = 'fra1';
+export const dynamic = 'error';
 
 import { Metadata } from 'next';
 import { getLatestPublishedIssue, getIssueArticles, wrapCache } from '../../db';
