@@ -11,6 +11,20 @@ export const metadata: Metadata = {
   description: 'The latest issue from The Gazelle team at NYU Abu Dhabi',
 };
 
+export const generateMetadata = async () => {
+  const issue = await getLatestPublishedIssue();
+  const issueArticles = await getIssueArticles(issue);
+  const images = [...issueArticles.featured.image, ...issueArticles.editorsPicks.map(article => article.image)]
+  
+  return {
+    title: `Issue ${issue.issueNumber} | The Gazelle`,
+    description: `The latest issue from The Gazelle team at NYU Abu Dhabi`,
+    openGraph: {
+      images: images
+    }
+  }
+}
+
 const getLatestIssueDetails = wrapCache(async () => {
   const issue = await getLatestPublishedIssue();
   const issueArticles = await getIssueArticles(issue);

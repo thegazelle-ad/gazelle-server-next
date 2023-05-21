@@ -17,8 +17,9 @@ export async function generateMetadata({ params: { slug }}: { params: { slug: st
   const staffProfile = await getStaffCache(slug);
   return {
     title: `${staffProfile.name} | The Gazelle`,
-    robots: {
-      index: true,
+    description: staffProfile.bio,
+    openGraph: {
+      images: staffProfile.image
     }
   };
 }

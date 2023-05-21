@@ -17,9 +17,15 @@ const getIssueDetails = wrapCache(async (issueNumber: number) => {
 });
 
 export async function generateMetadata({ params: { issueNumber }}: { params: { issueNumber: number }}) {
-  const { issue } = await getIssueDetails(issueNumber);
+  const { issue, issueArticles } = await getIssueDetails(issueNumber);
+  const images = [...issueArticles.featured.image, ...issueArticles.editorsPicks.map(article => article.image)]
+
   return {
     title: `Issue ${issue.issueNumber} | The Gazelle`,
+    description: `Issue ${issue.issueNumber} from The Gazelle team at NYU Abu Dhabi`,
+    openGraph: {
+      images: images
+    }
   }
 }
 
