@@ -15,6 +15,7 @@ import {
   DEFAULT_SITE_TITLE,
   GA_MEASUREMENT_ID,
   OPENGRAPH_DEFAULT_IMAGE,
+  OPENGRAPH_SITE_NAME,
 } from '../env';
 import { Metadata } from 'next';
 
@@ -39,6 +40,7 @@ export const metadata: Metadata = {
     index: true,
   },
   openGraph: {
+    siteName: OPENGRAPH_SITE_NAME,
     images: OPENGRAPH_DEFAULT_IMAGE,
   }
 };

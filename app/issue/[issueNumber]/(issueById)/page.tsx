@@ -24,6 +24,8 @@ export async function generateMetadata({ params: { issueNumber }}: { params: { i
     title: `Issue ${issue.issueNumber} | The Gazelle`,
     description: `Issue ${issue.issueNumber} from The Gazelle team at NYU Abu Dhabi`,
     openGraph: {
+      title: `Issue ${issue.issueNumber} | The Gazelle`,
+      description: `Issue ${issue.issueNumber} from The Gazelle team at NYU Abu Dhabi`,
       images: images
     }
   }

@@ -15,6 +15,8 @@ export const generateMetadata = async () => {
     title: `Issue ${issue.issueNumber} | The Gazelle`,
     description: `The latest issue from The Gazelle team at NYU Abu Dhabi`,
     openGraph: {
+      title: `Issue ${issue.issueNumber} | The Gazelle`,
+      description: `The latest issue from The Gazelle team at NYU Abu Dhabi`,
       images: images
     }
   }

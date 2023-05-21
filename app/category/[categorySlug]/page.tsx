@@ -12,6 +12,10 @@ export async function generateMetadata({ params: { categorySlug }}: { params: { 
     return {
         title: `${articles[0].categoryName} | The Gazelle`,
         description: `The latest articles from The Gazelle in from the ${articles[0].categoryName} desk.`,
+        openGraph: {
+            title: `${articles[0].categoryName} | The Gazelle`,
+            description: `The latest articles from The Gazelle in from the ${articles[0].categoryName} desk.`,
+        }
     }
 }
 
