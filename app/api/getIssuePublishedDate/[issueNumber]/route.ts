@@ -1,4 +1,4 @@
-export const revalidate = 900;
+export const revalidate = 43200;
 export const runtime = 'edge';
 export const preferredRegion = 'fra1';
 

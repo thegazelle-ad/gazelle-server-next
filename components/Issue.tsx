@@ -4,8 +4,6 @@ import StackedArticle from './articles/Stacked';
 import { Divider } from './layout';
 import { IssueArticles } from './articles';
 
-export const revalidate = 0;
-
 export default function Issue({ issue }: { issue: IssueArticles }) {
   const { allCategories, featured, trending, editorsPicks } = issue;
 
