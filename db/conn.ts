@@ -11,7 +11,7 @@ import {
 const fetchISR = (input: string, options?: RequestInit | undefined) => {
     if (options) {
         delete options['cache'];
-        options['next'] = { revalidate: 3600 };
+        options['next'] = { revalidate: 43200 };
     }
     return fetch(input, options);
 };
