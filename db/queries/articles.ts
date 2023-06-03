@@ -83,8 +83,8 @@ export const getIssueArticles = wrapCache(async (issue: UnwrapPromise<ReturnType
         // TODO- handle missing gracefully
         if (!article.title) throw new Error('Article missing title');
         if (!article.slug) throw new Error('Article missing slug');
-        if (!article.teaser) throw new Error('Article missing teaser');
-        if (!article.imageUrl) throw new Error('Article missing image_url');
+        if (!article.teaser) article.teaser = ARTICLE_DEFAULT_TEASER;
+        if (!article.imageUrl) article.imageUrl = ARTICLE_DEFAULT_IMAGE;
         if (article.type > 3 || article.type < 0) throw new Error('Article missing type');
 
         // check if article id in map
