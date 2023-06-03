@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "profile": "NODE_OPTIONS='--inspect' next dev",
     "update": "pnpm i next@latest react@latest react-dom@latest eslint-config-next@latest",
     "addStaffIllustrations": "npx ts-node-esm ./scripts/articleIllustrations/addStaff.ts",
     "addTTS": "npx ts-node-esm scripts/articleTTS/main.ts"
