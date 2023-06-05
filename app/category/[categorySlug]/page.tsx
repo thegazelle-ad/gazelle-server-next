@@ -8,6 +8,8 @@ import { ListOfArticles } from "../../../components/ListOfArticles";
 
 export async function generateMetadata({ params: { categorySlug }}: { params: { categorySlug: string }}) {
     const articles = await getCategoryArticles(categorySlug);
+
+    const images = articles.map(article => article.image);
     
     return {
         title: `${articles[0].categoryName} | The Gazelle`,
@@ -15,6 +17,7 @@ export async function generateMetadata({ params: { categorySlug }}: { params: { 
         openGraph: {
             title: `${articles[0].categoryName} | The Gazelle`,
             description: `The latest articles from The Gazelle in from the ${articles[0].categoryName} desk.`,
+            images: images.slice(0, 3),
         }
     }
 }
