@@ -23,7 +23,9 @@ const Standard = ({ article, maxWidth, minWidth, large, priorityImage, eagerImag
           />
         </Link>
         {/* Title */}
-        <h1 className={`${titleSize} font-semibold capitalize font-lora peer-hover:text-sky-600 hover:text-sky-600 leading-snug ${large ? "md:leading-7" : "md:leading-6"}`}>{article.title}</h1>
+        <Link href={getArticleUrl(article)}>
+          <h1 className={`${titleSize} font-semibold capitalize font-lora peer-hover:text-sky-600 hover:text-sky-600 leading-snug ${large ? "md:leading-7" : "md:leading-6"}`}>{article.title}</h1>
+        </Link>
         {/* Authors */}
         {getAuthorsText(article, `${authorSize} text-gray-600 font-normal -my-1 py-1 leading-9 md:leading-5`)}
         {/* Teaser */}
