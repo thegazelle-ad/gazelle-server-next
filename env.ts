@@ -45,3 +45,4 @@ export const SHOW_ARTICLE_CAPTION_SINCE = '2023-04-18 00:00:00';
 
 export const OPENGRAPH_DEFAULT_IMAGE = 'https://www.thegazelle.org/gazelle.svg';
 export const OPENGRAPH_SITE_NAME = 'The Gazelle';
+export const OPENGRAPH_METADATA_BASE = 'https://thegazelle.org';

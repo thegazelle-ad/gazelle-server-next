@@ -16,6 +16,7 @@ import {
   GA_MEASUREMENT_ID,
   OPENGRAPH_DEFAULT_IMAGE,
   OPENGRAPH_SITE_NAME,
+  OPENGRAPH_METADATA_BASE,
 } from '../env';
 import { Metadata } from 'next';
 
@@ -35,6 +36,7 @@ const roboto = Roboto({
 
 // Static metadata
 export const metadata: Metadata = {
+  metadataBase: new URL(OPENGRAPH_METADATA_BASE),
   title: DEFAULT_SITE_TITLE,
   robots: {
     index: true,
