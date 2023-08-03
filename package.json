@@ -10,16 +10,16 @@
     "profile": "NODE_OPTIONS='--inspect' next dev",
     "update": "pnpm i next@latest react@latest react-dom@latest eslint-config-next@latest",
     "addStaffIllustrations": "npx ts-node-esm ./scripts/articleIllustrations/addStaff.ts",
-    "addTTS": "npx ts-node-esm scripts/articleTTS/main.ts"
+    "addTTS": "npx ts-node-esm ./scripts/articleTTS/readArticle.ts"
   },
   "dependencies": {
     "@planetscale/database": "^1.6.0",
     "commonmark": "^0.30.0",
     "date-fns": "^2.29.3",
     "drizzle-orm": "^0.23.12",
-    "next": "13.4.3",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "next": "^13.4.12",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-markdown": "^8.0.6",
     "rehype-raw": "^6.1.1"
   },
