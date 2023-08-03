@@ -99,7 +99,7 @@ const MobileMenu = ({ show, mobileDropdown, closeMenu, showSearch }: { show: boo
             mobileDropdown.map(category => 
               <div key={category.slug}>
                 <Link href={category.slug}>
-                  <li className="font-light capitalize">{category.name}</li>
+                  <li className="font-light capitalize" onClick={(e) => { closeMenu(e); }}>{category.name}</li>
                 </Link>
               </div>
             )
