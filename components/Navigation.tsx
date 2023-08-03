@@ -39,11 +39,12 @@ const Categories = ({ categories, publishedAt, issueNumber }: { categories: Menu
 
   useEffect(() => {
     if (params.issueNumber) {
-      setDisplayIssueNumber(params.issueNumber);
+      const issueNumber = Array.isArray(params.issueNumber) ? params.issueNumber[0] : params.issueNumber;
+      setDisplayIssueNumber(issueNumber);
 
       // Maybe not the best way to fetch the date, but it works for now
       try {
-        fetch('/api/getIssuePublishedDate/' + params.issueNumber).then(res => res.json()).then(date => {
+        fetch('/api/getIssuePublishedDate/' + issueNumber).then(res => res.json()).then(date => {
           // @ts-ignore
           setDisplayDate(format(parse(date.publishedAt, DATABASE_DATE_FORMAT, new Date()), ARTICLE_DATE_FORMAT));
         });
