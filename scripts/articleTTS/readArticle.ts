@@ -59,8 +59,8 @@ function splitSentences(text: string) {
 async function synthesizeSpeech(text: string, outputFilename: string) {
     const request = {
         input: { text },
-        // voice: { languageCode: 'en-US', name: 'en-US-Studio-O' },
-        voice: { languageCode: 'en-US', ssmlGender: 'NEUTRAL' },
+        voice: { languageCode: 'en-US', name: 'en-US-Studio-O' }, // fancy sounding
+        // voice: { languageCode: 'en-US', ssmlGender: 'NEUTRAL' },
         audioConfig: { audioEncoding: 'MP3' },
     };
 

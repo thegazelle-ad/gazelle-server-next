@@ -1,5 +1,5 @@
 import { eq, ne, desc, inArray, gte, like } from 'drizzle-orm/expressions';
-import { db } from '../../db/common';
+import { db } from '../../db/conn';
 import { 
     articleIllustrations as ArticleIllustrations,
     staff as Staff,
@@ -29,14 +29,27 @@ async function addStaffIllustrationsBySlug(slug: string, stringSearch: string) {
         .from(Articles)
         .where(like(Articles.markdown, `%${stringSearch}%`));
 
-    const additions = staffIllustrations.map((staffIllustration) => ({
-        articleId: staffIllustration.id,
-        staffId: staff.id,
-    }));
+    const existing = await db.select({
+        articleId: ArticleIllustrations.articleId,
+    })
+        .from(ArticleIllustrations)
+        .where(eq(ArticleIllustrations.staffId, staff.id));
+
+    const additions = [];
+    for (const staffIllustration of staffIllustrations) {
+        if (existing.find((e) => e.articleId === staffIllustration.id))
+            continue;
+
+        additions.push({
+            articleId: staffIllustration.id,
+            staffId: staff.id,
+        });
+    }
 
     // insert these in article_illustrations
-    await db.insert(ArticleIllustrations).values(additions);
-    console.log("Made additions: ", additions.length);
+    console.log("Making additions: ", additions.length);
+    if (additions.length !== 0)
+        await db.insert(ArticleIllustrations).values(additions);
 }
 
-addStaffIllustrationsBySlug('ahmed-bilal', 'Illustration by Ahmed Bilal');
+// addStaffIllustrationsBySlug('staff-slug', 'Illustration by Staff Name');
