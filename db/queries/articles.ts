@@ -339,6 +339,16 @@ export async function searchArticles(query: string): Promise<ArticleList[]> {
     // fetch the authors
     const articlesWithAuthors = await addAuthorsToArticles(results);
 
+    // Patch nulls
+    for (const article of articlesWithAuthors) {
+        if (!article.image) {
+            article.image = ARTICLE_DEFAULT_IMAGE;
+        }
+        if (!article.teaser) {
+            article.teaser = ARTICLE_DEFAULT_TEASER;
+        }
+    }
+
     return Array.from(articlesWithAuthors) as ArticleList[];
 }
 
