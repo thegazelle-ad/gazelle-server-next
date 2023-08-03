@@ -11,6 +11,7 @@ import {
 const fetchISR = (input: string, options?: RequestInit | undefined) => {
     if (options) {
         delete options['cache'];
+        //@ts-ignore
         options['next'] = { revalidate: 43200 };
     }
     return fetch(input, options);
