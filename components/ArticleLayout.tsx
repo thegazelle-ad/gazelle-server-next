@@ -216,21 +216,19 @@ export default async function Article({ article, slug }: { article: ArticlePage,
 
                             return <em>{children}</em>;
                         },
-                        iframe: ({node, ...props}) => {
-                            const iframeAttributes = node.properties;
-
-                            // Override width
-                            if (iframeAttributes) {
-                                delete iframeAttributes.width;
-                                iframeAttributes.className = (iframeAttributes.className || "") + " w-full";
+                        iframe: (node) => {
+                            delete node.width;
+                            const modifiedProps = {
+                                ...node,
+                                className: (node.className || "") + " w-full"
                             }
 
                             return (
                                 <iframe
-                                    {...iframeAttributes}
+                                    {...modifiedProps}
                                 />
-                            );
-                        }
+                            )
+                        },
                     }}
                 >
                     {article.markdown}
