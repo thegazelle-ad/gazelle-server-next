@@ -217,10 +217,10 @@ export default async function Article({ article, slug }: { article: ArticlePage,
                             return <em>{children}</em>;
                         },
                         iframe: (node) => {
-                            delete node.width;
                             const modifiedProps = {
                                 ...node,
-                                className: (node.className || "") + " w-full"
+                                className: (node.className || "") + " w-full",
+                                width: undefined,
                             }
 
                             return (
