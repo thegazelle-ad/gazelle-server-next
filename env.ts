@@ -13,9 +13,6 @@ export const DATABASE_HOST = process.env.DATABASE_HOST!;
 export const DATABASE_USERNAME = process.env.DATABASE_USERNAME!;
 export const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD!;
 
-export const UPSTASH_URL = process.env.UPSTASH_URL!;
-export const UPSTASH_TOKEN = process.env.UPSTASH_TOKEN!;
-
 export const ARTICLE_TYPE_NORMAL = 0;
 export const ARTICLE_TYPE_FEATURED = 1;
 export const ARTICLE_TYPE_EDITORS_PICKS = 2;
