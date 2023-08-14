@@ -45,7 +45,6 @@ const Categories = ({ categories, publishedAt, issueNumber }: { categories: Menu
       // Maybe not the best way to fetch the date, but it works for now
       try {
         fetch('/api/getIssuePublishedDate/' + issueNumber).then(res => res.json()).then(date => {
-          // @ts-ignore
           setDisplayDate(format(parse(date.publishedAt, DATABASE_DATE_FORMAT, new Date()), ARTICLE_DATE_FORMAT));
         });
       } catch(e) {

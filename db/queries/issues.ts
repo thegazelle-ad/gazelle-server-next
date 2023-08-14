@@ -44,8 +44,6 @@ export const getLatestPublishedIssue = wrapCache(async () => {
 });
 
 export const getIssue = wrapCache(async (issueNumber: number) => {
-    console.log("getting issue", issueNumber);
-
     const issue = await db.select({
         id: Issues.id,
         issueNumber: Issues.issueNumber,
