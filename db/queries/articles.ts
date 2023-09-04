@@ -429,7 +429,7 @@ export const getLatestTrendingArticles = wrapCache(async () => {
         teaser: Articles.teaser,
     })
         .from(Articles)
-        .where(gte(Articles.publishedAt, format(new Date(Date.now() - (1000 * 60 * 60 * 24 * 90)), DATABASE_DATE_TIME_FORMAT)))
+        .where(gte(Articles.publishedAt, format(new Date(Date.now() - (1000 * 60 * 60 * 24 * 180)), DATABASE_DATE_TIME_FORMAT)))
         .innerJoin(IssuesArticlesOrder, eq(Articles.id, IssuesArticlesOrder.articleId))
         .innerJoin(Issues, eq(IssuesArticlesOrder.issueId, Issues.id))
         .orderBy(desc(Articles.views))
