@@ -32,6 +32,7 @@ export const DATABASE_DATE_TIME_FORMAT = 'yyyy-MM-dd HH:mm:ss';
 export const DATABASE_DATE_FORMAT = 'yyyy-MM-dd';
 
 export const TEASER_ELLIPSIS_LENGTH = 150;
+export const TRENDING_ARTICLES_MAX_AGE_SECONDS = 1000 * 60 * 60 * 24 * 180;
 
 export const GA_MEASUREMENT_ID = process.env.GA_MEASUREMENT_ID;
 
