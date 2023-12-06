@@ -67,9 +67,11 @@ const Categories = ({ categories, publishedAt, issueNumber }: { categories: Menu
         <ul className="flex justify-center items-center m-2">
           {
             categories.map(category => {
+              // Trim leading /
+              category.slug = category.slug[0] === '/' ? category.slug.slice(1) : category.slug;
               return (
                 <li key={category.slug} className="px-2">
-                  <Link href={category.slug} className="hover:text-sky-600">
+                  <Link href={`/${category.slug}`} className="hover:text-sky-600">
                     {category.name}
                   </Link>
                 </li>
