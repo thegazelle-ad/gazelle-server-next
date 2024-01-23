@@ -36,6 +36,7 @@ import {
     wrapCache,
 } from "../common";
 import { format } from 'date-fns';
+import { notFound } from 'next/navigation';
 
 export const UNCATEGORIZED_CATEGORY: Category = { id: UNCATEGORIZED_CATEGORY_ID, name: UNCATEGORIZED_CATEGORY_NAME, slug: UNCATEGORIZED_CATEGORY_SLUG };
 
@@ -182,14 +183,15 @@ export const getArticle = async(slug: string): Promise<ArticlePage> => {
         .limit(1);
 
     if (!Array.isArray(article) || article.length === 0)
-        throw new Error('Article not found!');
+        notFound();
 
     if (!article[0].markdown)
-        throw new Error('Article missing content!');    
+        notFound();
 
     // Don't render unpublished articles
     if (article[0].publishedAt == null)
-        throw new Error('Article not found!');
+        notFound();
+        // throw new Error('Article not found!');
 
     // attempt to get audio
     const audioUri = await db.select({
