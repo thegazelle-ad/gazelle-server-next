@@ -187,6 +187,10 @@ export const getArticle = async(slug: string): Promise<ArticlePage> => {
     if (!article[0].markdown)
         throw new Error('Article missing content!');    
 
+    // Don't render unpublished articles
+    if (article[0].publishedAt == null)
+        throw new Error('Article not found!');
+
     // attempt to get audio
     const audioUri = await db.select({
         uri: ArticlesAudio.uri,
