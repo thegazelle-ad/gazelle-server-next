@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import { eq, ne, desc, inArray, and } from 'drizzle-orm/expressions';
 import { 
     AuthorProfile,
@@ -45,7 +46,8 @@ export const getStaffArticles = wrapCache(async (slug: string): Promise<AuthorPr
 
     // error if no staff member found
     if (!staff.length) {
-        throw new Error('Staff member not found');
+        notFound();
+        // throw new Error('Staff member not found');
     };
 
     // fetch all the articles they have written
