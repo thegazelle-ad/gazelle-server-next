@@ -1,6 +1,6 @@
-export const revalidate = 43200;
-export const runtime = 'edge';
-export const preferredRegion = 'fra1';
+// export const revalidate = 43200;
+// export const runtime = 'edge';
+// export const preferredRegion = 'fra1';
 
 import { type NextRequest, NextResponse } from 'next/server'
 import { getIssue } from '../../../../db'
