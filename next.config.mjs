@@ -4,6 +4,7 @@ const nextConfig = {
   swcMinify: true,
   experimental: {
     appDir: true,
+    serverComponentsExternalPackages: ["mysql2"],
   },
   images: {
     loader: 'custom',
