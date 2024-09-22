@@ -3,22 +3,26 @@ import {
     Issues,
     Categories,
     IssuesCategoriesOrder,
+    IssuesArticlesOrder,
     wrapCache,
+    Articles,
 } from '../common';
 
-import { eq, isNotNull, desc } from 'drizzle-orm/expressions';
+import { eq, isNotNull, and, desc } from 'drizzle-orm/expressions';
 
 type Issue = {
     id: number;
     issueNumber: number;
     issueName: string;
     publishedAt: string | null;
+    imageUrl: string;
 }
 
 export type IssueArchive = {
     issueNumber: number;
     issueName: string;
     publishedAt: string | null; 
+    imageUrl: string;
 }
 // NOTE - Caching is per request
 export const getLatestPublishedIssue = wrapCache(async () => {
@@ -89,9 +93,17 @@ export const getIssueArchive = wrapCache(async () => {
         issueNumber: Issues.issueNumber,
         issueName: Issues.name,
         publishedAt: Issues.published_at,
+        imageUrl: Articles.imageUrl
     })
         .from(Issues)
-        .where(isNotNull(Issues.published_at))
+        .innerJoin(IssuesArticlesOrder, eq(IssuesArticlesOrder.issueId, Issues.id) )
+        .innerJoin(Articles, eq(Articles.id, IssuesArticlesOrder.articleId))
+        .where(
+            and(
+                eq(IssuesArticlesOrder.type, 1),
+                isNotNull(Issues.published_at)
+            )
+        )
         .orderBy(desc(Issues.id));
 
     return issues;
