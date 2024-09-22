@@ -3,6 +3,7 @@ export const runtime = 'nodejs';
 export const preferredRegion = 'fra1';
 export const dynamic = 'error';
 
+import Image from "next/image";
 import Link from "next/link";
 import { format, parse } from "date-fns";
 import { Metadata } from "next";
@@ -15,6 +16,7 @@ import {
   DATABASE_DATE_FORMAT,
   ARTICLE_DATE_FORMAT,
   DEFAULT_ISSUE_DATE,
+  ARTICLE_DEFAULT_IMAGE,
 } from '../../env';
 
 export const metadata: Metadata = {
@@ -30,6 +32,16 @@ const IssueCard = ({ issue }: { issue: IssueArchive }) => {
   return (
     <div className="flex flex-col justify-center w-[300px] m-4 text-center group hover:text-sky-600">
       <Link href={`/issue/${issue.issueNumber}`}>
+        <Image
+          priority={true}
+          src={issue.imageUrl || ARTICLE_DEFAULT_IMAGE}
+          // fill
+          width={300}
+          height={300}
+          alt={issue.imageUrl}
+          className="aspect-[16/9] object-cover"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
         <h1 className="font-normal text-2xl mt-1">
           {issue.issueName}
         </h1>
@@ -46,6 +58,7 @@ const IssueCard = ({ issue }: { issue: IssueArchive }) => {
 
 export default async function Page() {    
   const issues = await getIssueArchive();
+  
 
   return (
     <div className="flex flex-col items-center justify-center">
