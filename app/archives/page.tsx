@@ -38,7 +38,7 @@ const IssueCard = ({ issue }: { issue: IssueArchive }) => {
           // fill
           width={300}
           height={300}
-          alt={issue.imageUrl}
+          alt={issue.imageUrl || ARTICLE_DEFAULT_IMAGE}
           className="aspect-[16/9] object-cover"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />

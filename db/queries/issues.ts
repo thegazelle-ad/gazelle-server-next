@@ -15,14 +15,14 @@ type Issue = {
     issueNumber: number;
     issueName: string;
     publishedAt: string | null;
-    imageUrl: string;
+    imageUrl?: string | null;
 }
 
 export type IssueArchive = {
     issueNumber: number;
     issueName: string;
     publishedAt: string | null; 
-    imageUrl: string;
+    imageUrl?: string | null;
 }
 // NOTE - Caching is per request
 export const getLatestPublishedIssue = wrapCache(async () => {
