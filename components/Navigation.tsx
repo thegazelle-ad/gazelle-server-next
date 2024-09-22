@@ -218,11 +218,13 @@ const Search = ({ show, closeSearch }: { show: boolean, closeSearch: MouseEventH
 const Navigation = ({ issueNumber, categories, publishedAt, className }: { issueNumber: number, categories: Category[], publishedAt: string, className: string }) => {
   const menuCategories = [
     ...categories.map(category => ({ name: category.name, slug: `/category/${category.slug}` })),
+    { name: 'humans of abu dhabi', slug: 'hoad' },
     { name: 'team', slug: 'team' },
   ]
 
   const mobileDropdown = [
     ...categories.map(category => ({ name: category.name, slug: `/category/${category.slug}` })),
+    { name: 'humans of abu dhabi', slug: 'hoad' },
     { name: 'team', slug: 'team' },
     { name: 'archives', slug: 'archives' },
   ]
