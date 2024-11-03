@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
         return new NextResponse('Invalid auth token', { status: 401 });
     }
 
-    revalidatePath("/");
+    revalidatePath('/', 'layout')
 
     return new NextResponse('Success', { status: 200 });
 }
