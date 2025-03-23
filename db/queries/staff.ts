@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { eq, ne, desc, inArray, and } from 'drizzle-orm/expressions';
+import { eq, ne, desc, inArray, and, isNotNull } from 'drizzle-orm/expressions';
 import { 
     AuthorProfile,
     AuthorPreview,
@@ -58,9 +58,10 @@ export const getStaffArticles = wrapCache(async (slug: string): Promise<AuthorPr
         slug: Articles.slug,
         teaser: Articles.teaser,
         image: Articles.imageUrl,
+        publishedAt: Articles.publishedAt,
     })
         .from(AuthorsArticles)
-        .where(eq(AuthorsArticles.authorId, staff[0].id))
+        .where(and(eq(AuthorsArticles.authorId, staff[0].id), isNotNull(Articles.publishedAt)))
         .innerJoin(Articles, eq(AuthorsArticles.articleId, Articles.id))
         .innerJoin(IssuesArticlesOrder, eq(AuthorsArticles.articleId, IssuesArticlesOrder.articleId))
         .innerJoin(Issues, eq(IssuesArticlesOrder.issueId, Issues.id))
